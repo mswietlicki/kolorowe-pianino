@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kolorowe pianino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#ECE6DC;font-family:Montserrat,'Segoe UI',Arial,sans-serif;color:#2B2929}
+.bar{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;padding:14px 16px}
+.bar a,.bar button{font:600 15px Montserrat,'Segoe UI',Arial,sans-serif;color:#2B2929;background:#fff;
+  border:1px solid #D8D0C4;border-radius:999px;padding:8px 16px;text-decoration:none;cursor:pointer}
+.bar a:hover,.bar button:hover{background:#F7F4EF}
+.spread{display:flex;justify-content:center;margin:0 auto 28px;max-width:1720px;padding:0 16px}
+.page{flex:1 1 0;max-width:860px;min-width:0;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.12)}
+.page+.page{border-left:1px solid #EEE9E2}
+.page svg{display:block;width:100%;height:auto}
+.spread.single .page{flex:0 1 860px}
+h1{font-size:28px;text-align:center;margin:28px 16px 4px}
+.lead{text-align:center;margin:0 16px 22px;color:#6B6460}
+.list{max-width:860px;margin:0 auto 40px;padding:0 16px;display:grid;gap:12px}
+.list a{display:flex;align-items:center;gap:14px;background:#fff;border-radius:14px;padding:14px 18px;
+  text-decoration:none;color:#2B2929;box-shadow:0 1px 6px rgba(0,0,0,.08);font-weight:600}
+.list .dots{display:flex;gap:4px}.list .dots i{width:12px;height:18px;border-radius:2px;display:block}
+.list small{font-weight:400;color:#6B6460;margin-left:auto}
+@media (max-width:900px){.spread{flex-direction:column;align-items:center}.page{width:100%}
+  .page+.page{border-left:0;margin-top:12px}}
+@media print{
+  @page{size:A4 landscape;margin:0}
+  body{background:#fff}
+  .bar,h1,.lead,.list{display:none}
+  .spread{display:block;max-width:none;margin:0;padding:0}
+  .page{max-width:none;width:297mm;height:210mm;box-shadow:none;border:0!important;margin:0!important;
+    overflow:hidden;break-after:page;page-break-after:always}
+  .spread:last-of-type .page:last-child{break-after:auto;page-break-after:auto}
+  .page svg{width:297mm;height:210mm}
+}
+</style>
+</head>
+<body>
+<h1>Kolorowe pianino</h1><p class="lead">Piosenki do grania z kolorowymi naklejkami. Każda piosenka to rozkładówka: słowa po lewej, kolorowe klocki po prawej.</p><div class="bar"><a href="jak-grac.html">Jak grać?</a><a href="ksiazeczka.html">Cała książeczka (do druku)</a></div><div class="list"><a href="01-wlazl-kotek.html"><span class="dots"><i style="background:#F07B26"></i><i style="background:#E4357F"></i><i style="background:#E4357F"></i><i style="background:#5DAE35"></i><i style="background:#2A6BC1"></i><i style="background:#2A6BC1"></i><i style="background:#E3262B"></i><i style="background:#E4357F"></i></span><span>Wlazł kotek na płotek</span><small>piosenka ludowa</small></a><a href="02-panie-janie.html"><span class="dots"><i style="background:#F07B26"></i><i style="background:#65297B"></i><i style="background:#F5D23A"></i><i style="background:#F07B26"></i><i style="background:#F07B26"></i><i style="background:#65297B"></i><i style="background:#F5D23A"></i><i style="background:#F07B26"></i></span><span>Panie Janie</span><small>melodia francuska</small></a><a href="03-stary-niedzwiedz.html"><span class="dots"><i style="background:#E3262B"></i><i style="background:#E4357F"></i><i style="background:#E4357F"></i><i style="background:#E4357F"></i><i style="background:#5DAE35"></i><i style="background:#2A6BC1"></i><i style="background:#E3262B"></i><i style="background:#2A6BC1"></i></span><span>Stary niedźwiedź</span><small>zabawa ludowa</small></a><a href="04-mrugaj-gwiazdko.html"><span class="dots"><i style="background:#E3262B"></i><i style="background:#E3262B"></i><i style="background:#F07B26"></i><i style="background:#F07B26"></i><i style="background:#65297B"></i><i style="background:#65297B"></i><i style="background:#F07B26"></i><i style="background:#5DAE35"></i></span><span>Mrugaj, mrugaj, gwiazdko ma</span><small>melodia francuska</small></a><a href="05-sto-lat.html"><span class="dots"><i style="background:#F07B26"></i><i style="background:#E4357F"></i><i style="background:#F07B26"></i><i style="background:#E4357F"></i><i style="background:#F07B26"></i><i style="background:#65297B"></i><i style="background:#F07B26"></i><i style="background:#5DAE35"></i></span><span>Sto lat</span><small>piosenka urodzinowa</small></a></div>
+<script>
+(function(){
+  function fit(){
+    document.querySelectorAll('svg[data-page]').forEach(function(svg){
+      var group=[], ratio=1;
+      svg.querySelectorAll('text[data-maxw]').forEach(function(t){
+        var max=+t.getAttribute('data-maxw'), base=+t.getAttribute('data-fs');
+        t.setAttribute('font-size', base);
+        var w=t.getComputedTextLength();
+        if(t.hasAttribute('data-group')){ group.push(t); if(w>max) ratio=Math.min(ratio, max/w); }
+        else if(w>max){ t.setAttribute('font-size', (base*max/w).toFixed(2)); }
+      });
+      if(ratio<1) group.forEach(function(t){ t.setAttribute('font-size', (+t.getAttribute('data-fs')*ratio).toFixed(2)); });
+    });
+  }
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fit); } else { window.addEventListener('load', fit); }
+})();
+</script>
+</body>
+</html>

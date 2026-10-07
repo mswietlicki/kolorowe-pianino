@@ -1,0 +1,24 @@
+# Melodia sprawdzona z zapisem nutowym (Mama Lisa's World), tonacja C.
+# Pauzy po „śpi” i „zje” zamienione na dłuższą nutę – tak jak w książeczce (brak pauz).
+tytuł: Stary niedźwiedź
+podtytuł: zabawa ludowa
+metrum: 2/4
+ilustracja: 🐻 💤 🌲
+kolor: zielony
+
+[słowa]
+Stary niedźwiedź mocno śpi,
+stary niedźwiedź mocno śpi.
+My się go boimy,
+na palcach chodzimy.
+Jak się zbudzi, to nas zje,
+jak się zbudzi, to nas zje!
+
+> Pierwsza godzina – niedźwiedź śpi.
+> Druga godzina – niedźwiedź chrapie.
+> Trzecia godzina – niedźwiedź łapie!
+
+[melodia]
+C8 E8 E8 E8 | F D | C2 | D8 G8 G8 G8 | c A | G2 |
+c8 H8 c8 d8 | c4. H8 | d8 c8 H8 A8 | G4. E8 |
+C8 E8 E8 E8 | F D | G2 | C8 E8 E8 E8 | F D | C2 |

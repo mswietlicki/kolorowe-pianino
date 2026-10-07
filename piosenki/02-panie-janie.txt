@@ -1,0 +1,23 @@
+# Frère Jacques przeniesione do G (G A H G), żeby zmieścić „bim, bam, bom” w naklejkach – bez czarnych klawiszy.
+tytuł: Panie Janie
+podtytuł: melodia francuska
+metrum: 4/4
+ilustracja: 🔔 😴 🎵
+kolor: żółty
+
+[słowa]
+Panie Janie, Panie Janie,
+rano wstań, rano wstań!
+Wszystkie dzwony biją,
+wszystkie dzwony biją:
+bim, bam, bom,
+bim, bam, bom!
+
+> Można śpiewać kanonem: druga osoba zaczyna,
+> gdy pierwsza dojdzie do „rano wstań”.
+
+[melodia]
+G A H G | G A H G |
+H c d2 | H c d2 |
+d8 e8 d8 c8 H G | d8 e8 d8 c8 H G |
+G D G2 | G D G2 |

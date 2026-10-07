@@ -1,0 +1,21 @@
+# Melodia sprawdzona z zapisem nutowym (Mama Lisa's World): G E E | F D D | C E G
+tytuł: Wlazł kotek na płotek
+podtytuł: piosenka ludowa
+metrum: 3/4
+ilustracja: 🐱 🌼
+kolor: pomarańczowy
+
+[słowa]
+Wlazł kotek na płotek
+i mruga.
+Ładna to piosenka,
+niedługa.
+
+Nie długa, nie krótka,
+lecz w sam raz.
+Zaśpiewaj, koteczku,
+jeszcze raz!
+
+[melodia]
+G E E | F D D | C8 E8 G2 |
+G E E | F D D | C8 E8 C2 |

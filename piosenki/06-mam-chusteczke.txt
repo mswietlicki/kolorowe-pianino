@@ -1,0 +1,27 @@
+# Wysokości dźwięków zgodne z dwoma źródłami nut literowych (prostenuty.pl i poradniki na flet):
+#   E G G G E G G G A G F E F D | D F F F D F F F G F E D E C
+# Rytm dobrany do sylab (brak zapisu nutowego): równe ósemki, ostatnie dwie sylaby wersu dłuższe.
+tytuł: Mam chusteczkę haftowaną
+podtytuł: zabawa ludowa
+metrum: 2/4
+tempo: 100
+ilustracja: 🎀 💃 🌸
+kolor: różowy
+
+[słowa]
+Mam chusteczkę haftowaną,
+co ma cztery rogi.
+Kogo kocham, kogo lubię,
+rzucę mu pod nogi.
+
+Tej nie kocham, tej nie lubię,
+tej nie pocałuję,
+a chusteczkę haftowaną
+tobie podaruję!
+
+> Dzieci stoją w kole, jedno chodzi z chusteczką
+> i na koniec kładzie ją przed wybraną osobą.
+
+[melodia]
+E8 G8 G8 G8 | E8 G8 G8 G8 | A8 G8 F8 E8 | F D | D8 F8 F8 F8 | D8 F8 F8 F8 | G8 F8 E8 D8 | E C |
+E8 G8 G8 G8 | E8 G8 G8 G8 | A8 G8 F8 E8 | F D | D8 F8 F8 F8 | D8 F8 F8 F8 | G8 F8 E8 D8 | E C |

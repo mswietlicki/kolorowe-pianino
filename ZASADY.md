@@ -148,8 +148,11 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 1. **Piosenki znane dzieciom**: ludowe, zabawy w kółku, kołysanki, kolędy, piosenki urodzinowe.
    Najlepiej tradycyjne albo takie, których autor słów zmarł ponad 70 lat temu (domena
    publiczna). Nie przepisuj tekstów współczesnych piosenek chronionych prawem autorskim.
-2. **Melodię sprawdź w zapisie nutowym, nie z pamięci.** Dobre źródło polskich piosenek
-   dziecięcych z nutami to [Mama Lisa's World](https://www.mamalisa.com/?lang=Polish&t=el).
+2. **Melodię sprawdź w zapisie nutowym, nie z pamięci.** Dobre źródła:
+   [Mama Lisa's World](https://www.mamalisa.com/?lang=Polish&t=el) (polskie piosenki dziecięce
+   z nutami), polska Wikipedia (kolędy mają zapis w kodzie LilyPond, który da się przeczytać jako
+   tekst przez `action=raw`) i [Wolne Lektury](https://wolnelektury.pl) (teksty kolęd i pieśni
+   w domenie publicznej).
 3. **Zakres C–e.** Melodia nie może mieć większej rozpiętości niż decyma. W razie potrzeby
    przenieś ją do innej tonacji tak, żeby **było jak najmniej czarnych klawiszy**: C-dur,
    G-dur bez dźwięku F#, F-dur bez B, a-moll. Książeczka też transponuje: „Lulajże” jest
@@ -160,7 +163,11 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
    (książeczka nie ma pauz). Generator umie narysować pauzę jako odcinek samego sznurka,
    ale tego elementu nie ma w oryginale, więc używaj go oszczędnie.
 6. **Rząd = fraza / wers.** Najwyżej ok. 16 ćwierćnut w rzędzie, 2–5 rzędów (najlepiej 3–4).
-   Rzędy łam tam, gdzie kończy się wers tekstu.
+   Rzędy łam tam, gdzie kończy się wers tekstu. Generator powiększa klocki, aż najdłuższy rząd
+   wypełni szerokość strony, i centruje całą melodię. Wiele krótkich rzędów (np. 4 × 8 ćwierćnut)
+   nie wypełni jednak strony, bo wcześniej skończy się wysokość. Wtedy połącz je w dłuższe
+   (2 × 16), tak jak w „Sto lat” i „Panie Janie”. `--sprawdz` ostrzega, gdy melodia zajmuje
+   mniej niż 70% szerokości.
 7. **Powtórka ↻** dla rzędu granego drugi raz od razu. Takie samo powtórzenie w innym
    miejscu rysuj ponownie.
 8. **Słowa**: wszystkie zwrotki, poprawna interpunkcja i polskie znaki. Wskazówki do zabawy
@@ -176,6 +183,11 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/03-stary-niedzwiedz.txt` | Stary niedźwiedź | C–d, 0 | zapis nutowy Mama Lisa |
 | `piosenki/04-mrugaj-gwiazdko.txt` | Mrugaj, mrugaj, gwiazdko ma | C–A, 0 (z powtórką ↻) | znana melodia „Twinkle, Twinkle” |
 | `piosenki/05-sto-lat.txt` | Sto lat | D–c, 1 (gis) | zapis nutowy Mama Lisa |
+| `piosenki/06-mam-chusteczke.txt` | Mam chusteczkę haftowaną | C–A, 0 | nuty literowe z dwóch źródeł; rytm dobrany do sylab |
+| `piosenki/07-czarny-baranie.txt` | Gdzieżeś ty bywał, czarny baranie? | C–c, 0 (przeniesione o −2) | zapis nutowy Mama Lisa (J. Roger) |
+| `piosenki/08-krakowiaczek.txt` | Krakowiaczek jeden | C#–d, 8 (F#, C#) – trudniejsza | zapis nutowy Mama Lisa (Z. Gloger), rytm uproszczony |
+| `piosenki/09-dzisiaj-w-betlejem.txt` | Dzisiaj w Betlejem | D–e, 0 | zapis LilyPond w Wikipedii |
+| `piosenki/10-w-zlobie-lezy.txt` | W żłobie leży | D–e, 0 | zapis LilyPond w Wikipedii; tekst z Wolnych Lektur |
 
 ## 6. Format pliku piosenki (dla generatora)
 
@@ -183,13 +195,15 @@ Każda piosenka to jeden plik UTF-8 w katalogu `piosenki/`. Kolejność w ksią�
 nazwa pliku: `NN-krotka-nazwa.txt`.
 
 ```text
-# Linie zaczynające się od # to komentarze (np. źródło melodii).
+# Linie zaczynające się od # to komentarze (np. źródło melodii); „  # …” na końcu linii też.
 tytuł: Wlazł kotek na płotek
 podtytuł: piosenka ludowa         # opcjonalnie: autor słów / „melodia ludowa”
 metrum: 3/4                       # opcjonalnie: generator sprawdzi długości taktów
 ilustracja: 🐱 🌼                  # 1–3 emoji (pierwsze duże) albo ścieżka do obrazka .png/.jpg/.svg
 kolor: pomarańczowy               # opcjonalnie: kolor akwarelowej plamy pod ilustracją
 transpozycja: 0                   # opcjonalnie: przesunięcie melodii w półtonach (+2, -5…)
+tempo: 120                        # opcjonalnie: ćwierćnut na minutę przy odtwarzaniu ▶ (domyślnie 100)
+zapis: litery                     # opcjonalnie: „litery” (domyślnie) albo „numery” – patrz punkt 6.1
 
 [słowa]
 Wlazł kotek na płotek
@@ -229,6 +243,29 @@ Tę samą konwencję długości (`C8`, `G2.`) i nazw (`H`, małe litery = oktawa
 `--sprawdz`, który wypisuje melodię słowami („pomarańczowy [szeroki]…”). Tak łatwo porównać
 wynik z zapisem nutowym.
 
+### 6.1 Zapis numerkowy (książeczki z ponumerowanymi klawiszami)
+
+Niektóre książeczki (np. zdjęcia w `import/`) pokazują nuty jako kolorowe owale **z numerem
+klawisza** na pięciolinii i nie podają długości. Z pliku z `zapis: numery` generator przyjmuje
+takie numery wprost:
+
+| Numer | 1 | 2 | 3 | **4** | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Klawisz | G, | A, | H, | **C** (środkowe, czerwona) | D | E | F | G | A | H | c | d | e |
+
+- Długość dopisuje się po dwukropku, bez dwukropka jest ćwierćnuta: `9:8` (ósemka), `9`, `9:4.`,
+  `9:2`, `9:2.`, `9:1`.
+- Czarny klawisz to `7#`. Czarny owal w takiej książeczce to najpewniej krzyżyk, ale sprawdź uchem.
+- Numery 1–3 leżą poniżej naklejek, więc trzeba je przenieść polem `transpozycja:`.
+- **Rytm trzeba dopisać samodzielnie.** Policz nuty w takcie (4 nuty w takcie na 4 to
+  ćwierćnuty, 8 to ósemki, 2 to półnuty). Nuty narysowane ciasno, parami, to zwykle ósemki,
+  a ostatnia nuta wersu jest zwykle długa. Potem odsłuchaj przyciskiem ▶ i poprawiaj, aż
+  zgadza się ze śpiewem.
+- Gotowy szablon z instrukcją i przykładem: [`import/SZABLON-numerki.txt`](import/SZABLON-numerki.txt).
+- Przepisując piosenki z kupionej książeczki, pamiętaj, że współczesne piosenki są chronione
+  prawem autorskim. Przepisane w ten sposób strony nadają się do użytku domowego, nie do
+  publikowania ani rozdawania.
+
 ## 7. Generowanie i druk
 
 Wymagany jest tylko Python 3.9+. PDF-y robi zainstalowany Edge albo Chrome.
@@ -257,6 +294,12 @@ python generator/kolorowe_pianino.py --pdf
 
 Dodatkowo tworzy PDF-y w `strony/pdf/`.
 
+**Odtwarzanie:** na stronie z melodią jest zielony przycisk **▶** (albo spacja na stronie
+pojedynczej piosenki). Gra melodię w tempie z pola `tempo:`, a grany klocek podskakuje, więc
+dziecko widzi, gdzie jest. Rząd z ↻ gra dwa razy. Przycisk 🐢 zwalnia odtwarzanie do ok. 60%.
+Przyciski nie drukują się. Do podglądu stron w przeglądarce wystarczy otworzyć plik HTML, bez
+serwera.
+
 **Druk:** każda strona trafia na osobną kartkę **A4 w poziomie**, więc klocki są duże i łatwe
 do czytania. Z przeglądarki: przycisk „Drukuj”, orientacja pozioma, marginesy „brak”,
 włączona grafika tła. Dla całej książeczki otwórz `ksiazeczka.html` albo `pdf/ksiazeczka.pdf`.
@@ -270,4 +313,6 @@ włączona grafika tła. Dla całej książeczki otwórz `ksiazeczka.html` albo 
 - [ ] Bezpośrednie powtórzenie rzędu zapisane znakiem ↻
 - [ ] Wszystkie zwrotki na lewej stronie, refren skrócony po pierwszym razie
 - [ ] Legenda dla każdego użytego symbolu (czarny klawisz, ↻)
+- [ ] Melodia wypełnia szerokość strony (bez ostrzeżenia `--sprawdz`)
+- [ ] Melodia odsłuchana przyciskiem ▶ i zgodna ze śpiewem
 - [ ] `--sprawdz` bez uwag; strona obejrzana w przeglądarce przed drukiem

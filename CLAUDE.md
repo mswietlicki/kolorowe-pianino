@@ -23,5 +23,19 @@ których te zasady się opierają.
    `msedge --headless=new --hide-scrollbars --window-size=1752,700 --screenshot=<plik.png> file:///C:/Code/kolorowe-pianino/strony/NN-krotka-nazwa.html`
    (w PowerShell przez `Start-Process ... -Wait`).
 
+W kroku 6 sprawdź też, czy melodia wypełnia szerokość strony; jeśli nie, połącz krótkie rzędy
+(`--sprawdz` ostrzega). Odtwarzanie ▶ sprawdzisz przez `.claude/launch.json` (serwer „strony”)
+w przeglądarce w aplikacji. Po każdej zmianie odtwarzacza (PLAY_JS) uruchom
+`node testy/synchronizacja.mjs`: mierzy w Edge/Chrome w tle, czy podświetlenie klocka zgadza się
+z dźwiękiem, m.in. przy opóźnionym starcie dźwięku, słuchawkach Bluetooth i szybkim klikaniu.
+
+## Import z innych książeczek (`import/`)
+
+Zdjęcia w `import/` pochodzą z książeczki z numerowanymi klawiszami (4 = środkowe C, opis
+w ZASADY.md §6.1). Są tam wyłącznie współczesne piosenki z podanymi kompozytorami, chronione
+prawem autorskim. Nie przepisuj ich słów ani melodii. Użytkownik może przepisać je sam do
+użytku domowego według `import/SZABLON-numerki.txt`. Dla piosenek tradycyjnych zapis
+numerkowy (`zapis: numery`) działa tak samo jak literowy.
+
 Katalogu `strony/` nie edytuj ręcznie, bo to wynik generatora. Zmiany wyglądu wprowadzaj
 w `generator/kolorowe_pianino.py`.

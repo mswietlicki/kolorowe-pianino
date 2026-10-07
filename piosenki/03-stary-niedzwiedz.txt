@@ -3,6 +3,7 @@
 tytuł: Stary niedźwiedź
 podtytuł: zabawa ludowa
 metrum: 2/4
+tempo: 92
 ilustracja: 🐻 💤 🌲
 kolor: zielony
 

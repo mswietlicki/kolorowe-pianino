@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import base64
 import html
+import json
 import math
 import mimetypes
 import os
@@ -100,6 +101,8 @@ REPEAT_SPACE = 66       # miejsce na znak powtórki za rzędem
 MEL_X0, MEL_X1 = 90, 930
 MEL_Y0, MEL_Y1 = 150, 672
 MIN_ROW_GAP, MAX_ROW_GAP = 40, 80
+K_MAX = 1.7             # najwyższe powiększenie klocków, gdy melodia jest krótka
+DEFAULT_TEMPO = 100     # ćwierćnut na minutę przy odtwarzaniu
 
 FONT = "Montserrat, 'Segoe UI', Arial, sans-serif"
 EMOJI_FONT = "'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif"
@@ -140,6 +143,7 @@ class Song:
     transpose: int = 0
     illustration: str = ""
     theme: str = ""
+    tempo: int = DEFAULT_TEMPO
     stanzas: list = field(default_factory=list)  # [[(tekst, czy_uwaga), ...], ...]
     rows: list = field(default_factory=list)
     warnings: list = field(default_factory=list)
@@ -163,7 +167,13 @@ REPEAT_TOKENS = {"↻", "x2", "(x2)", "×2", "powtorz"}
 META_KEYS = {
     "tytul": "title", "podtytul": "subtitle", "autor": "subtitle", "metrum": "meter",
     "transpozycja": "transpose", "ilustracja": "illustration", "kolor": "theme",
+    "tempo": "tempo", "zapis": "notation",
 }
+# Zapis numerkowy (książeczki z ponumerowanymi klawiszami): 4 = środkowe C, 5 = D … 12 = d, 13 = e.
+NUMBER_RE = re.compile(r"^(\d{1,2})([#b]?)(?::(16|1|2|4|8)(\.)?)?$")
+NUMBER_OF_C = 4
+WHITE_STEPS = [0, 2, 4, 5, 7, 9, 11]
+INLINE_COMMENT_RE = re.compile(r"\s+#(\s.*)?$")
 
 
 def parse_duration(num: str | None, dot: str | None, where: str) -> float:
@@ -176,7 +186,7 @@ def parse_duration(num: str | None, dot: str | None, where: str) -> float:
     return d
 
 
-def parse_melody_line(line: str, where: str) -> Row:
+def parse_melody_line(line: str, where: str, numbered: bool = False) -> Row:
     line = line.replace(":|", " ↻ ").replace("|", " | ")
     row = Row(items=[])
     for tok in line.split():
@@ -190,6 +200,15 @@ def parse_melody_line(line: str, where: str) -> Row:
         m = PAUSE_RE.match(tok)
         if m:
             row.items.append(Note(None, parse_duration(m[1], m[2], here), tok))
+            continue
+        if numbered:
+            m = NUMBER_RE.match(tok)
+            if not m:
+                raise SongError(f"{here}: w zapisie numerkowym nuta to numer klawisza, np. 7, 11:8, 9:2.")
+            num, acc, dnum, dot = m.groups()
+            octave, step = divmod(int(num) - NUMBER_OF_C, 7)
+            semi = WHITE_STEPS[step] + 12 * octave + {"#": 1, "b": -1, "": 0}[acc]
+            row.items.append(Note(semi, parse_duration(dnum, dot, here), tok))
             continue
         m = NOTE_RE.match(tok)
         if not m:
@@ -208,7 +227,7 @@ def parse_song(path: Path) -> Song:
     meta: dict[str, str] = {}
     section = None
     lyric_lines: list[str] = []
-    rows: list[Row] = []
+    melody_lines: list[tuple[int, str]] = []
     for lineno, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         line = raw.rstrip()
         s = line.strip()
@@ -223,14 +242,20 @@ def parse_song(path: Path) -> Song:
         if section is None:
             if not s:
                 continue
-            key, sep, val = s.partition(":")
+            key, sep, val = INLINE_COMMENT_RE.sub("", s).partition(":")
             if not sep or norm(key) not in META_KEYS:
                 raise SongError(f"{path.name}, wiersz {lineno}: nieznane pole „{key}”")
             meta[META_KEYS[norm(key)]] = val.strip()
         elif section == "slowa":
             lyric_lines.append(line)
         elif s:
-            rows.append(parse_melody_line(s, f"{path.name}, wiersz {lineno}"))
+            melody_lines.append((lineno, INLINE_COMMENT_RE.sub("", s)))
+
+    notation = norm(meta.get("notation", "litery"))
+    if notation not in ("litery", "numery", "numerki"):
+        raise SongError(f"{path.name}: „zapis:” może mieć wartość „litery” albo „numery”")
+    rows = [parse_melody_line(s, f"{path.name}, wiersz {n}", numbered=notation != "litery")
+            for n, s in melody_lines]
 
     if "title" not in meta:
         raise SongError(f"{path.name}: brak pola „tytuł:”")
@@ -254,10 +279,17 @@ def parse_song(path: Path) -> Song:
     except ValueError:
         raise SongError(f"{path.name}: „transpozycja” musi być liczbą półtonów, np. +2 albo -5")
 
+    try:
+        tempo = int(meta.get("tempo", DEFAULT_TEMPO))
+    except ValueError:
+        raise SongError(f"{path.name}: „tempo” to liczba ćwierćnut na minutę, np. 100")
+    if not 30 <= tempo <= 240:
+        raise SongError(f"{path.name}: tempo {tempo} jest poza zakresem 30–240")
+
     song = Song(
         path=path, slug=path.stem, title=meta["title"], subtitle=meta.get("subtitle", ""),
         meter=meta.get("meter", ""), transpose=transpose,
-        illustration=meta.get("illustration", ""), theme=meta.get("theme", ""),
+        illustration=meta.get("illustration", ""), theme=meta.get("theme", ""), tempo=tempo,
         stanzas=stanzas, rows=rows,
     )
     validate(song)
@@ -478,7 +510,7 @@ def mini_keyboard(x: float, y: float, highlight_semi: int | None = None, kw: flo
 def render_melody_page(song: Song, uid: str) -> str:
     parts = [music_icon(78, 50, 50, uid + "-m")]
     parts.append(text_el(PAGE_W / 2, 103, song.title.upper(), 30, fill=TITLE_RIGHT, weight=700,
-                         anchor="middle", maxw=720, spacing="0.5"))
+                         anchor="middle", maxw=640, spacing="0.5"))
 
     rows = []
     for row in song.rows:
@@ -498,28 +530,32 @@ def render_melody_page(song: Song, uid: str) -> str:
                for r in rows]
     n = len(rows)
     avail_w, avail_h = MEL_X1 - MEL_X0, MEL_Y1 - MEL_Y0
-    k = min(1.0,
-            min(avail_w / content_w(r) for r in rows),
-            (avail_h - (n - 1) * MIN_ROW_GAP) / sum(heights))
+    widest = max(content_w(r) for r in rows)
+    # Klocki rosną (do K_MAX), aż najdłuższy rząd wypełni szerokość strony – albo skończy się wysokość.
+    k = min(K_MAX, avail_w / widest, (avail_h - (n - 1) * MIN_ROW_GAP) / sum(heights))
     used = k * sum(heights)
-    gap = 0 if n == 1 else min(MAX_ROW_GAP, (avail_h - used) / (n - 1))
-    y = MEL_Y0 + (avail_h - used - gap * (n - 1)) * 0.4
+    gap = 0 if n == 1 else min(MAX_ROW_GAP * k, (avail_h - used) / (n - 1))
+    y = MEL_Y0 + (avail_h - used - gap * (n - 1)) * 0.45
+    x0 = MEL_X0 + (avail_w - widest * k) / 2  # cała melodia wyśrodkowana, rzędy wyrównane do lewej
 
     bh = BLOCK_H * k
+    block_no = 0
     for r, h in zip(rows, heights):
         top = y + (SHARP_OVER * bh if r["sharp"] else 0)
-        x = MEL_X0 + CORD_EXT * k
+        x = x0 + CORD_EXT * k
         blocks, pts = [], []
         for nt in r["notes"]:
             w = (nt.dur * UNIT - GAP) * k
             if nt.semi is not None:
                 key, step, sharp = song.key_of(nt)
                 by = top + (r["smax"] - step) * STEP * k
-                blocks.append(block_svg(x, by, w, bh, key, sharp, nt.dur, k))
+                blocks.append(f'<g class="blk" data-n="{block_no}">'
+                              f'{block_svg(x, by, w, bh, key, sharp, nt.dur, k)}</g>')
+                block_no += 1
                 pts.append((x + w / 2, by + bh / 2))
             x += nt.dur * UNIT * k
         x_end = x - GAP * k
-        cord = [(MEL_X0, pts[0][1])] + pts + [(x_end + CORD_EXT * k, pts[-1][1])]
+        cord = [(x0, pts[0][1])] + pts + [(x_end + CORD_EXT * k, pts[-1][1])]
         parts.append(
             f'<polyline points="{" ".join(f"{f1(px)},{f1(py)}" for px, py in cord)}" fill="none" '
             f'stroke="{CORD}" stroke-width="{f1(CORD_W * k)}" stroke-linecap="round" stroke-linejoin="round"/>')
@@ -531,7 +567,28 @@ def render_melody_page(song: Song, uid: str) -> str:
 
     if k < 0.8:
         song.warnings.append(f"klocki zmniejszone do {k:.0%} – rozważ podział długich rzędów")
+    if widest * k < 0.7 * avail_w:
+        song.warnings.append(f"melodia zajmuje tylko {widest * k / avail_w:.0%} szerokości strony – "
+                             "połącz krótkie rzędy w dłuższe (do ok. 16 ćwierćnut)")
     return svg_page(uid + "-mel", "".join(parts))
+
+
+def play_sequence(song: Song) -> list:
+    """Kolejność dźwięków do odtwarzania: [półton od środkowego C | None, długość, nr klocka | -1].
+
+    Numery klocków odpowiadają atrybutom data-n na stronie z melodią; rząd ze znakiem ↻ gra dwa razy.
+    """
+    seq, block_no = [], 0
+    for row in song.rows:
+        once = []
+        for nt in row.notes:
+            if nt.semi is None:
+                once.append([None, nt.dur, -1])
+            else:
+                once.append([nt.semi + song.transpose, nt.dur, block_no])
+                block_no += 1
+        seq.extend(once * (2 if row.repeat else 1))
+    return seq
 
 
 # --------------------------------------------------------------------------
@@ -861,12 +918,26 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
   text-decoration:none;color:#2B2929;box-shadow:0 1px 6px rgba(0,0,0,.08);font-weight:600}
 .list .dots{display:flex;gap:4px}.list .dots i{width:12px;height:18px;border-radius:2px;display:block}
 .list small{font-weight:400;color:#6B6460;margin-left:auto}
+.page{position:relative;container-type:inline-size}
+.player{position:absolute;top:2.4%;right:2.4%;display:flex;align-items:center;gap:1cqw;z-index:2}
+.player button{display:grid;place-items:center;padding:0;border-radius:50%;cursor:pointer;
+  font:20px 'Segoe UI Emoji','Apple Color Emoji',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.player .play{width:clamp(30px,6.2cqw,56px);height:clamp(30px,6.2cqw,56px);border:0;background:#5DAE35;color:#fff}
+.player .play:hover{background:#4E9A2C}
+.player .play.on{background:#E3262B}
+.player .play svg{width:45%;height:45%;fill:currentColor}
+.player .slow{width:clamp(24px,4.6cqw,42px);height:clamp(24px,4.6cqw,42px);font-size:clamp(12px,2.3cqw,21px);
+  background:#fff;border:2px solid #E5DED3;color:#2B2929}
+.player .slow[aria-pressed="true"]{background:#FFF4D6;border-color:#F5D23A;opacity:1}
+.player button:focus-visible{outline:3px solid #2A6BC1;outline-offset:2px}
+.blk{transition:transform .05s ease-out,filter .05s ease-out;transform-box:fill-box;transform-origin:center}
+.blk.on{transform:translateY(-10%) scale(1.14);filter:drop-shadow(0 5px 5px rgba(0,0,0,.35))}
 @media (max-width:900px){.spread{flex-direction:column;align-items:center}.page{width:100%}
   .page+.page{border-left:0;margin-top:12px}}
 @media print{
   @page{size:A4 landscape;margin:0}
   body{background:#fff}
-  .bar,h1,.lead,.list{display:none}
+  .bar,h1,.lead,.list,.player{display:none}
   .spread{display:block;max-width:none;margin:0;padding:0}
   .page{max-width:none;width:297mm;height:210mm;box-shadow:none;border:0!important;margin:0!important;
     overflow:hidden;break-after:page;page-break-after:always}
@@ -879,19 +950,178 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
 FIT_JS = """
 (function(){
   function fit(){
+    var changes = [];
     document.querySelectorAll('svg[data-page]').forEach(function(svg){
-      var group=[], ratio=1;
+      var group = [], ratio = 1;
       svg.querySelectorAll('text[data-maxw]').forEach(function(t){
-        var max=+t.getAttribute('data-maxw'), base=+t.getAttribute('data-fs');
-        t.setAttribute('font-size', base);
-        var w=t.getComputedTextLength();
-        if(t.hasAttribute('data-group')){ group.push(t); if(w>max) ratio=Math.min(ratio, max/w); }
-        else if(w>max){ t.setAttribute('font-size', (base*max/w).toFixed(2)); }
+        var max = +t.getAttribute('data-maxw'), base = +t.getAttribute('data-fs'), w = t.getComputedTextLength();
+        if(t.hasAttribute('data-group')){ group.push(t); if(w > max) ratio = Math.min(ratio, max / w); }
+        else if(w > max){ changes.push([t, base * max / w]); }
       });
-      if(ratio<1) group.forEach(function(t){ t.setAttribute('font-size', (+t.getAttribute('data-fs')*ratio).toFixed(2)); });
+      if(ratio < 1) group.forEach(function(t){ changes.push([t, +t.getAttribute('data-fs') * ratio]); });
     });
+    changes.forEach(function(c){ c[0].setAttribute('font-size', c[1].toFixed(2)); });
   }
   if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fit); } else { window.addEventListener('load', fit); }
+})();
+"""
+
+# Odtwarzacz: proste „pianino” z Web Audio, podświetla grany klocek. Dane: atrybut data-play strony.
+# Podświetlenie liczymy z zegara audio (z poprawką na opóźnienie głośnika), a granie startuje dopiero,
+# gdy ten zegar naprawdę ruszy – przy pierwszym kliknięciu urządzenie dźwiękowe startuje z opóźnieniem.
+PLAY_JS = """
+(function(){
+  var ctx = null, master = null, current = null;
+  var LEAD = 0.2;          // zapas przed pierwszą nutą (s) – klatki animacji zdążą się ustabilizować
+  var AHEAD = 1.5;         // nuty planujemy na bieżąco, najwyżej tyle sekund do przodu
+  var CLOCK_WAIT = 1500;   // najdłużej czekamy na start zegara audio (ms), potem gramy bez dźwięku
+  var ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>';
+  var ICON_STOP = '<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
+  function audio(){
+    if(!ctx){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      ctx = new AC(); master = ctx.createGain(); master.gain.value = 0.5;
+      var comp = ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+    }
+    return ctx;
+  }
+  function tone(bus, t, semi, len){
+    var f = 261.6256 * Math.pow(2, semi / 12), g = ctx.createGain(), hold = Math.max(0.06, len - 0.035);
+    g.connect(bus);
+    [[1, 'triangle', 0.6], [2, 'sine', 0.2], [3, 'sine', 0.07]].forEach(function(h){
+      var o = ctx.createOscillator(), og = ctx.createGain();
+      o.type = h[1]; o.frequency.value = f * h[0]; og.gain.value = h[2];
+      o.connect(og); og.connect(g); o.start(t); o.stop(t + hold + 0.3);
+    });
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(1, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.25, t + hold);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + hold + 0.22);
+  }
+  // Czas zegara audio, który właśnie słychać z głośnika (uwzględnia opóźnienie wyjścia, np. Bluetooth).
+  function heardTime(){
+    if(ctx.getOutputTimestamp){
+      var ts = ctx.getOutputTimestamp();
+      if(ts && ts.contextTime > 0 && ts.performanceTime > 0){
+        return ts.contextTime + Math.max(0, performance.now() - ts.performanceTime) / 1000;
+      }
+    }
+    return ctx.currentTime - (ctx.outputLatency || ctx.baseLatency || 0);
+  }
+  // Czeka, aż zegar audio zacznie płynąć; done(true) gdy płynie, done(false) gdy nie ruszył w CLOCK_WAIT.
+  function waitForClock(s, done){
+    var c0 = ctx.currentTime, t0 = performance.now();
+    (function check(){
+      if(current !== s) return;
+      if(ctx.state === 'running' && ctx.currentTime - c0 >= 0.03) return done(true);
+      if(performance.now() - t0 > CLOCK_WAIT) return done(false);
+      setTimeout(check, 10);
+    })();
+  }
+  function setButton(page, on){
+    var b = page.querySelector('.play');
+    b.classList.toggle('on', on);
+    b.innerHTML = on ? ICON_STOP : ICON_PLAY;
+    b.setAttribute('aria-label', on ? 'Zatrzymaj' : 'Zagraj melodię');
+    b.title = on ? 'Zatrzymaj' : 'Zagraj';
+  }
+  function stop(){
+    if(!current) return;
+    var s = current; current = null;
+    cancelAnimationFrame(s.raf);
+    clearInterval(s.timer);
+    if(s.bus){
+      s.bus.gain.setTargetAtTime(0, ctx.currentTime, 0.015);
+      setTimeout(function(){ s.bus.disconnect(); }, 300);
+    }
+    s.page.querySelectorAll('.blk.on').forEach(function(b){ b.classList.remove('on'); });
+    setButton(s.page, false);
+  }
+  function play(page){
+    var again = current && current.page === page;
+    stop();
+    if(again) return;
+    var data = JSON.parse(page.getAttribute('data-play'));
+    var slow = page.querySelector('.slow').getAttribute('aria-pressed') === 'true';
+    var q = 60 / data.tempo * (slow ? 1.6 : 1), rel = 0, events = [];
+    data.seq.forEach(function(ev){
+      var len = ev[1] * q;
+      events.push([rel, rel + len, ev[2], ev[0]]);
+      rel += len;
+    });
+    var s = {page: page, events: events, end: rel, bus: null, raf: 0, timer: 0, next: 0, clock: null};
+    current = s;
+    setButton(page, true);  // przycisk reaguje od razu, granie rusza razem z dźwiękiem
+    if(!audio()){ startSilent(s); return; }
+    var resumed = ctx.state === 'running' ? Promise.resolve() : ctx.resume();
+    Promise.resolve(resumed).catch(function(){}).then(function(){
+      waitForClock(s, function(ok){
+        if(current !== s) return;  // w międzyczasie kliknięto stop albo inną piosenkę
+        if(ok) startAudio(s); else startSilent(s);
+      });
+    });
+  }
+  function startAudio(s){
+    s.bus = ctx.createGain();
+    s.bus.connect(master);
+    s.t0 = ctx.currentTime + LEAD;
+    s.clock = function(){ return heardTime() - s.t0; };
+    schedule(s);
+    s.timer = setInterval(function(){ schedule(s); }, 50);
+    animate(s);
+  }
+  // Planuje tylko najbliższe nuty – kliknięcie nie blokuje strony i żadna nuta nie trafia „w przeszłość”.
+  function schedule(s){
+    if(current !== s) return;
+    var horizon = ctx.currentTime + AHEAD;
+    while(s.next < s.events.length && s.t0 + s.events[s.next][0] < horizon){
+      var e = s.events[s.next++];
+      if(e[3] !== null) tone(s.bus, Math.max(s.t0 + e[0], ctx.currentTime), e[3], e[1] - e[0]);
+    }
+    if(s.next >= s.events.length) clearInterval(s.timer);
+  }
+  function startSilent(s){  // brak dźwięku (np. brak urządzenia audio): sama animacja na zegarze strony
+    var w0 = performance.now() / 1000 + LEAD;
+    s.clock = function(){ return performance.now() / 1000 - w0; };
+    animate(s);
+  }
+  function animate(s){
+    var blocks = {}, lit = -1, events = s.events;
+    s.page.querySelectorAll('.blk').forEach(function(b){ blocks[b.getAttribute('data-n')] = b; });
+    (function frame(){
+      if(current !== s) return;
+      var now = s.clock(), idx = -1;
+      for(var i = 0; i < events.length; i++){
+        if(now >= events[i][0] && now < events[i][1]){ idx = events[i][2]; break; }
+      }
+      if(idx !== lit){
+        if(blocks[lit]) blocks[lit].classList.remove('on');
+        if(blocks[idx]) blocks[idx].classList.add('on');
+        lit = idx;
+      }
+      if(now > s.end + 0.05){ stop(); return; }
+      s.raf = requestAnimationFrame(frame);
+    })();
+  }
+  document.querySelectorAll('.melody .play').forEach(function(b){ b.innerHTML = ICON_PLAY; });
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('.player button');
+    if(!b) return;
+    var page = b.closest('.melody');
+    if(b.classList.contains('slow')){
+      b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      if(current && current.page === page){ stop(); play(page); }
+    } else {
+      play(page);
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    var pages = document.querySelectorAll('.melody');
+    if(e.code === 'Space' && pages.length === 1 && !/^(INPUT|TEXTAREA|BUTTON)$/.test(e.target.tagName)){
+      e.preventDefault(); play(pages[0]);
+    }
+  });
 })();
 """
 
@@ -911,6 +1141,7 @@ def html_doc(title: str, body: str) -> str:
 <body>
 {body}
 <script>{FIT_JS}</script>
+<script>{PLAY_JS}</script>
 </body>
 </html>
 """
@@ -925,7 +1156,14 @@ def spread_html(song: Song, page_no: int | None) -> str:
     uid = uid_of(song.slug)
     left = render_lyrics_page(song, uid, page_no)
     right = render_melody_page(song, uid)
-    return f'<div class="spread"><div class="page">{left}</div><div class="page">{right}</div></div>'
+    data = json.dumps({"tempo": song.tempo, "seq": play_sequence(song)}, separators=(",", ":"))
+    player = ('<div class="player">'
+              '<button class="slow" type="button" aria-pressed="false" title="Wolniej" '
+              'aria-label="Wolniej">🐢</button>'
+              '<button class="play" type="button" title="Zagraj" aria-label="Zagraj melodię">▶</button>'
+              '</div>')
+    return (f'<div class="spread"><div class="page">{left}</div>'
+            f'<div class="page melody" data-play="{esc(data)}">{player}{right}</div></div>')
 
 
 def color_dots(song: Song, n: int = 8) -> str:
@@ -1032,7 +1270,10 @@ DUR_WORDS = {0.5: "ósemka", 0.75: "ósemka z kropką", 1: "ćwierćnuta", 1.5: 
 def describe(song: Song) -> str:
     lines = [f"„{song.title}” ({song.path.name})"]
     semis = [n.semi + song.transpose for n in song.all_notes()]
-    lines.append(f"  zakres: {KEYS[min(semis)][0]}–{KEYS[max(semis)][0]}, "
+    def name(semi):
+        key, _, sharp = KEYS[semi]
+        return key + ("#" if sharp else "")
+    lines.append(f"  zakres: {name(min(semis))}–{name(max(semis))}, "
                  f"czarne klawisze: {sum(1 for s in semis if KEYS[s][2])}, transpozycja: {song.transpose:+d}")
     for i, row in enumerate(song.rows, 1):
         words = []
@@ -1085,6 +1326,7 @@ def main(argv=None) -> int:
     songs = [parsed[p] for p in chosen if p in parsed]
     if args.sprawdz:
         for s in songs:
+            render_melody_page(s, uid_of(s.slug))  # zbiera ostrzeżenia o układzie strony
             print(describe(s))
         return 1 if errors else 0
 

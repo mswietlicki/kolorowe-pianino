@@ -1,8 +1,9 @@
 # Melodia sprawdzona z zapisem nutowym (Mama Lisa's World), tonacja C.
-# G# w 3. rzędzie = pomarańczowy klocek z czarną belką (czarny klawisz między G i A).
+# G# w 2. rzędzie = pomarańczowy klocek z czarną belką (czarny klawisz między G i A).
 tytuł: Sto lat
 podtytuł: piosenka urodzinowa
 metrum: 4/4
+tempo: 112
 ilustracja: 🎂 🎈 🎉
 kolor: różowy
 
@@ -18,7 +19,5 @@ niech żyje nam!
 > A kto? – i wołamy imię solenizanta!
 
 [melodia]
-G E G E | G A8 G8 F8 E8 F |
-F D F D | F G8 F8 E8 D8 E |
-G8 G8 E G8 G8 E | G c8 H8 A8 G#8 A |
-H2 H H | c1 |
+G E G E | G A8 G8 F8 E8 F | F D F D | F G8 F8 E8 D8 E |
+G8 G8 E G8 G8 E | G c8 H8 A8 G#8 A | H2 H H | c1 |

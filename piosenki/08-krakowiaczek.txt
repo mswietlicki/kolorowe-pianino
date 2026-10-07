@@ -1,0 +1,25 @@
+# Melodia z zapisu nutowego (Mama Lisa's World; melodia zapisana przez Zygmunta Glogera, 1892), D-dur.
+# Uproszczenia: „ósemka z kropką + szesnastka” → dwie ósemki; pauzy dołączone do poprzedniej nuty.
+# Melodia zaczyna się od Cis poniżej D, więc nie da się jej przenieść na same białe klawisze –
+# zostają czarne klawisze F# i C# (trudniejsza piosenka).
+tytuł: Krakowiaczek jeden
+podtytuł: piosenka ludowa
+metrum: 2/4
+tempo: 104
+ilustracja: 🐎 🌸 🪶
+kolor: czerwony
+
+[słowa]
+Krakowiaczek jeden
+miał koników siedem.
+Pojechał na wojnę,
+został mu się jeden.
+
+Siedem lat wojował,
+szabli nie wyjmował.
+Szabla zardzewiała,
+wojny nie widziała.
+
+[melodia]
+C#8 E8 G8 H8 | A8 F#4. | A8 A8 G8 E8 | D8 F#4. | C#8 E8 G8 H8 | A8 F#4. | A8 A8 G8 E8 | D D |
+G8 H8 d8 H8 | A8 F#4. | A8 A8 G8 E8 | D8 F#4. | G8 H8 d8 H8 | A8 F#4. | A8 A8 G8 E8 | D D |

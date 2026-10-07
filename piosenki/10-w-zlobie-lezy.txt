@@ -1,0 +1,46 @@
+# Melodia z zapisu nutowego w Wikipedii (kod LilyPond, G-dur) – mieści się w naklejkach bez transpozycji.
+# Tekst: Wolne Lektury (Śpiewnik ludu katolickiego, Bytom 1900), domena publiczna; wybrane zwrotki 1, 2, 3 i 8.
+tytuł: W żłobie leży
+podtytuł: kolęda
+metrum: 3/4
+tempo: 100
+ilustracja: 👶 ⭐ 🐂
+kolor: niebieski
+
+[słowa]
+W żłobie leży, któż pobieży
+kolędować Małemu,
+Jezusowi Chrystusowi
+dziś do nas zesłanemu?
+Pastuszkowie, przybywajcie,
+Jemu wdzięcznie przygrywajcie
+jako Panu naszemu.
+
+My zaś sami z piosneczkami
+za wami pospieszymy,
+a tak tego Maleńkiego
+niech wszyscy zobaczymy:
+jak, ubogo narodzony,
+płacze w stajni położony,
+więc Go dziś ucieszymy.
+
+Najprzód tedy niechaj wszędy
+zabrzmi świat w wesołości,
+że posłany nam jest dany
+Emanuel w niskości.
+Jego tedy przywitajmy,
+z aniołami zaśpiewajmy:
+Chwała na wysokości!
+
+Trzej królowie, monarchowie
+wschodni kraj opuszczają,
+serc ofiary z trzema dary
+Tobie, Panu, oddają.
+Darami się kontentujesz,
+bardziej serca ich szacujesz,
+za co niech niebo mają.
+
+[melodia]
+D8 D8 G8 A8 H | A8 G8 A8 H8 c | H8 c8 d c | H8 A8 G2 | ↻
+d4. H8 c8 d8 | e8 d8 c8 H8 c | c4. A8 H8 c8 |
+d8 c8 H8 A8 H | H8 c8 d c | H8 A8 G2 |

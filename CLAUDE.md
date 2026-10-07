@@ -7,11 +7,12 @@ których te zasady się opierają.
 
 ## Nowa piosenka na życzenie
 
-1. Wybierz piosenkę znaną dzieciom, z tekstem tradycyjnym albo z domeny publicznej
-   (ZASADY.md §4). Jeśli użytkownik chce piosenki z tekstem chronionym prawem autorskim,
-   powiedz to i zaproponuj tradycyjną alternatywę.
-2. Sprawdź melodię w zapisie nutowym, nie z pamięci (np. mamalisa.com: na stronie piosenki
-   obrazek z `images/scores/` otwórz w przeglądarce).
+1. Wybierz piosenkę znaną dzieciom. Może to być tekst tradycyjny, z domeny publicznej
+   albo współczesny — projekt służy wyłącznie do użytku prywatnego, więc nie trzeba
+   ograniczać się do utworów wolnych od praw autorskich.
+2. Sprawdź melodię w zapisie nutowym, nie z pamięci. Szukaj zapisu w sieci (np.
+   mamalisa.com: na stronie piosenki obrazek z `images/scores/` otwórz w przeglądarce);
+   dla współczesnych piosenek korzystaj ze znalezionych transkrypcji i własnego słuchu.
 3. Zapisz `piosenki/NN-krotka-nazwa.txt` z kolejnym numerem (format: ZASADY.md §6).
    W komentarzu `#` podaj źródło melodii.
 4. Uruchom `python generator/kolorowe_pianino.py --sprawdz piosenki/NN-krotka-nazwa.txt`.
@@ -32,10 +33,9 @@ z dźwiękiem, m.in. przy opóźnionym starcie dźwięku, słuchawkach Bluetooth
 ## Import z innych książeczek (`import/`)
 
 Zdjęcia w `import/` pochodzą z książeczki z numerowanymi klawiszami (4 = środkowe C, opis
-w ZASADY.md §6.1). Są tam wyłącznie współczesne piosenki z podanymi kompozytorami, chronione
-prawem autorskim. Nie przepisuj ich słów ani melodii. Użytkownik może przepisać je sam do
-użytku domowego według `import/SZABLON-numerki.txt`. Dla piosenek tradycyjnych zapis
-numerkowy (`zapis: numery`) działa tak samo jak literowy.
+w ZASADY.md §6.1). Są tam współczesne piosenki z podanymi kompozytorami — przepisuj ich słowa
+i melodie na użytek domowy według `import/SZABLON-numerki.txt`. Dla piosenek z zapisem
+numerkowym (`zapis: numery`) działa on tak samo jak literowy.
 
 Katalogu `strony/` nie edytuj ręcznie, bo to wynik generatora. Zmiany wyglądu wprowadzaj
 w `generator/kolorowe_pianino.py`.

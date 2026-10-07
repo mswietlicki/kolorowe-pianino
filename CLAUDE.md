@@ -39,3 +39,8 @@ numerkowy (`zapis: numery`) działa tak samo jak literowy.
 
 Katalogu `strony/` nie edytuj ręcznie, bo to wynik generatora. Zmiany wyglądu wprowadzaj
 w `generator/kolorowe_pianino.py`.
+
+## Publikacja
+
+Push na `main` ze zmianami w `strony/` publikuje ten katalog na GitHub Pages
+(`.github/workflows/pages.yml`): https://mswietlicki.github.io/kolorowe-pianino/

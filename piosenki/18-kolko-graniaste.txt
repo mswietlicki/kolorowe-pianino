@@ -1,0 +1,19 @@
+# Melodia z zapisu literowego (nuty literowe: prostenuty.pl, iwordpressonia.pl).
+# Piosenka ludowa – zabawa w kółku.
+tytuł: Kółko graniaste
+podtytuł: piosenka ludowa
+tempo: 120
+ilustracja: ⭕ 🧒 🤝
+kolor: pomarańczowy
+
+[słowa]
+Kółko graniaste,
+czworokanciaste,
+kółko nam się połamało,
+cztery grosze kosztowało.
+
+> Dzieci trzymają się za ręce i idą w kółko, a na końcu kucają.
+
+[melodia]
+G E A G E2 | G E A G E2 |
+F F E D G G G G | F F E D G G G G |

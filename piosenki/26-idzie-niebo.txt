@@ -1,0 +1,23 @@
+# Melodia z zapisu literowego (prostenuty.pl).
+# Słowa: Ewa Szelburg-Zarembina. Utwór współczesny – strona do użytku domowego.
+tytuł: Idzie niebo
+podtytuł: słowa: Ewa Szelburg-Zarembina
+tempo: 108
+ilustracja: 🌌 ⭐ 🐦
+kolor: niebieski
+
+[słowa]
+Idzie niebo ciemną nocą_,
+ma w fartuszku pełno gwiazd.
+Gwiazdki błyszczą i migocą_,
+aż wyjrzały ptaszki z gniazd.
+Jak wyjrzały, zobaczyły_,
+to nie chciały dłużej spać_.
+Kaprysiły, grymasiły,
+żeby im po jednej dać.
+
+[melodia]
+C D E E F F E D G | G F E C D D G |
+C D E E F F E D G | G F E C D D C |
+H C D G E E C D G | H C D G D A8 A8 G |
+G G G E G G G D | G F E C D D G |

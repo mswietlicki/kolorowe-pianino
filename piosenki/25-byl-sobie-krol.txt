@@ -1,0 +1,19 @@
+# Melodia z zapisu literowego (prostenuty.pl).
+# Piosenka ludowa.
+tytuł: Był sobie król
+podtytuł: piosenka ludowa
+tempo: 120
+ilustracja: 👑 🏰 🌹
+kolor: fioletowy
+
+[słowa]
+Był sobie król,
+był sobie paź,
+i była też królewna.
+Żyli wśród róż,
+nie znali burz,
+rzecz najzupełniej pewna_.
+
+[melodia]
+E A H C | E A H C | E E E A E F D |
+F F D H | E E C A | E G# H D C H C E |

@@ -1,0 +1,20 @@
+# Melodia z zapisu literowego (prostenuty.pl).
+# Piosenka ludowa.
+tytuł: Miała baba koguta
+podtytuł: piosenka ludowa
+tempo: 120
+ilustracja: 🐓 👢 👵
+kolor: czerwony
+
+[słowa]
+Miała baba koguta,
+koguta, koguta,
+wsadziła go do buta,
+do buta, hej!
+O, mój miły kogucie, kogucie,
+kogucie, kogucie, kogucie, kogucie.
+
+[melodia]
+C C H A A G C2 | C H D D C E2 |
+C C H A A G C2 | C H D C2 |
+G8 H8 D F A8 G8 E8 E8 E8 E2 | G8 F8 D8 D8 D8 D8 F8 E8 C8 C8 H8 A2 |

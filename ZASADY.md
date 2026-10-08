@@ -188,6 +188,23 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/08-krakowiaczek.txt` | Krakowiaczek jeden | C#–d, 8 (F#, C#) – trudniejsza | zapis nutowy Mama Lisa (Z. Gloger), rytm uproszczony |
 | `piosenki/09-dzisiaj-w-betlejem.txt` | Dzisiaj w Betlejem | D–e, 0 | zapis LilyPond w Wikipedii |
 | `piosenki/10-w-zlobie-lezy.txt` | W żłobie leży | D–e, 0 | zapis LilyPond w Wikipedii; tekst z Wolnych Lektur |
+| `piosenki/11-a-ja-rosne.txt` | A ja rosnę | C–d, 0 | książeczka numerkowa (`import/1.jpeg`), muz. A. Skorupka |
+| `piosenki/12-popatrzcie-na-jamniczka.txt` | Popatrzcie na jamniczka | C–H, 0 | książeczka numerkowa (`import/2.jpeg`), muz. B. Kolago |
+| `piosenki/13-ogorek-wasaty.txt` | Ogórek wąsaty | C–H, 0 | książeczka numerkowa (`import/3.jpeg`), muz. J. Kukulski |
+| `piosenki/14-a-to-jez.txt` | A to jeż | C–e, 0 | książeczka numerkowa (`import/4.jpeg`), muz. A. Skorupka |
+| `piosenki/15-pilka-oli.txt` | Piłka Oli | C–e, 0 | książeczka numerkowa (`import/5.jpeg`), muz. B. Kolago |
+| `piosenki/16-kwiatki-bratki.txt` | Kwiatki bratki | C–e, 0 | książeczka numerkowa (`import/6.jpeg`), muz. B. Kolago |
+| `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–e, 0 | książeczka numerkowa (`import/7.jpeg`), muz. K. Kwiatkowska |
+| `piosenki/18-kolko-graniaste.txt` | Kółko graniaste | D–A, 0 | nuty literowe (prostenuty.pl, iwordpressonia.pl) |
+| `piosenki/19-jedzie-pociag-z-daleka.txt` | Jedzie pociąg z daleka | C–H, 0 | nuty literowe prostenuty.pl |
+| `piosenki/20-kukuleczka-kuka.txt` | Kukuleczka kuka | C–H, 0 | nuty literowe prostenuty.pl |
+| `piosenki/21-miala-baba-koguta.txt` | Miała baba koguta | C–H, 0 | nuty literowe prostenuty.pl |
+| `piosenki/22-poszla-karolinka.txt` | Poszła Karolinka do Gogolina | C–H, 0 | nuty literowe prostenuty.pl |
+| `piosenki/23-aaa-kotki-dwa.txt` | Aaa, kotki dwa | C–H, 1 (G#) | nuty literowe prostenuty.pl |
+| `piosenki/24-z-popielnika-na-wojtusia.txt` | Z popielnika na Wojtusia | C–H, 1 (G#) | nuty literowe prostenuty.pl; słowa: M. Konopnicka |
+| `piosenki/25-byl-sobie-krol.txt` | Był sobie król | C–H, 1 (G#) | nuty literowe prostenuty.pl |
+| `piosenki/26-idzie-niebo.txt` | Idzie niebo | C–H, 0 | nuty literowe prostenuty.pl; słowa: E. Szelburg-Zarembina |
+| `piosenki/27-nasza-zima-zla.txt` | Nasza zima zła | C–H, 0 | nuty literowe prostenuty.pl |
 
 ## 6. Format pliku piosenki (dla generatora)
 

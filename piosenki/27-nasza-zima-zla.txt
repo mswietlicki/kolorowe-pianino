@@ -1,0 +1,21 @@
+# Melodia z zapisu literowego (prostenuty.pl).
+# Piosenka dla dzieci.
+tytuł: Nasza zima zła
+podtytuł: piosenka dla dzieci
+tempo: 120
+ilustracja: ❄️ 🌬️ 🧣
+kolor: niebieski
+
+[słowa]
+Hu! hu! ha! Hu! hu! ha!
+Nasza zima zła!
+Szczypie w nosy, szczypie w uszy,
+mroźnym śniegiem
+w oczy prószy,
+wichrem w polu gna!
+Nasza zima zła_!
+
+[melodia]
+A A E A A E | D C D E C2 |
+H H H H A H C A2 | H H H H2 |
+A H C E2 | D C H A H | C H C D E G |

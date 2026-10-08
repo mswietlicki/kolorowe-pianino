@@ -1,0 +1,21 @@
+# Melodia z zapisu literowego (prostenuty.pl).
+# Piosenka ludowa.
+tytuł: Kukuleczka kuka
+podtytuł: piosenka ludowa
+tempo: 120
+ilustracja: 🐦 🌳 🍃
+kolor: zielony
+
+[słowa]
+Po tym ciemnym boru
+kukuleczka kuka,
+z ranka do wieczora
+gniazdka sobie szuka.
+Kuku! Kuku!
+Gniazdka sobie szuka.
+Kuku! Kuku!
+
+[melodia]
+G H D D G E2 | F E D G E C2 |
+G H D D G E2 | F E D G E C2 |
+C G C G | F E D G E C2 | C G C G |

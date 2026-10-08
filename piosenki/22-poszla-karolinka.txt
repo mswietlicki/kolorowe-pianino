@@ -1,0 +1,20 @@
+# Melodia z zapisu literowego (prostenuty.pl).
+# Piosenka ludowa.
+tytuł: Poszła Karolinka do Gogolina
+podtytuł: piosenka ludowa
+tempo: 120
+ilustracja: 👩 🏘️ 🍷
+kolor: fioletowy
+
+[słowa]
+Poszła Karolinka do Gogolina,
+poszła Karolinka do Gogolina.
+A Karliczek za nią,
+jak za piękną Panią,
+z flaszeczką wina.
+
+[melodia]
+C C G E C G2 | C C H A G2 |
+C C G E C G2 | C C H A G2 |
+C D E E E F2 | D D D D D E2 |
+C C D D C2 |

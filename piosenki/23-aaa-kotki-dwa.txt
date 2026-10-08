@@ -1,0 +1,19 @@
+# Melodia z zapisu literowego (prostenuty.pl).
+# Kołysanka ludowa.
+tytuł: Aaa, kotki dwa
+podtytuł: kołysanka ludowa
+tempo: 100
+ilustracja: 🐱 🐱 🌙
+kolor: fioletowy
+
+[słowa]
+Aaa, kotki dwa,
+szarobure obydwa,
+nic nie będą robiły,
+tylko Ciebie bawiły.
+
+> Zaśpiewaj całość dwa razy.
+
+[melodia]
+E A F E A F2 | E A C A H G# E2 |
+G C A A G C A2 | G C E C D H G2 |

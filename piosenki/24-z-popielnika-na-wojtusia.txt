@@ -1,0 +1,22 @@
+# Melodia z zapisu literowego (prostenuty.pl).
+# Słowa: Maria Konopnicka (1842–1910).
+tytuł: Z popielnika na Wojtusia
+podtytuł: słowa: Maria Konopnicka
+tempo: 100
+ilustracja: 🔥 ⭐ 🌙
+kolor: pomarańczowy
+
+[słowa]
+Z popielnika na Wojtusia
+iskiereczka mruga:
+chodź, opowiem ci bajeczkę,
+bajka będzie długa.
+
+Była sobie raz królewna,
+pokochała grajka,
+król wyprawił im wesele
+i skończona bajka.
+
+[melodia]
+E E F E A E C A2 | E E F E H H2 |
+D D E D H A G# F2 | E D C H A A2 |

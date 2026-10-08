@@ -134,6 +134,28 @@ class Row:
 
 
 @dataclass
+class Syl:
+    sid: int            # numer sylaby na stronie ze słowami (atrybut data-s)
+    text: str
+    ext: int = 0        # o ile nut dłużej śpiewa się sylabę (znak „_” w słowach)
+    first: bool = True  # pierwsza sylaba wyrazu
+
+
+@dataclass
+class Line:
+    text: str                                   # wers do wyświetlenia (bez znaków „_”)
+    note: bool = False                          # uwaga kursywą – nie jest śpiewana
+    parts: list = field(default_factory=list)   # kawałki wersu: str albo Syl
+    lid: int = -1                               # numer wersu na stronie
+    st: int = -1                                # numer zwrotki
+    ref: tuple | None = None                    # skrócony refren „…”: (zwrotka, wers), od którego się śpiewa
+
+    @property
+    def syls(self) -> list[Syl]:
+        return [p for p in self.parts if isinstance(p, Syl)]
+
+
+@dataclass
 class Song:
     path: Path
     slug: str
@@ -144,9 +166,12 @@ class Song:
     illustration: str = ""
     theme: str = ""
     tempo: int = DEFAULT_TEMPO
-    stanzas: list = field(default_factory=list)  # [[(tekst, czy_uwaga), ...], ...]
+    stanzas: list = field(default_factory=list)  # [[Line, ...], ...]
     rows: list = field(default_factory=list)
     warnings: list = field(default_factory=list)
+    seq: list = field(default_factory=list)      # odtwarzanie: [półton | None, długość, nr klocka, nr sylaby]
+    line_at: dict = field(default_factory=dict)  # nr wersu -> indeks w seq, od którego się go śpiewa
+    sung: list = field(default_factory=list)     # do --sprawdz: (przejście, rząd, [nr sylaby, ...])
 
     def all_notes(self) -> list[Note]:
         return [n for r in self.rows for n in r.notes if n.semi is not None]
@@ -267,12 +292,14 @@ def parse_song(path: Path) -> Song:
         if line.strip():
             t = line.strip()
             if t.startswith(">"):
-                cur.append((t[1:].strip(), True))
+                note = t[1:].strip()
+                cur.append(Line(note, True, [note]))
             else:
-                cur.append((t, False))
+                cur.append(lyric_line(t))
         elif cur:
             stanzas.append(cur)
             cur = []
+    number_lyrics(stanzas)
 
     try:
         transpose = int(meta.get("transpose", "0").replace("+", "") or 0)
@@ -293,7 +320,180 @@ def parse_song(path: Path) -> Song:
         stanzas=stanzas, rows=rows,
     )
     validate(song)
+    align_lyrics(song)
     return song
+
+
+# --------------------------------------------------------------------------
+# Sylaby i dopasowanie słów do nut
+# --------------------------------------------------------------------------
+
+VOWELS = set("aąeęioóuy")
+DIGRAPHS = {"ch", "cz", "dz", "dź", "dż", "rz", "sz"}
+LIQUIDS = {"r", "rz", "l", "ł"}                    # nie-dłu-go, o-gło-sza, przy-gry-waj
+SIBILANTS = {"s", "ś", "z", "sz"}                  # chu-stecz-ka, pa-ste-rze
+STOPS = {"p", "t", "k"}
+SONORANTS = {"m", "n", "ń", "j", "l", "ł", "r"}
+LETTERS_RE = re.compile(r"[^\W\d_]+")
+
+
+def word_cuts(w: str) -> list[int]:
+    """Miejsca podziału wyrazu na sylaby: tyle sylab, ile samogłosek („i” przed samogłoską tylko
+    zmiękcza: nie-bo, dzie-ci). Ze spółgłosek między samogłoskami ostatnia idzie do następnej
+    sylaby (ko-tek, moc-no, gwiazd-ko), razem z poprzedzającą ją spółgłoską, jeśli razem mogą
+    zaczynać wyraz (nie-dłu-go, chu-stecz-ka). Dwuznaki (cz, sz, rz, ch, dz, dź, dż) są jedną głoską.
+    Podział służy tylko do podświetlania sylab, więc wystarczy, że wygląda naturalnie."""
+    lw = w.lower()
+    nuc = [i for i, c in enumerate(lw)
+           if c in VOWELS and not (c == "i" and i + 1 < len(lw) and lw[i + 1] in VOWELS)]
+    cuts = []
+    for a, b in zip(nuc, nuc[1:]):
+        units, p = [], a + 1
+        while p < b:
+            if lw[p] == "i" and p == b - 1 and units:  # zmiękczenie zostaje przy spółgłosce
+                break
+            n = 2 if lw[p:p + 2] in DIGRAPHS else 1
+            units.append((p, lw[p:p + n]))
+            p += n
+        k = len(units) - 1                      # od której głoski zaczyna się następna sylaba
+        if k >= 1 and units[k][1] in LIQUIDS and units[k - 1][1] not in SONORANTS:
+            k -= 1                              # spółgłoska + r/l/ł: dł, gr, prz
+        if k >= 1 and units[k][1] in STOPS and units[k - 1][1] in SIBILANTS:
+            k -= 1                              # s + p/t/k: st, sk, szk
+        cuts.append(units[k][0] if units else a + 1)
+    return cuts
+
+
+def lyric_line(raw: str) -> Line:
+    """Wers piosenki podzielony na sylaby. „_” po sylabie = sylaba trwa o jedną nutę dłużej."""
+    chars, ext_at = [], {}
+    for ch in raw:
+        if ch == "_":
+            ext_at[len(chars) - 1] = ext_at.get(len(chars) - 1, 0) + 1
+        else:
+            chars.append(ch)
+    text = "".join(chars)
+    spans, pending = [], None  # pending: wyraz bez samogłoski („w”, „z”) – śpiewa się z następną sylabą
+    for m in LETTERS_RE.finditer(text):
+        w = m.group()
+        if not any(c in VOWELS for c in w.lower()):
+            pending = m.start() if pending is None else pending
+            continue
+        bounds = [0] + word_cuts(w) + [len(w)]
+        for k, (x, y) in enumerate(zip(bounds, bounds[1:])):
+            start = m.start() + x
+            if k == 0 and pending is not None:
+                start, pending = pending, None
+            spans.append((start, m.start() + y, Syl(-1, text[start:m.start() + y], 0, k == 0)))
+    for pos, n in ext_at.items():  # „_” należy do sylaby, która kończy się przed nim
+        owner = [s for a, _, s in spans if a <= pos]
+        if owner:
+            owner[-1].ext += n
+    parts, pos = [], 0
+    for a, b, s in spans:
+        if a > pos:
+            parts.append(text[pos:a])
+        parts.append(s)
+        pos = b
+    if pos < len(text):
+        parts.append(text[pos:])
+    return Line(text, False, parts)
+
+
+def plain_words(s: str) -> str:
+    return " ".join(LETTERS_RE.findall(norm(s)))
+
+
+def number_lyrics(stanzas: list) -> None:
+    """Numeruje wersy i sylaby; skrócony refren („Chrystus się rodzi…”) wskazuje pełny tekst."""
+    sid = lid = 0
+    for si, st in enumerate(stanzas):
+        for ln in st:
+            ln.lid, ln.st, lid = lid, si, lid + 1
+            for s in ln.syls:
+                s.sid, sid = sid, sid + 1
+            if ln.note or not re.search(r"(…|\.\.\.)\W*$", ln.text):
+                continue
+            short = plain_words(ln.text)
+            ln.ref = next(((sj, lj) for sj, st2 in enumerate(stanzas[:si]) for lj, ln2 in enumerate(st2)
+                           if not ln2.note and short and plain_words(ln2.text).startswith(short)), None)
+
+
+def align_lyrics(song: Song) -> None:
+    """Przypisuje sylaby słów do nut i układa całe odtwarzanie (song.seq): melodia gra tyle razy,
+    ile trzeba na wszystkie zwrotki.
+
+    Zwrotki łączą się w „przejścia” melodii: przejście ma tyle sylab, ile melodia ma nut
+    (z powtórkami ↻), albo tyle, ile bez powtórek – wtedy powtórzony rząd śpiewa się z tymi samymi
+    słowami. Gdy wszystkie słowa razem są kilka razy krótsze od melodii, śpiewa się je od nowa."""
+    row_notes, block_no = [], 0
+    for row in song.rows:
+        out = []
+        for nt in row.notes:
+            if nt.semi is None:
+                out.append((None, nt.dur, -1))
+            else:
+                out.append((nt.semi + song.transpose, nt.dur, block_no))
+                block_no += 1
+        row_notes.append(out)
+    plays = [ri for ri, row in enumerate(song.rows) for _ in range(2 if row.repeat else 1)]
+    sung = [sum(1 for n in r if n[0] is not None) for r in row_notes]
+    k_full, k_once = sum(sung[ri] for ri in plays), sum(sung)
+
+    def units(st):  # sylaby zwrotki po kolei, każda tyle razy, na ile nut przypada: (sylaba, wers)
+        out = []
+        for ln in st:
+            if ln.note:
+                continue
+            src = [ln]
+            if ln.ref:
+                src = [x for x in song.stanzas[ln.ref[0]][ln.ref[1]:] if not x.note and not x.ref]
+            out += [(s.sid, ln.lid) for x in src for s in x.syls for _ in range(1 + s.ext)]
+        return out
+
+    groups = [u for u in map(units, song.stanzas) if u]
+    total = sum(map(len, groups))
+    passes, acc, ok = [], [], True
+    for g in groups:
+        acc += g
+        if len(acc) == k_full:
+            passes.append((acc, False))
+            acc = []
+        elif len(acc) == k_once:
+            passes.append((acc, True))
+            acc = []
+        elif len(acc) > k_full:
+            ok = False
+    if acc or not ok:
+        stream = [u for g in groups for u in g]
+        if total and k_full % total == 0:
+            passes = [(stream * (k_full // total), False)]
+        else:
+            passes = [(stream[i:i + k_full], False) for i in range(0, len(stream), k_full)]
+            song.warnings.append(
+                f"słowa nie pasują do nut: zwrotki mają {', '.join(str(len(g)) for g in groups)} sylab, "
+                f"a melodia {k_full} nut" + (f" (bez powtórek ↻: {k_once})" if k_once != k_full else "") +
+                " – sylabę śpiewaną na kilku nutach oznacz „_” (np. „le_ży”); sprawdź podział w opisie poniżej")
+    if not passes:
+        passes = [([], False)]
+
+    song.seq, song.line_at, song.sung = [], {}, []
+    for pn, (us, reuse) in enumerate(passes, 1):
+        cur, first_at = 0, {}
+        for ri in plays:
+            c = first_at[ri] if reuse and ri in first_at else cur
+            first_at.setdefault(ri, c)
+            sids = []
+            for semi, dur, blk in row_notes[ri]:
+                sid = -1
+                if semi is not None and c < len(us):
+                    sid, lid = us[c]
+                    c += 1
+                    song.line_at.setdefault(lid, len(song.seq))
+                    sids.append(sid)
+                song.seq.append([semi, dur, blk, sid])
+            song.sung.append((pn, ri, sids))
+            cur = max(cur, c)
 
 
 def fmt_q(x: float) -> str:
@@ -407,7 +607,7 @@ def text_width(s: str, size: float, bold: bool = False) -> float:
 
 
 def text_el(x, y, s, size, *, fill=TEXT, weight=400, anchor="start", italic=False,
-            maxw=None, group=None, spacing=None) -> str:
+            maxw=None, group=None, spacing=None, inner=None, extra="") -> str:
     attrs = [f'x="{f1(x)}"', f'y="{f1(y)}"', f'font-size="{f1(size)}"', f'fill="{fill}"']
     if weight != 400:
         attrs.append(f'font-weight="{weight}"')
@@ -421,7 +621,9 @@ def text_el(x, y, s, size, *, fill=TEXT, weight=400, anchor="start", italic=Fals
         attrs.append(f'data-maxw="{f1(maxw)}" data-fs="{f1(size)}"')
     if group:
         attrs.append(f'data-group="{group}"')
-    return f'<text {" ".join(attrs)}>{esc(s)}</text>'
+    if extra:
+        attrs.append(extra)
+    return f'<text {" ".join(attrs)}>{esc(s) if inner is None else inner}</text>'
 
 
 def music_icon(x: float, y: float, s: float, uid: str) -> str:
@@ -565,7 +767,7 @@ def render_melody_page(song: Song, uid: str) -> str:
             parts.append(repeat_icon(x_end + CORD_EXT * k + 18 * k + ri, pts[-1][1], ri))
         y += h * k + gap
 
-    if k < 0.8:
+    if round(k * 100) < 80:
         song.warnings.append(f"klocki zmniejszone do {k:.0%} – rozważ podział długich rzędów")
     if widest * k < 0.7 * avail_w:
         song.warnings.append(f"melodia zajmuje tylko {widest * k / avail_w:.0%} szerokości strony – "
@@ -573,22 +775,13 @@ def render_melody_page(song: Song, uid: str) -> str:
     return svg_page(uid + "-mel", "".join(parts))
 
 
-def play_sequence(song: Song) -> list:
-    """Kolejność dźwięków do odtwarzania: [półton od środkowego C | None, długość, nr klocka | -1].
-
-    Numery klocków odpowiadają atrybutom data-n na stronie z melodią; rząd ze znakiem ↻ gra dwa razy.
-    """
-    seq, block_no = [], 0
-    for row in song.rows:
-        once = []
-        for nt in row.notes:
-            if nt.semi is None:
-                once.append([None, nt.dur, -1])
-            else:
-                once.append([nt.semi + song.transpose, nt.dur, block_no])
-                block_no += 1
-        seq.extend(once * (2 if row.repeat else 1))
-    return seq
+def count_in(song: Song) -> int:
+    """Ile ćwierćnut odliczyć przed graniem samemu: jeden takt (co najmniej 3 uderzenia)."""
+    m = re.match(r"^(\d+)\s*/\s*(\d+)$", song.meter)
+    beats = int(m[1]) * 4 / int(m[2]) if m else 4
+    if beats != int(beats) or not 2 <= beats <= 6:
+        return 4
+    return int(beats) * (2 if beats < 3 else 1)
 
 
 # --------------------------------------------------------------------------
@@ -601,10 +794,10 @@ def stanza_h(st, lh):
 
 def layout_lyrics(song: Song, top: float, bottom_left: float, bottom_right: float):
     """Dobiera wielkość czcionki i liczbę kolumn tak, żeby słowa zmieściły się na stronie."""
-    stanzas = song.stanzas or [[("", False)]]
+    stanzas = song.stanzas or [[Line("")]]
     for fs in range(21, 14, -1):
         lh, sg = fs * 1.45, fs * 1.45 * 0.8
-        widest = max(text_width(t, fs * (0.85 if note else 1)) for st in stanzas for t, note in st)
+        widest = max(text_width(ln.text, fs * (0.85 if ln.note else 1)) for st in stanzas for ln in st)
         hs = [stanza_h(st, lh) for st in stanzas]
         total = sum(hs) + sg * (len(hs) - 1)
         if total <= bottom_left - top and widest <= 440:
@@ -742,6 +935,17 @@ def page_badge(x: float, y: float, num: int) -> str:
     )
 
 
+def lyric_el(song: Song, ln: Line, x: float, y: float, fs: float, maxw: float) -> str:
+    """Wers słów; każda sylaba w osobnym <tspan data-s>, żeby odtwarzacz mógł ją podświetlić."""
+    inner = "".join(f'<tspan data-s="{p.sid}">{esc(p.text)}</tspan>' if isinstance(p, Syl) else esc(p)
+                    for p in ln.parts)
+    extra = f'class="lyr" data-st="{ln.st}"'
+    if ln.lid in song.line_at:
+        extra += f' data-at="{song.line_at[ln.lid]}"'
+    return text_el(x, y, ln.text, fs * (0.85 if ln.note else 1), fill=TEXT_SOFT if ln.note else TEXT,
+                   italic=ln.note, maxw=maxw, group="lyr", inner=inner, extra=extra)
+
+
 def render_lyrics_page(song: Song, uid: str, page_no: int | None) -> str:
     parts = [music_icon(88, 50, 52, uid + "-l")]
     parts.append(text_el(540, 105, song.title.upper(), 31, fill=TITLE_LEFT, weight=700,
@@ -761,9 +965,8 @@ def render_lyrics_page(song: Song, uid: str, page_no: int | None) -> str:
         for si, st in enumerate(col):
             if si:
                 y += sg
-            for t, note in st:
-                parts.append(text_el(x, y, t, fs * (0.85 if note else 1), fill=TEXT_SOFT if note else TEXT,
-                                     italic=note, maxw=lay["colw"], group="lyr"))
+            for ln in st:
+                parts.append(lyric_el(song, ln, x, y, fs, lay["colw"]))
                 y += lh
         col_bottoms.append(y - lh + fs * 0.4)
 
@@ -926,18 +1129,25 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
 .player .play:hover{background:#4E9A2C}
 .player .play.on{background:#E3262B}
 .player .play svg{width:45%;height:45%;fill:currentColor}
-.player .slow{width:clamp(24px,4.6cqw,42px);height:clamp(24px,4.6cqw,42px);font-size:clamp(12px,2.3cqw,21px);
+.player .play .count{font:800 clamp(15px,3.2cqw,29px)/1 Montserrat,'Segoe UI',Arial,sans-serif}
+.player .opt{width:clamp(24px,4.6cqw,42px);height:clamp(24px,4.6cqw,42px);font-size:clamp(12px,2.3cqw,21px);
   background:#fff;border:2px solid #E5DED3;color:#2B2929}
-.player .slow[aria-pressed="true"]{background:#FFF4D6;border-color:#F5D23A;opacity:1}
+.player .opt[aria-pressed="true"]{background:#FFF4D6;border-color:#F5D23A;opacity:1}
 .player button:focus-visible{outline:3px solid #2A6BC1;outline-offset:2px}
 .blk{transition:transform .05s ease-out,filter .05s ease-out;transform-box:fill-box;transform-origin:center}
 .blk.on{transform:translateY(-10%) scale(1.14);filter:drop-shadow(0 5px 5px rgba(0,0,0,.35))}
+.syl-hl{opacity:0;pointer-events:none}
+.syl-hl.on{opacity:1}
+.lyrics text.lyr{transition:opacity .3s}
+.lyrics svg.sing text.lyr:not(.cur){opacity:.35}
+.lyrics text[data-at]{cursor:pointer}
 @media (max-width:900px){.spread{flex-direction:column;align-items:center}.page{width:100%}
   .page+.page{border-left:0;margin-top:12px}}
 @media print{
   @page{size:A4 landscape;margin:0}
   body{background:#fff}
-  .bar,h1,.lead,.list,.player{display:none}
+  .bar,h1,.lead,.list,.player,.syl-hl{display:none}
+  .lyrics svg text.lyr{opacity:1!important}
   .spread{display:block;max-width:none;margin:0;padding:0}
   .page{max-width:none;width:297mm;height:210mm;box-shadow:none;border:0!important;margin:0!important;
     overflow:hidden;break-after:page;page-break-after:always}
@@ -966,7 +1176,8 @@ FIT_JS = """
 })();
 """
 
-# Odtwarzacz: proste „pianino” z Web Audio, podświetla grany klocek. Dane: atrybut data-play strony.
+# Odtwarzacz: proste „pianino” z Web Audio, podświetla grany klocek i śpiewaną sylabę w słowach.
+# Dane: atrybut data-play strony. Przycisk 🔇 = dziecko gra samo: odliczanie i animacja w tempie, bez dźwięku.
 # Podświetlenie liczymy z zegara audio (z poprawką na opóźnienie głośnika), a granie startuje dopiero,
 # gdy ten zegar naprawdę ruszy – przy pierwszym kliknięciu urządzenie dźwiękowe startuje z opóźnieniem.
 PLAY_JS = """
@@ -1019,12 +1230,64 @@ PLAY_JS = """
       setTimeout(check, 10);
     })();
   }
-  function setButton(page, on){
+  function pressed(page, sel){
+    var b = page.querySelector(sel);
+    return !!b && b.getAttribute('aria-pressed') === 'true';
+  }
+  function setButton(page, on, count){
     var b = page.querySelector('.play');
     b.classList.toggle('on', on);
-    b.innerHTML = on ? ICON_STOP : ICON_PLAY;
+    b.innerHTML = count ? '<span class="count">' + count + '</span>' : on ? ICON_STOP : ICON_PLAY;
     b.setAttribute('aria-label', on ? 'Zatrzymaj' : 'Zagraj melodię');
     b.title = on ? 'Zatrzymaj' : 'Zagraj';
+  }
+  // Słowa na lewej stronie: śpiewana sylaba dostaje tło w kolorze klocka, pozostałe zwrotki bledną.
+  function lyricsOf(page){
+    var spread = page.closest('.spread'), svg = spread && spread.querySelector('.lyrics svg');
+    if(!svg || !svg.querySelector('tspan[data-s]')) return null;
+    var L = {svg: svg, syl: {}, on: null, st: null, hl: svg.querySelector('.syl-hl')};
+    if(!L.hl){
+      var first = svg.querySelector('text.lyr');
+      L.hl = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      L.hl.setAttribute('class', 'syl-hl');
+      first.parentNode.insertBefore(L.hl, first);
+    }
+    svg.querySelectorAll('tspan[data-s]').forEach(function(t){ L.syl[t.getAttribute('data-s')] = t; });
+    svg.classList.add('sing');
+    return L;
+  }
+  function stanza(L, st){
+    if(st == null || st === L.st) return;
+    L.st = st;
+    L.svg.querySelectorAll('text.lyr').forEach(function(t){ t.classList.toggle('cur', t.getAttribute('data-st') === st); });
+  }
+  function bright(c){  // jasna naklejka (żółta) – na niej ciemny tekst
+    var n = parseInt(c.slice(1), 16);
+    return ((n >> 16) * 299 + (n >> 8 & 255) * 587 + (n & 255) * 114) / 1000 > 160;
+  }
+  function sing(L, sid, block){
+    if(L.on){ L.on.classList.remove('on'); L.on.style.fill = ''; L.on = null; }
+    var t = sid >= 0 && L.syl[sid];
+    if(!t || !block){ L.hl.classList.remove('on'); return; }
+    var line = t.parentNode, fs = parseFloat(line.getAttribute('font-size')), r = t.getBBox();
+    var color = block.querySelector('rect').getAttribute('fill');
+    L.hl.setAttribute('x', r.x - fs * .16); L.hl.setAttribute('width', r.width + fs * .32);
+    L.hl.setAttribute('y', r.y - fs * .04); L.hl.setAttribute('height', r.height + fs * .08);
+    L.hl.setAttribute('rx', fs * .28); L.hl.setAttribute('fill', color);
+    L.hl.classList.add('on');
+    t.classList.add('on'); t.style.fill = bright(color) ? '#2B2929' : '#fff';
+    L.on = t;
+    stanza(L, line.getAttribute('data-st'));
+  }
+  function clearLyrics(L){
+    if(!L) return;
+    sing(L, -1, null);
+    L.svg.classList.remove('sing');
+    L.svg.querySelectorAll('text.lyr.cur').forEach(function(t){ t.classList.remove('cur'); });
+  }
+  function hop(el){  // podskok klocka przy odliczaniu
+    if(el && el.animate) el.animate([{transform: 'none'}, {transform: 'translateY(-8%) scale(1.08)'},
+                                     {transform: 'none'}], {duration: 200, easing: 'ease-out'});
   }
   function stop(){
     if(!current) return;
@@ -1036,23 +1299,31 @@ PLAY_JS = """
       setTimeout(function(){ s.bus.disconnect(); }, 300);
     }
     s.page.querySelectorAll('.blk.on').forEach(function(b){ b.classList.remove('on'); });
+    clearLyrics(s.lyrics);
     setButton(s.page, false);
   }
-  function play(page){
-    var again = current && current.page === page;
+  function toggle(page){
+    if(current && current.page === page) stop(); else play(page, 0);
+  }
+  // Gra od nuty nr `from` (0 = od początku; kliknięty wers słów = od tego wersu).
+  function play(page, from){
     stop();
-    if(again) return;
     var data = JSON.parse(page.getAttribute('data-play'));
-    var slow = page.querySelector('.slow').getAttribute('aria-pressed') === 'true';
-    var q = 60 / data.tempo * (slow ? 1.6 : 1), rel = 0, events = [];
-    data.seq.forEach(function(ev){
+    var q = 60 / data.tempo * (pressed(page, '.slow') ? 1.6 : 1), rel = 0, events = [];
+    data.seq.slice(from).forEach(function(ev){
       var len = ev[1] * q;
-      events.push([rel, rel + len, ev[2], ev[0]]);
+      events.push([rel, rel + len, ev[2], ev[0], ev[3]]);
       rel += len;
     });
-    var s = {page: page, events: events, end: rel, bus: null, raf: 0, timer: 0, next: 0, clock: null};
+    var s = {page: page, from: from, events: events, end: rel, q: q, count: 0, bus: null, raf: 0, timer: 0,
+             next: 0, clock: null, lyrics: lyricsOf(page)};
     current = s;
     setButton(page, true);  // przycisk reaguje od razu, granie rusza razem z dźwiękiem
+    if(pressed(page, '.mute')){  // dziecko gra samo: odliczanie, potem sama animacja w tempie, bez dźwięku
+      s.count = data.count || 4;
+      startSilent(s);
+      return;
+    }
     if(!audio()){ startSilent(s); return; }
     var resumed = ctx.state === 'running' ? Promise.resolve() : ctx.resume();
     Promise.resolve(resumed).catch(function(){}).then(function(){
@@ -1081,23 +1352,36 @@ PLAY_JS = """
     }
     if(s.next >= s.events.length) clearInterval(s.timer);
   }
-  function startSilent(s){  // brak dźwięku (np. brak urządzenia audio): sama animacja na zegarze strony
-    var w0 = performance.now() / 1000 + LEAD;
+  // Bez dźwięku (granie samemu albo brak urządzenia audio): animacja na zegarze strony, po odliczeniu s.count ćwierćnut.
+  function startSilent(s){
+    var w0 = performance.now() / 1000 + LEAD + s.count * s.q;
     s.clock = function(){ return performance.now() / 1000 - w0; };
     animate(s);
   }
   function animate(s){
-    var blocks = {}, lit = -1, events = s.events;
+    var blocks = {}, lit = -1, block = null, shown = 0, first = null, events = s.events, L = s.lyrics, i;
     s.page.querySelectorAll('.blk').forEach(function(b){ blocks[b.getAttribute('data-n')] = b; });
+    for(i = 0; i < events.length && !first; i++) first = blocks[events[i][2]];
+    for(i = 0; L && i < events.length; i++){  // od razu widać, którą zwrotkę się śpiewa
+      if(L.syl[events[i][4]]){ stanza(L, L.syl[events[i][4]].parentNode.getAttribute('data-st')); break; }
+    }
     (function frame(){
       if(current !== s) return;
       var now = s.clock(), idx = -1;
+      if(s.count && now < 0){  // odliczanie: liczba na przycisku, pierwszy klocek podskakuje w takt
+        var left = Math.ceil(-now / s.q);
+        if(left <= s.count && left !== shown){ shown = left; setButton(s.page, true, left); hop(first); }
+      } else if(shown){
+        shown = 0; setButton(s.page, true);
+      }
       for(var i = 0; i < events.length; i++){
-        if(now >= events[i][0] && now < events[i][1]){ idx = events[i][2]; break; }
+        if(now >= events[i][0] && now < events[i][1]){ idx = i; break; }
       }
       if(idx !== lit){
-        if(blocks[lit]) blocks[lit].classList.remove('on');
-        if(blocks[idx]) blocks[idx].classList.add('on');
+        if(block) block.classList.remove('on');
+        block = idx < 0 ? null : blocks[events[idx][2]] || null;
+        if(block) block.classList.add('on');
+        if(L) sing(L, idx < 0 ? -1 : events[idx][4], block);
         lit = idx;
       }
       if(now > s.end + 0.05){ stop(); return; }
@@ -1106,20 +1390,25 @@ PLAY_JS = """
   }
   document.querySelectorAll('.melody .play').forEach(function(b){ b.innerHTML = ICON_PLAY; });
   document.addEventListener('click', function(e){
-    var b = e.target.closest && e.target.closest('.player button');
-    if(!b) return;
-    var page = b.closest('.melody');
-    if(b.classList.contains('slow')){
-      b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
-      if(current && current.page === page){ stop(); play(page); }
+    var el = e.target.closest && e.target.closest('.player button, .lyrics text[data-at]');
+    if(!el) return;
+    if(!el.closest('.player')){  // kliknięty wers słów – graj od niego
+      var mel = el.closest('.spread').querySelector('.melody');
+      if(mel) play(mel, +el.getAttribute('data-at'));
+      return;
+    }
+    var page = el.closest('.melody');
+    if(el.classList.contains('opt')){  // 🐢 / 🔇: przełącz i zacznij od nowa, jeśli właśnie gra
+      el.setAttribute('aria-pressed', el.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      if(current && current.page === page) play(page, current.from);
     } else {
-      play(page);
+      toggle(page);
     }
   });
   document.addEventListener('keydown', function(e){
     var pages = document.querySelectorAll('.melody');
     if(e.code === 'Space' && pages.length === 1 && !/^(INPUT|TEXTAREA|BUTTON)$/.test(e.target.tagName)){
-      e.preventDefault(); play(pages[0]);
+      e.preventDefault(); toggle(pages[0]);
     }
   });
 })();
@@ -1156,13 +1445,16 @@ def spread_html(song: Song, page_no: int | None) -> str:
     uid = uid_of(song.slug)
     left = render_lyrics_page(song, uid, page_no)
     right = render_melody_page(song, uid)
-    data = json.dumps({"tempo": song.tempo, "seq": play_sequence(song)}, separators=(",", ":"))
+    # seq: [półton od środkowego C | None, długość w ćwierćnutach, nr klocka (data-n) | -1, nr sylaby (data-s) | -1]
+    data = json.dumps({"tempo": song.tempo, "count": count_in(song), "seq": song.seq}, separators=(",", ":"))
     player = ('<div class="player">'
-              '<button class="slow" type="button" aria-pressed="false" title="Wolniej" '
+              '<button class="opt slow" type="button" aria-pressed="false" title="Wolniej" '
               'aria-label="Wolniej">🐢</button>'
+              '<button class="opt mute" type="button" aria-pressed="false" title="Graj sam – bez dźwięku" '
+              'aria-label="Graj sam, bez dźwięku">🔇</button>'
               '<button class="play" type="button" title="Zagraj" aria-label="Zagraj melodię">▶</button>'
               '</div>')
-    return (f'<div class="spread"><div class="page">{left}</div>'
+    return (f'<div class="spread"><div class="page lyrics">{left}</div>'
             f'<div class="page melody" data-play="{esc(data)}">{player}{right}</div></div>')
 
 
@@ -1289,6 +1581,23 @@ def describe(song: Song) -> str:
             words.append(f"{w} [{size}]")
         total = sum(n.dur for n in row.notes)
         lines.append(f"  rząd {i} ({fmt_q(total)} ćw.{' ↻' if row.repeat else ''}): " + ", ".join(words))
+    syls = {x.sid: x for st in song.stanzas for ln in st for x in ln.syls}
+    if syls:
+        lines.append("  słowa do nut (przejście melodii.rząd: sylaby, „_” = ta sama sylaba na kolejnej nucie):")
+        seen = set()
+        for pn, ri, sids in song.sung:
+            again = " ↻" if (pn, ri) in seen else ""
+            seen.add((pn, ri))
+            words, prev = [], None
+            for sid in sids:
+                x = syls[sid]
+                if sid == prev:
+                    words.append("_")
+                else:
+                    sep = " " if x.first else "" if words[-1:] == ["_"] else "-"
+                    words.append((sep if words else "") + x.text.strip())
+                prev = sid
+            lines.append(f"    {pn}.{ri + 1}{again}: {''.join(words) or '(bez słów)'}")
     opts = transpositions(song)
     if opts:
         lines.append("  możliwe transpozycje względem zapisu (półtony / czarne klawisze): " +

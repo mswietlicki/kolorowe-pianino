@@ -5,7 +5,9 @@
 // Każdy scenariusz uruchamia osobną przeglądarkę w tle (headless) i podmienia w niej AudioContext:
 // udawany (z opóźnionym startem dźwięku, opóźnieniem głośnika albo wolnym tworzeniem nut) albo
 // prawdziwy, tylko podglądany. Test mierzy, o ile podświetlenie klocka jest przesunięte względem
-// chwili, w której nutę SŁYCHAĆ (>0 = animacja spóźniona, <0 = animacja wyprzedza dźwięk).
+// chwili, w której nutę SŁYCHAĆ (>0 = animacja spóźniona, <0 = animacja wyprzedza dźwięk), i czy razem
+// z klockiem zapala się właściwa sylaba słów. Tryb „graj sam” (🔇) nie może wydać żadnego dźwięku,
+// ma odliczyć takt i prowadzić animację równo w tempie piosenki.
 import { spawn } from 'node:child_process';
 import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -64,34 +66,46 @@ function inject({ fake, delay = 0, latency = 0, nodeMs = 0 }) {
   })();`;
 }
 
-const MEASURE = (clicks, listen) => `(async () => {
+const MEASURE = (clicks, listen, mute) => `(async () => {
   const page = document.querySelector('.melody');
   const data = JSON.parse(page.getAttribute('data-play'));
-  const marks = [];
+  const marks = [];  // [czas, nr klocka, zapalona sylaba]
   new MutationObserver(ms => { for (const m of ms) { const el = m.target;
-    if (el.classList.contains('blk') && el.classList.contains('on'))
-      marks.push([window.__heard(), +el.getAttribute('data-n')]); } })
+    if (el.classList.contains('blk') && el.classList.contains('on')) {
+      const syl = document.querySelector('.lyrics tspan.on');
+      marks.push([${mute} ? performance.now() / 1000 : window.__heard(), +el.getAttribute('data-n'),
+                  syl ? +syl.getAttribute('data-s') : -1]);
+    } } })
     .observe(page, { subtree: true, attributes: true, attributeFilter: ['class'] });
   const btn = page.querySelector('.play');
-  let from = 0;  // liczymy tylko nuty z ostatniego uruchomienia (wcześniejsze zostały zatrzymane i wyciszone)
+  if (${mute}) page.querySelector('.mute').click();
+  let from = 0, clicked = 0;  // liczymy tylko nuty z ostatniego uruchomienia (wcześniejsze zostały zatrzymane i wyciszone)
   for (const gap of ${JSON.stringify(clicks)}) {
-    from = window.__tones.length; marks.length = 0;
+    from = window.__tones.length; marks.length = 0; clicked = performance.now() / 1000;
     btn.click(); await new Promise(r => setTimeout(r, gap));
   }
   await new Promise(r => setTimeout(r, ${listen}));
   btn.click();
-  const starts = window.__tones.slice(from).filter((_, i) => i % 3 === 0);
-  const notes = data.seq.filter(e => e[0] !== null);
-  const offs = []; let k = 0;
-  for (const [heard, n] of marks) {
-    while (k < notes.length && notes[k][2] !== n) k++;
+  const notes = [], q = 60 / data.tempo;
+  let t = 0;
+  for (const e of data.seq) { if (e[0] !== null) notes.push([t, e[2], e[3]]); t += e[1] * q; }
+  // Bez dźwięku nie ma czasów nut z zegara audio – liczymy je z tempa, od pierwszego podświetlenia.
+  const starts = ${mute} ? notes.map(n => n[0] - notes[0][0] + (marks.length ? marks[0][0] : 0))
+                         : window.__tones.slice(from).filter((_, i) => i % 3 === 0);
+  const offs = []; let k = 0, sylBad = 0;
+  for (const [heard, n, syl] of marks) {
+    while (k < notes.length && notes[k][1] !== n) k++;
     if (k >= notes.length || k >= starts.length) break;
-    offs.push(Math.round((heard - starts[k]) * 1000)); k++;
+    offs.push(Math.round((heard - starts[k]) * 1000));
+    if (syl !== notes[k][2]) sylBad++;
+    k++;
   }
-  return offs;
+  return { offs, sylBad, tones: window.__tones.length - from,
+           countIn: marks.length ? Math.round((marks[0][0] - clicked) * 1000) : null,
+           countMin: Math.round((data.count || 4) * q * 1000) };
 })()`;
 
-async function scenario(opts, clicks = [0], listen = 4000) {
+async function scenario(opts, clicks = [0], listen = 4000, mute = false) {
   const port = 9300 + Math.floor(Math.random() * 600);
   const profile = mkdtempSync(join(tmpdir(), 'kp-test-'));
   const proc = spawn(BROWSER, ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`,
@@ -114,10 +128,20 @@ async function scenario(opts, clicks = [0], listen = 4000) {
       if (r.result?.result?.value === 'complete') break;
       await sleep(50);
     }
-    const r = await send('Runtime.evaluate', { expression: MEASURE(clicks, listen), awaitPromise: true, returnByValue: true });
+    const r = await send('Runtime.evaluate', { expression: MEASURE(clicks, listen, mute), awaitPromise: true, returnByValue: true });
     ws.close();
-    return r.result?.result?.value || [];
+    return r.result?.result?.value || { offs: [] };
   } finally {
+    // Zamykamy przeglądarkę przez DevTools: na Windows Edge działa dalej w procesach spoza drzewa procesu
+    // startowego, więc samo proc.kill() je zostawia – trzymają wtedy urządzenie dźwiękowe i po kilku
+    // uruchomieniach prawdziwy AudioContext już nie startuje.
+    try {
+      const { webSocketDebuggerUrl } = await (await fetch(`http://127.0.0.1:${port}/json/version`)).json();
+      const bws = new WebSocket(webSocketDebuggerUrl);
+      await new Promise((ok, err) => { bws.onopen = ok; bws.onerror = err; });
+      bws.send(JSON.stringify({ id: 1, method: 'Browser.close' }));
+      await sleep(500);
+    } catch {}
     proc.kill();
     await sleep(300);
     try { rmSync(profile, { recursive: true, force: true }); } catch {}
@@ -131,15 +155,21 @@ const cases = [
   ['słuchawki Bluetooth (opóźnienie 250 ms)', { fake: true, delay: 0.3, latency: 0.25 }],
   ['szybkie klikanie ▶ ■ ▶ co 30 ms', { fake: true, nodeMs: 1 }, [0, 30, 30]],
   ['prawdziwy AudioContext przeglądarki', { fake: false }],
+  ['graj sam 🔇: bez dźwięku, odliczanie, tempo', { fake: true }, [0], 6000, true],
 ];
 let failed = 0;
-for (const [name, opts, clicks] of cases) {
-  const offs = await scenario(opts, clicks);
+for (const [name, opts, clicks, listen, mute] of cases) {
+  const { offs, sylBad, tones, countIn, countMin } = await scenario(opts, clicks, listen, mute);
   const worst = offs.length ? Math.max(...offs.map(Math.abs)) : null;
   const median = offs.length ? [...offs].map(Math.abs).sort((a, b) => a - b)[offs.length >> 1] : null;
-  const ok = offs.length >= 3 && median <= MEDIAN_MS && worst <= WORST_MS;
+  const problems = [];
+  if (sylBad) problems.push(`zła sylaba przy ${sylBad} nutach`);
+  if (mute && tones) problems.push(`słychać ${tones} dźwięków`);
+  if (mute && !(countIn >= countMin && countIn <= countMin + 400)) problems.push(`odliczanie ${countIn} ms zamiast ~${countMin} ms`);
+  const ok = offs.length >= 3 && median <= MEDIAN_MS && worst <= WORST_MS && !problems.length;
   if (!ok) failed++;
   console.log(`${ok ? 'OK  ' : 'BŁĄD'} ${name.padEnd(44)} podświetleń: ${String(offs.length).padStart(2)}, ` +
-              `przesunięcie: ${offs.length ? `mediana ${median} ms, zakres ${Math.min(...offs)}…${Math.max(...offs)} ms` : 'brak pomiaru'}`);
+              `przesunięcie: ${offs.length ? `mediana ${median} ms, zakres ${Math.min(...offs)}…${Math.max(...offs)} ms` : 'brak pomiaru'}` +
+              (mute ? `, odliczanie ${countIn} ms` : '') + (problems.length ? ` – ${problems.join(', ')}` : ''));
 }
 process.exit(failed ? 1 : 0);

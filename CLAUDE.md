@@ -17,7 +17,8 @@ których te zasady się opierają.
    W komentarzu `#` podaj źródło melodii.
 4. Uruchom `python generator/kolorowe_pianino.py --sprawdz piosenki/NN-krotka-nazwa.txt`.
    Wynik musi być bez uwag, w zakresie C–e i z jak najmniejszą liczbą czarnych klawiszy
-   (skorzystaj z podpowiedzi transpozycji).
+   (skorzystaj z podpowiedzi transpozycji). Sprawdź też część „słowa do nut”: każda sylaba ma
+   trafić na swoją nutę. Sylabę śpiewaną na kilku nutach oznacz w słowach `_` (ZASADY.md §6).
 5. Uruchom `python generator/kolorowe_pianino.py --pdf`. Przebuduje to HTML i PDF wszystkich
    piosenek oraz książeczki.
 6. Obejrzyj wynik przed oddaniem, na zrzucie ekranu z Edge w trybie headless:
@@ -29,6 +30,8 @@ W kroku 6 sprawdź też, czy melodia wypełnia szerokość strony; jeśli nie, p
 w przeglądarce w aplikacji. Po każdej zmianie odtwarzacza (PLAY_JS) uruchom
 `node testy/synchronizacja.mjs`: mierzy w Edge/Chrome w tle, czy podświetlenie klocka zgadza się
 z dźwiękiem, m.in. przy opóźnionym starcie dźwięku, słuchawkach Bluetooth i szybkim klikaniu.
+Sprawdza też, czy z klockiem zapala się właściwa sylaba słów i czy tryb 🔇 („graj sam”) gra bez
+dźwięku, z odliczaniem i w tempie.
 
 ## Import z innych książeczek (`import/`)
 

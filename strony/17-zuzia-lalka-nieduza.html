@@ -34,18 +34,25 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
 .player .play:hover{background:#4E9A2C}
 .player .play.on{background:#E3262B}
 .player .play svg{width:45%;height:45%;fill:currentColor}
-.player .slow{width:clamp(24px,4.6cqw,42px);height:clamp(24px,4.6cqw,42px);font-size:clamp(12px,2.3cqw,21px);
+.player .play .count{font:800 clamp(15px,3.2cqw,29px)/1 Montserrat,'Segoe UI',Arial,sans-serif}
+.player .opt{width:clamp(24px,4.6cqw,42px);height:clamp(24px,4.6cqw,42px);font-size:clamp(12px,2.3cqw,21px);
   background:#fff;border:2px solid #E5DED3;color:#2B2929}
-.player .slow[aria-pressed="true"]{background:#FFF4D6;border-color:#F5D23A;opacity:1}
+.player .opt[aria-pressed="true"]{background:#FFF4D6;border-color:#F5D23A;opacity:1}
 .player button:focus-visible{outline:3px solid #2A6BC1;outline-offset:2px}
 .blk{transition:transform .05s ease-out,filter .05s ease-out;transform-box:fill-box;transform-origin:center}
 .blk.on{transform:translateY(-10%) scale(1.14);filter:drop-shadow(0 5px 5px rgba(0,0,0,.35))}
+.syl-hl{opacity:0;pointer-events:none}
+.syl-hl.on{opacity:1}
+.lyrics text.lyr{transition:opacity .3s}
+.lyrics svg.sing text.lyr:not(.cur){opacity:.35}
+.lyrics text[data-at]{cursor:pointer}
 @media (max-width:900px){.spread{flex-direction:column;align-items:center}.page{width:100%}
   .page+.page{border-left:0;margin-top:12px}}
 @media print{
   @page{size:A4 landscape;margin:0}
   body{background:#fff}
-  .bar,h1,.lead,.list,.player{display:none}
+  .bar,h1,.lead,.list,.player,.syl-hl{display:none}
+  .lyrics svg text.lyr{opacity:1!important}
   .spread{display:block;max-width:none;margin:0;padding:0}
   .page{max-width:none;width:297mm;height:210mm;box-shadow:none;border:0!important;margin:0!important;
     overflow:hidden;break-after:page;page-break-after:always}
@@ -55,7 +62,7 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
 </style>
 </head>
 <body>
-<div class="bar"><a href="index.html">← Spis piosenek</a><a href="jak-grac.html">Jak grać?</a><button onclick="window.print()">Drukuj</button></div><div class="spread"><div class="page"><svg data-page="17-zuzia-lalka-nieduza-lyr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 707" font-family="Montserrat, &#x27;Segoe UI&#x27;, Arial, sans-serif" role="img"><rect width="1000" height="707" fill="#fff"/><defs><linearGradient id="17-zuzia-lalka-nieduza-l-ng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7DBA3F"/><stop offset="1" stop-color="#4E8F2A"/></linearGradient></defs><g fill="url(#17-zuzia-lalka-nieduza-l-ng)"><ellipse cx="96.8" cy="93.7" rx="9.9" ry="7.3" transform="rotate(-22 96.8 93.7)"/><ellipse cx="124.4" cy="88.5" rx="9.9" ry="7.3" transform="rotate(-22 124.4 88.5)"/><rect x="103.6" y="57.3" width="3.6" height="36.4" rx="1.6"/><rect x="131.2" y="52.1" width="3.6" height="36.4" rx="1.6"/><path d="M103.6 57.3 L134.8 51 L134.8 59.4 L103.6 65.6 Z"/></g><text x="540" y="105" font-size="31" fill="#7A1F2E" font-weight="700" text-anchor="middle" letter-spacing="0.5" data-maxw="720" data-fs="31">ZUZIA, LALKA NIEDUŻA</text><text x="540" y="137" font-size="18" fill="#6B4A50" text-anchor="middle" data-maxw="640" data-fs="18">muzyka: Krystyna Kwiatkowska</text><text x="100" y="225" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr">Zuzia, lalka nieduża</text><text x="100" y="254" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr">i na dodatek cała ze szmatek.</text><text x="100" y="306.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr">W kratkę stara spódniczka,</text><text x="100" y="335.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr">łzy na policzkach, a w główce marzeń sto.</text><text x="100" y="364.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr">Lecz kocham ją najbardziej</text><text x="100" y="393.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr">ze wszystkich moich lal,</text><text x="100" y="422.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr">choć nie ma sukni złotej,</text><text x="100" y="451.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr">zabiorę ją na bal.</text><defs><filter id="17-zuzia-lalka-nieduza-wc" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="3" seed="34" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="51" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="4.2"/></filter><radialGradient id="17-zuzia-lalka-nieduza-rg" cx="45%" cy="40%" r="62%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E0D4E5"/><stop offset="1" stop-color="#BA9FC4"/></radialGradient></defs><g filter="url(#17-zuzia-lalka-nieduza-wc)"><circle cx="752.5" cy="420" r="170" fill="url(#17-zuzia-lalka-nieduza-rg)"/><circle cx="829" cy="348.6" r="71.4" fill="#F7BEBF" opacity=".55"/><circle cx="667.5" cy="505" r="54.4" fill="#F7BEBF" opacity=".45"/></g><text x="752.5" y="430.2" font-size="178.5" text-anchor="middle" dominant-baseline="central" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">🪆</text><text x="864.7" y="318" font-size="68" text-anchor="middle" dominant-baseline="central" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">🧵</text><text x="636.9" y="518.6" font-size="57.8" text-anchor="middle" dominant-baseline="central" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">🌷</text><g fill="#7DBA3F"><rect x="63" y="630" width="8" height="50" rx="4"/><rect x="85" y="630" width="8" height="50" rx="4"/><rect x="59" y="641" width="38" height="7" rx="3.5"/><rect x="59" y="663" width="38" height="7" rx="3.5"/></g><circle cx="78" cy="655" r="10" fill="#fff"/><text x="78" y="660" font-size="13" fill="#2B2929" font-weight="700" text-anchor="middle">34</text></svg></div><div class="page melody" data-play="{&quot;tempo&quot;:112,&quot;seq&quot;:[[7,0.5,0],[0,0.5,1],[4,0.5,2],[4,0.5,3],[5,1.0,4],[7,1.0,5],[0,1.0,6],[4,1.0,7],[4,1.0,8],[5,1.0,9],[7,1.0,10],[0,1.0,11],[7,1.0,12],[0,1.0,13],[7,1.0,14],[5,1.0,15],[5,2.0,16],[7,0.5,17],[0,0.5,18],[4,0.5,19],[4,0.5,20],[5,1.0,21],[7,1.0,22],[0,1.0,23],[4,1.0,24],[4,0.5,25],[5,0.5,26],[7,0.5,27],[0,1.0,28],[0,1.0,29],[7,1.0,30],[7,1.0,31],[5,1.0,32],[5,1.0,33],[0,0.5,34],[0,2.0,35],[4,1.0,36],[4,1.0,37],[0,1.0,38],[5,1.0,39],[7,1.0,40],[0,1.0,41],[0,1.0,42],[5,1.0,43],[0,1.0,44],[5,1.0,45],[0,1.0,46],[7,1.0,47],[0,2.0,48],[4,1.0,49],[4,1.0,50],[12,1.0,51],[12,1.0,52],[5,1.0,53],[7,1.0,54],[7,1.0,55],[5,1.0,56],[5,1.0,57],[7,1.0,58],[9,1.0,59],[5,2.0,60]]}"><div class="player"><button class="slow" type="button" aria-pressed="false" title="Wolniej" aria-label="Wolniej">🐢</button><button class="play" type="button" title="Zagraj" aria-label="Zagraj melodię">▶</button></div><svg data-page="17-zuzia-lalka-nieduza-mel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 707" font-family="Montserrat, &#x27;Segoe UI&#x27;, Arial, sans-serif" role="img"><rect width="1000" height="707" fill="#fff"/><defs><linearGradient id="17-zuzia-lalka-nieduza-m-ng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7DBA3F"/><stop offset="1" stop-color="#4E8F2A"/></linearGradient></defs><g fill="url(#17-zuzia-lalka-nieduza-m-ng)"><ellipse cx="86.5" cy="92" rx="9.5" ry="7" transform="rotate(-22 86.5 92)"/><ellipse cx="113" cy="87" rx="9.5" ry="7" transform="rotate(-22 113 87)"/><rect x="93" y="57" width="3.5" height="35" rx="1.5"/><rect x="119.5" y="52" width="3.5" height="35" rx="1.5"/><path d="M93 57 L123 51 L123 59 L93 65 Z"/></g><text x="500" y="103" font-size="30" fill="#3A3838" font-weight="700" text-anchor="middle" letter-spacing="0.5" data-maxw="640" data-fs="30">ZUZIA, LALKA NIEDUŻA</text><polyline points="149.8,181.5 166.9,181.5 189,216.8 211.1,199.1 233.3,199.1 266.5,190.3 310.8,181.5 355,216.8 399.3,199.1 443.6,199.1 487.9,190.3 532.1,181.5 576.4,216.8 620.7,181.5 665,216.8 709.2,181.5 753.5,190.3 819.9,190.3 870.2,190.3" fill="none" stroke="#2F2C2C" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><g class="blk" data-n="0"><rect x="158.3" y="150" width="17" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="1"><rect x="180.5" y="185.3" width="17" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="2"><rect x="202.6" y="167.6" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="3"><rect x="224.8" y="167.6" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="4"><rect x="246.9" y="158.8" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="5"><rect x="291.2" y="150" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="6"><rect x="335.4" y="185.3" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="7"><rect x="379.7" y="167.6" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="8"><rect x="424" y="167.6" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="9"><rect x="468.3" y="158.8" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="10"><rect x="512.6" y="150" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="11"><rect x="556.8" y="185.3" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="12"><rect x="601.1" y="150" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="13"><rect x="645.4" y="185.3" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="14"><rect x="689.7" y="150" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="15"><rect x="733.9" y="158.8" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="16"><rect x="778.2" y="158.8" width="83.4" height="63" rx="1.7" fill="#5DAE35"/></g><polyline points="149.8,319.8 166.9,319.8 189,355.1 211.1,337.4 233.3,337.4 266.5,328.6 310.8,319.8 355,355.1 399.3,337.4 432.5,337.4 454.7,328.6 476.8,319.8 510,355.1 554.3,355.1 598.6,319.8 642.8,319.8 687.1,328.6 731.4,328.6 764.6,355.1 819.9,355.1 870.2,355.1" fill="none" stroke="#2F2C2C" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><g class="blk" data-n="17"><rect x="158.3" y="288.3" width="17" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="18"><rect x="180.5" y="323.6" width="17" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="19"><rect x="202.6" y="305.9" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="20"><rect x="224.8" y="305.9" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="21"><rect x="246.9" y="297.1" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="22"><rect x="291.2" y="288.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="23"><rect x="335.4" y="323.6" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="24"><rect x="379.7" y="305.9" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="25"><rect x="424" y="305.9" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="26"><rect x="446.1" y="297.1" width="17" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="27"><rect x="468.3" y="288.3" width="17" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="28"><rect x="490.4" y="323.6" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="29"><rect x="534.7" y="323.6" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="30"><rect x="579" y="288.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="31"><rect x="623.2" y="288.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="32"><rect x="667.5" y="297.1" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="33"><rect x="711.8" y="297.1" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="34"><rect x="756.1" y="323.6" width="17" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="35"><rect x="778.2" y="323.6" width="83.4" height="63" rx="1.7" fill="#E3262B"/></g><polyline points="149.8,475.7 177.9,475.7 222.2,475.7 266.5,493.4 310.8,466.9 355,458.1 399.3,493.4 443.6,493.4 487.9,466.9 532.1,493.4 576.4,466.9 620.7,493.4 665,458.1 731.4,493.4 781.6,493.4" fill="none" stroke="#2F2C2C" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><g class="blk" data-n="36"><rect x="158.3" y="444.2" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="37"><rect x="202.6" y="444.2" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="38"><rect x="246.9" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="39"><rect x="291.2" y="435.4" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="40"><rect x="335.4" y="426.6" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="41"><rect x="379.7" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="42"><rect x="424" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="43"><rect x="468.3" y="435.4" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="44"><rect x="512.6" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="45"><rect x="556.8" y="435.4" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="46"><rect x="601.1" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="47"><rect x="645.4" y="426.6" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="48"><rect x="689.7" y="461.9" width="83.4" height="63" rx="1.7" fill="#E3262B"/></g><polyline points="149.8,640.5 177.9,640.5 222.2,640.5 266.5,596.4 310.8,596.4 355,631.7 399.3,622.9 443.6,622.9 487.9,631.7 532.1,631.7 576.4,622.9 620.7,614 687.1,631.7 737.3,631.7" fill="none" stroke="#2F2C2C" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><g class="blk" data-n="49"><rect x="158.3" y="609" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="50"><rect x="202.6" y="609" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="51"><rect x="246.9" y="564.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/><circle cx="256.7" cy="577.5" r="4.4" fill="#fff"/><circle cx="256.7" cy="596.4" r="4.4" fill="#fff"/><circle cx="256.7" cy="615.3" r="4.4" fill="#fff"/><circle cx="276.3" cy="577.5" r="4.4" fill="#fff"/><circle cx="276.3" cy="596.4" r="4.4" fill="#fff"/><circle cx="276.3" cy="615.3" r="4.4" fill="#fff"/></g><g class="blk" data-n="52"><rect x="291.2" y="564.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/><circle cx="301" cy="577.5" r="4.4" fill="#fff"/><circle cx="301" cy="596.4" r="4.4" fill="#fff"/><circle cx="301" cy="615.3" r="4.4" fill="#fff"/><circle cx="320.5" cy="577.5" r="4.4" fill="#fff"/><circle cx="320.5" cy="596.4" r="4.4" fill="#fff"/><circle cx="320.5" cy="615.3" r="4.4" fill="#fff"/></g><g class="blk" data-n="53"><rect x="335.4" y="600.2" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="54"><rect x="379.7" y="591.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="55"><rect x="424" y="591.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="56"><rect x="468.3" y="600.2" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="57"><rect x="512.6" y="600.2" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="58"><rect x="556.8" y="591.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="59"><rect x="601.1" y="582.5" width="39.2" height="63" rx="1.7" fill="#65297B"/></g><g class="blk" data-n="60"><rect x="645.4" y="600.2" width="83.4" height="63" rx="1.7" fill="#5DAE35"/></g></svg></div></div>
+<div class="bar"><a href="index.html">← Spis piosenek</a><a href="jak-grac.html">Jak grać?</a><button onclick="window.print()">Drukuj</button></div><div class="spread"><div class="page lyrics"><svg data-page="17-zuzia-lalka-nieduza-lyr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 707" font-family="Montserrat, &#x27;Segoe UI&#x27;, Arial, sans-serif" role="img"><rect width="1000" height="707" fill="#fff"/><defs><linearGradient id="17-zuzia-lalka-nieduza-l-ng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7DBA3F"/><stop offset="1" stop-color="#4E8F2A"/></linearGradient></defs><g fill="url(#17-zuzia-lalka-nieduza-l-ng)"><ellipse cx="96.8" cy="93.7" rx="9.9" ry="7.3" transform="rotate(-22 96.8 93.7)"/><ellipse cx="124.4" cy="88.5" rx="9.9" ry="7.3" transform="rotate(-22 124.4 88.5)"/><rect x="103.6" y="57.3" width="3.6" height="36.4" rx="1.6"/><rect x="131.2" y="52.1" width="3.6" height="36.4" rx="1.6"/><path d="M103.6 57.3 L134.8 51 L134.8 59.4 L103.6 65.6 Z"/></g><text x="540" y="105" font-size="31" fill="#7A1F2E" font-weight="700" text-anchor="middle" letter-spacing="0.5" data-maxw="720" data-fs="31">ZUZIA, LALKA NIEDUŻA</text><text x="540" y="137" font-size="18" fill="#6B4A50" text-anchor="middle" data-maxw="640" data-fs="18">muzyka: Krystyna Kwiatkowska</text><text x="100" y="225" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr" class="lyr" data-st="0" data-at="0"><tspan data-s="0">Zu</tspan><tspan data-s="1">zia</tspan>, <tspan data-s="2">lal</tspan><tspan data-s="3">ka</tspan> <tspan data-s="4">nie</tspan><tspan data-s="5">du</tspan><tspan data-s="6">ża</tspan></text><text x="100" y="254" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr" class="lyr" data-st="0" data-at="7"><tspan data-s="7">i</tspan> <tspan data-s="8">na</tspan> <tspan data-s="9">do</tspan><tspan data-s="10">da</tspan><tspan data-s="11">tek</tspan> <tspan data-s="12">ca</tspan><tspan data-s="13">ła</tspan> <tspan data-s="14">ze</tspan> <tspan data-s="15">szma</tspan><tspan data-s="16">tek</tspan>.</text><text x="100" y="306.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr" class="lyr" data-st="1" data-at="17"><tspan data-s="17">W krat</tspan><tspan data-s="18">kę</tspan> <tspan data-s="19">sta</tspan><tspan data-s="20">ra</tspan> <tspan data-s="21">spód</tspan><tspan data-s="22">nicz</tspan><tspan data-s="23">ka</tspan>,</text><text x="100" y="335.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr" class="lyr" data-st="1" data-at="24"><tspan data-s="24">łzy</tspan> <tspan data-s="25">na</tspan> <tspan data-s="26">po</tspan><tspan data-s="27">licz</tspan><tspan data-s="28">kach</tspan>, <tspan data-s="29">a</tspan> <tspan data-s="30">w głów</tspan><tspan data-s="31">ce</tspan> <tspan data-s="32">ma</tspan><tspan data-s="33">rzeń</tspan> <tspan data-s="34">sto</tspan>.</text><text x="100" y="364.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr" class="lyr" data-st="1" data-at="35"><tspan data-s="35">Lecz</tspan> <tspan data-s="36">ko</tspan><tspan data-s="37">cham</tspan> <tspan data-s="38">ją</tspan> <tspan data-s="39">naj</tspan><tspan data-s="40">bar</tspan><tspan data-s="41">dziej</tspan></text><text x="100" y="393.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr" class="lyr" data-st="1" data-at="42"><tspan data-s="42">ze</tspan> <tspan data-s="43">wszyst</tspan><tspan data-s="44">kich</tspan> <tspan data-s="45">mo</tspan><tspan data-s="46">ich</tspan> <tspan data-s="47">lal</tspan>,</text><text x="100" y="422.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr" class="lyr" data-st="1" data-at="48"><tspan data-s="48">choć</tspan> <tspan data-s="49">nie</tspan> <tspan data-s="50">ma</tspan> <tspan data-s="51">suk</tspan><tspan data-s="52">ni</tspan> <tspan data-s="53">zło</tspan><tspan data-s="54">tej</tspan>,</text><text x="100" y="451.2" font-size="20" fill="#2B2929" data-maxw="440" data-fs="20" data-group="lyr" class="lyr" data-st="1" data-at="55"><tspan data-s="55">za</tspan><tspan data-s="56">bio</tspan><tspan data-s="57">rę</tspan> <tspan data-s="58">ją</tspan> <tspan data-s="59">na</tspan> <tspan data-s="60">bal</tspan>.</text><defs><filter id="17-zuzia-lalka-nieduza-wc" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="3" seed="34" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="51" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="4.2"/></filter><radialGradient id="17-zuzia-lalka-nieduza-rg" cx="45%" cy="40%" r="62%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E0D4E5"/><stop offset="1" stop-color="#BA9FC4"/></radialGradient></defs><g filter="url(#17-zuzia-lalka-nieduza-wc)"><circle cx="752.5" cy="420" r="170" fill="url(#17-zuzia-lalka-nieduza-rg)"/><circle cx="829" cy="348.6" r="71.4" fill="#F7BEBF" opacity=".55"/><circle cx="667.5" cy="505" r="54.4" fill="#F7BEBF" opacity=".45"/></g><text x="752.5" y="430.2" font-size="178.5" text-anchor="middle" dominant-baseline="central" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">🪆</text><text x="864.7" y="318" font-size="68" text-anchor="middle" dominant-baseline="central" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">🧵</text><text x="636.9" y="518.6" font-size="57.8" text-anchor="middle" dominant-baseline="central" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">🌷</text><g fill="#7DBA3F"><rect x="63" y="630" width="8" height="50" rx="4"/><rect x="85" y="630" width="8" height="50" rx="4"/><rect x="59" y="641" width="38" height="7" rx="3.5"/><rect x="59" y="663" width="38" height="7" rx="3.5"/></g><circle cx="78" cy="655" r="10" fill="#fff"/><text x="78" y="660" font-size="13" fill="#2B2929" font-weight="700" text-anchor="middle">34</text></svg></div><div class="page melody" data-play="{&quot;tempo&quot;:112,&quot;count&quot;:4,&quot;seq&quot;:[[7,0.5,0,0],[0,0.5,1,1],[4,0.5,2,2],[4,0.5,3,3],[5,1.0,4,4],[7,1.0,5,5],[0,1.0,6,6],[4,1.0,7,7],[4,1.0,8,8],[5,1.0,9,9],[7,1.0,10,10],[0,1.0,11,11],[7,1.0,12,12],[0,1.0,13,13],[7,1.0,14,14],[5,1.0,15,15],[5,2.0,16,16],[7,0.5,17,17],[0,0.5,18,18],[4,0.5,19,19],[4,0.5,20,20],[5,1.0,21,21],[7,1.0,22,22],[0,1.0,23,23],[4,1.0,24,24],[4,0.5,25,25],[5,0.5,26,26],[7,0.5,27,27],[0,1.0,28,28],[0,1.0,29,29],[7,1.0,30,30],[7,1.0,31,31],[5,1.0,32,32],[5,1.0,33,33],[0,0.5,34,34],[0,2.0,35,35],[4,1.0,36,36],[4,1.0,37,37],[0,1.0,38,38],[5,1.0,39,39],[7,1.0,40,40],[0,1.0,41,41],[0,1.0,42,42],[5,1.0,43,43],[0,1.0,44,44],[5,1.0,45,45],[0,1.0,46,46],[7,1.0,47,47],[0,2.0,48,48],[4,1.0,49,49],[4,1.0,50,50],[12,1.0,51,51],[12,1.0,52,52],[5,1.0,53,53],[7,1.0,54,54],[7,1.0,55,55],[5,1.0,56,56],[5,1.0,57,57],[7,1.0,58,58],[9,1.0,59,59],[5,2.0,60,60]]}"><div class="player"><button class="opt slow" type="button" aria-pressed="false" title="Wolniej" aria-label="Wolniej">🐢</button><button class="opt mute" type="button" aria-pressed="false" title="Graj sam – bez dźwięku" aria-label="Graj sam, bez dźwięku">🔇</button><button class="play" type="button" title="Zagraj" aria-label="Zagraj melodię">▶</button></div><svg data-page="17-zuzia-lalka-nieduza-mel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 707" font-family="Montserrat, &#x27;Segoe UI&#x27;, Arial, sans-serif" role="img"><rect width="1000" height="707" fill="#fff"/><defs><linearGradient id="17-zuzia-lalka-nieduza-m-ng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7DBA3F"/><stop offset="1" stop-color="#4E8F2A"/></linearGradient></defs><g fill="url(#17-zuzia-lalka-nieduza-m-ng)"><ellipse cx="86.5" cy="92" rx="9.5" ry="7" transform="rotate(-22 86.5 92)"/><ellipse cx="113" cy="87" rx="9.5" ry="7" transform="rotate(-22 113 87)"/><rect x="93" y="57" width="3.5" height="35" rx="1.5"/><rect x="119.5" y="52" width="3.5" height="35" rx="1.5"/><path d="M93 57 L123 51 L123 59 L93 65 Z"/></g><text x="500" y="103" font-size="30" fill="#3A3838" font-weight="700" text-anchor="middle" letter-spacing="0.5" data-maxw="640" data-fs="30">ZUZIA, LALKA NIEDUŻA</text><polyline points="149.8,181.5 166.9,181.5 189,216.8 211.1,199.1 233.3,199.1 266.5,190.3 310.8,181.5 355,216.8 399.3,199.1 443.6,199.1 487.9,190.3 532.1,181.5 576.4,216.8 620.7,181.5 665,216.8 709.2,181.5 753.5,190.3 819.9,190.3 870.2,190.3" fill="none" stroke="#2F2C2C" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><g class="blk" data-n="0"><rect x="158.3" y="150" width="17" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="1"><rect x="180.5" y="185.3" width="17" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="2"><rect x="202.6" y="167.6" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="3"><rect x="224.8" y="167.6" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="4"><rect x="246.9" y="158.8" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="5"><rect x="291.2" y="150" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="6"><rect x="335.4" y="185.3" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="7"><rect x="379.7" y="167.6" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="8"><rect x="424" y="167.6" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="9"><rect x="468.3" y="158.8" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="10"><rect x="512.6" y="150" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="11"><rect x="556.8" y="185.3" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="12"><rect x="601.1" y="150" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="13"><rect x="645.4" y="185.3" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="14"><rect x="689.7" y="150" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="15"><rect x="733.9" y="158.8" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="16"><rect x="778.2" y="158.8" width="83.4" height="63" rx="1.7" fill="#5DAE35"/></g><polyline points="149.8,319.8 166.9,319.8 189,355.1 211.1,337.4 233.3,337.4 266.5,328.6 310.8,319.8 355,355.1 399.3,337.4 432.5,337.4 454.7,328.6 476.8,319.8 510,355.1 554.3,355.1 598.6,319.8 642.8,319.8 687.1,328.6 731.4,328.6 764.6,355.1 819.9,355.1 870.2,355.1" fill="none" stroke="#2F2C2C" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><g class="blk" data-n="17"><rect x="158.3" y="288.3" width="17" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="18"><rect x="180.5" y="323.6" width="17" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="19"><rect x="202.6" y="305.9" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="20"><rect x="224.8" y="305.9" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="21"><rect x="246.9" y="297.1" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="22"><rect x="291.2" y="288.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="23"><rect x="335.4" y="323.6" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="24"><rect x="379.7" y="305.9" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="25"><rect x="424" y="305.9" width="17" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="26"><rect x="446.1" y="297.1" width="17" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="27"><rect x="468.3" y="288.3" width="17" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="28"><rect x="490.4" y="323.6" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="29"><rect x="534.7" y="323.6" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="30"><rect x="579" y="288.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="31"><rect x="623.2" y="288.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="32"><rect x="667.5" y="297.1" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="33"><rect x="711.8" y="297.1" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="34"><rect x="756.1" y="323.6" width="17" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="35"><rect x="778.2" y="323.6" width="83.4" height="63" rx="1.7" fill="#E3262B"/></g><polyline points="149.8,475.7 177.9,475.7 222.2,475.7 266.5,493.4 310.8,466.9 355,458.1 399.3,493.4 443.6,493.4 487.9,466.9 532.1,493.4 576.4,466.9 620.7,493.4 665,458.1 731.4,493.4 781.6,493.4" fill="none" stroke="#2F2C2C" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><g class="blk" data-n="36"><rect x="158.3" y="444.2" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="37"><rect x="202.6" y="444.2" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="38"><rect x="246.9" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="39"><rect x="291.2" y="435.4" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="40"><rect x="335.4" y="426.6" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="41"><rect x="379.7" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="42"><rect x="424" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="43"><rect x="468.3" y="435.4" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="44"><rect x="512.6" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="45"><rect x="556.8" y="435.4" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="46"><rect x="601.1" y="461.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/></g><g class="blk" data-n="47"><rect x="645.4" y="426.6" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="48"><rect x="689.7" y="461.9" width="83.4" height="63" rx="1.7" fill="#E3262B"/></g><polyline points="149.8,640.5 177.9,640.5 222.2,640.5 266.5,596.4 310.8,596.4 355,631.7 399.3,622.9 443.6,622.9 487.9,631.7 532.1,631.7 576.4,622.9 620.7,614 687.1,631.7 737.3,631.7" fill="none" stroke="#2F2C2C" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/><g class="blk" data-n="49"><rect x="158.3" y="609" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="50"><rect x="202.6" y="609" width="39.2" height="63" rx="1.7" fill="#E4357F"/></g><g class="blk" data-n="51"><rect x="246.9" y="564.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/><circle cx="256.7" cy="577.5" r="4.4" fill="#fff"/><circle cx="256.7" cy="596.4" r="4.4" fill="#fff"/><circle cx="256.7" cy="615.3" r="4.4" fill="#fff"/><circle cx="276.3" cy="577.5" r="4.4" fill="#fff"/><circle cx="276.3" cy="596.4" r="4.4" fill="#fff"/><circle cx="276.3" cy="615.3" r="4.4" fill="#fff"/></g><g class="blk" data-n="52"><rect x="291.2" y="564.9" width="39.2" height="63" rx="1.7" fill="#E3262B"/><circle cx="301" cy="577.5" r="4.4" fill="#fff"/><circle cx="301" cy="596.4" r="4.4" fill="#fff"/><circle cx="301" cy="615.3" r="4.4" fill="#fff"/><circle cx="320.5" cy="577.5" r="4.4" fill="#fff"/><circle cx="320.5" cy="596.4" r="4.4" fill="#fff"/><circle cx="320.5" cy="615.3" r="4.4" fill="#fff"/></g><g class="blk" data-n="53"><rect x="335.4" y="600.2" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="54"><rect x="379.7" y="591.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="55"><rect x="424" y="591.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="56"><rect x="468.3" y="600.2" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="57"><rect x="512.6" y="600.2" width="39.2" height="63" rx="1.7" fill="#5DAE35"/></g><g class="blk" data-n="58"><rect x="556.8" y="591.3" width="39.2" height="63" rx="1.7" fill="#F07B26"/></g><g class="blk" data-n="59"><rect x="601.1" y="582.5" width="39.2" height="63" rx="1.7" fill="#65297B"/></g><g class="blk" data-n="60"><rect x="645.4" y="600.2" width="83.4" height="63" rx="1.7" fill="#5DAE35"/></g></svg></div></div>
 <script>
 (function(){
   function fit(){
@@ -124,12 +131,64 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
       setTimeout(check, 10);
     })();
   }
-  function setButton(page, on){
+  function pressed(page, sel){
+    var b = page.querySelector(sel);
+    return !!b && b.getAttribute('aria-pressed') === 'true';
+  }
+  function setButton(page, on, count){
     var b = page.querySelector('.play');
     b.classList.toggle('on', on);
-    b.innerHTML = on ? ICON_STOP : ICON_PLAY;
+    b.innerHTML = count ? '<span class="count">' + count + '</span>' : on ? ICON_STOP : ICON_PLAY;
     b.setAttribute('aria-label', on ? 'Zatrzymaj' : 'Zagraj melodię');
     b.title = on ? 'Zatrzymaj' : 'Zagraj';
+  }
+  // Słowa na lewej stronie: śpiewana sylaba dostaje tło w kolorze klocka, pozostałe zwrotki bledną.
+  function lyricsOf(page){
+    var spread = page.closest('.spread'), svg = spread && spread.querySelector('.lyrics svg');
+    if(!svg || !svg.querySelector('tspan[data-s]')) return null;
+    var L = {svg: svg, syl: {}, on: null, st: null, hl: svg.querySelector('.syl-hl')};
+    if(!L.hl){
+      var first = svg.querySelector('text.lyr');
+      L.hl = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      L.hl.setAttribute('class', 'syl-hl');
+      first.parentNode.insertBefore(L.hl, first);
+    }
+    svg.querySelectorAll('tspan[data-s]').forEach(function(t){ L.syl[t.getAttribute('data-s')] = t; });
+    svg.classList.add('sing');
+    return L;
+  }
+  function stanza(L, st){
+    if(st == null || st === L.st) return;
+    L.st = st;
+    L.svg.querySelectorAll('text.lyr').forEach(function(t){ t.classList.toggle('cur', t.getAttribute('data-st') === st); });
+  }
+  function bright(c){  // jasna naklejka (żółta) – na niej ciemny tekst
+    var n = parseInt(c.slice(1), 16);
+    return ((n >> 16) * 299 + (n >> 8 & 255) * 587 + (n & 255) * 114) / 1000 > 160;
+  }
+  function sing(L, sid, block){
+    if(L.on){ L.on.classList.remove('on'); L.on.style.fill = ''; L.on = null; }
+    var t = sid >= 0 && L.syl[sid];
+    if(!t || !block){ L.hl.classList.remove('on'); return; }
+    var line = t.parentNode, fs = parseFloat(line.getAttribute('font-size')), r = t.getBBox();
+    var color = block.querySelector('rect').getAttribute('fill');
+    L.hl.setAttribute('x', r.x - fs * .16); L.hl.setAttribute('width', r.width + fs * .32);
+    L.hl.setAttribute('y', r.y - fs * .04); L.hl.setAttribute('height', r.height + fs * .08);
+    L.hl.setAttribute('rx', fs * .28); L.hl.setAttribute('fill', color);
+    L.hl.classList.add('on');
+    t.classList.add('on'); t.style.fill = bright(color) ? '#2B2929' : '#fff';
+    L.on = t;
+    stanza(L, line.getAttribute('data-st'));
+  }
+  function clearLyrics(L){
+    if(!L) return;
+    sing(L, -1, null);
+    L.svg.classList.remove('sing');
+    L.svg.querySelectorAll('text.lyr.cur').forEach(function(t){ t.classList.remove('cur'); });
+  }
+  function hop(el){  // podskok klocka przy odliczaniu
+    if(el && el.animate) el.animate([{transform: 'none'}, {transform: 'translateY(-8%) scale(1.08)'},
+                                     {transform: 'none'}], {duration: 200, easing: 'ease-out'});
   }
   function stop(){
     if(!current) return;
@@ -141,23 +200,31 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
       setTimeout(function(){ s.bus.disconnect(); }, 300);
     }
     s.page.querySelectorAll('.blk.on').forEach(function(b){ b.classList.remove('on'); });
+    clearLyrics(s.lyrics);
     setButton(s.page, false);
   }
-  function play(page){
-    var again = current && current.page === page;
+  function toggle(page){
+    if(current && current.page === page) stop(); else play(page, 0);
+  }
+  // Gra od nuty nr `from` (0 = od początku; kliknięty wers słów = od tego wersu).
+  function play(page, from){
     stop();
-    if(again) return;
     var data = JSON.parse(page.getAttribute('data-play'));
-    var slow = page.querySelector('.slow').getAttribute('aria-pressed') === 'true';
-    var q = 60 / data.tempo * (slow ? 1.6 : 1), rel = 0, events = [];
-    data.seq.forEach(function(ev){
+    var q = 60 / data.tempo * (pressed(page, '.slow') ? 1.6 : 1), rel = 0, events = [];
+    data.seq.slice(from).forEach(function(ev){
       var len = ev[1] * q;
-      events.push([rel, rel + len, ev[2], ev[0]]);
+      events.push([rel, rel + len, ev[2], ev[0], ev[3]]);
       rel += len;
     });
-    var s = {page: page, events: events, end: rel, bus: null, raf: 0, timer: 0, next: 0, clock: null};
+    var s = {page: page, from: from, events: events, end: rel, q: q, count: 0, bus: null, raf: 0, timer: 0,
+             next: 0, clock: null, lyrics: lyricsOf(page)};
     current = s;
     setButton(page, true);  // przycisk reaguje od razu, granie rusza razem z dźwiękiem
+    if(pressed(page, '.mute')){  // dziecko gra samo: odliczanie, potem sama animacja w tempie, bez dźwięku
+      s.count = data.count || 4;
+      startSilent(s);
+      return;
+    }
     if(!audio()){ startSilent(s); return; }
     var resumed = ctx.state === 'running' ? Promise.resolve() : ctx.resume();
     Promise.resolve(resumed).catch(function(){}).then(function(){
@@ -186,23 +253,36 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
     }
     if(s.next >= s.events.length) clearInterval(s.timer);
   }
-  function startSilent(s){  // brak dźwięku (np. brak urządzenia audio): sama animacja na zegarze strony
-    var w0 = performance.now() / 1000 + LEAD;
+  // Bez dźwięku (granie samemu albo brak urządzenia audio): animacja na zegarze strony, po odliczeniu s.count ćwierćnut.
+  function startSilent(s){
+    var w0 = performance.now() / 1000 + LEAD + s.count * s.q;
     s.clock = function(){ return performance.now() / 1000 - w0; };
     animate(s);
   }
   function animate(s){
-    var blocks = {}, lit = -1, events = s.events;
+    var blocks = {}, lit = -1, block = null, shown = 0, first = null, events = s.events, L = s.lyrics, i;
     s.page.querySelectorAll('.blk').forEach(function(b){ blocks[b.getAttribute('data-n')] = b; });
+    for(i = 0; i < events.length && !first; i++) first = blocks[events[i][2]];
+    for(i = 0; L && i < events.length; i++){  // od razu widać, którą zwrotkę się śpiewa
+      if(L.syl[events[i][4]]){ stanza(L, L.syl[events[i][4]].parentNode.getAttribute('data-st')); break; }
+    }
     (function frame(){
       if(current !== s) return;
       var now = s.clock(), idx = -1;
+      if(s.count && now < 0){  // odliczanie: liczba na przycisku, pierwszy klocek podskakuje w takt
+        var left = Math.ceil(-now / s.q);
+        if(left <= s.count && left !== shown){ shown = left; setButton(s.page, true, left); hop(first); }
+      } else if(shown){
+        shown = 0; setButton(s.page, true);
+      }
       for(var i = 0; i < events.length; i++){
-        if(now >= events[i][0] && now < events[i][1]){ idx = events[i][2]; break; }
+        if(now >= events[i][0] && now < events[i][1]){ idx = i; break; }
       }
       if(idx !== lit){
-        if(blocks[lit]) blocks[lit].classList.remove('on');
-        if(blocks[idx]) blocks[idx].classList.add('on');
+        if(block) block.classList.remove('on');
+        block = idx < 0 ? null : blocks[events[idx][2]] || null;
+        if(block) block.classList.add('on');
+        if(L) sing(L, idx < 0 ? -1 : events[idx][4], block);
         lit = idx;
       }
       if(now > s.end + 0.05){ stop(); return; }
@@ -211,20 +291,25 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
   }
   document.querySelectorAll('.melody .play').forEach(function(b){ b.innerHTML = ICON_PLAY; });
   document.addEventListener('click', function(e){
-    var b = e.target.closest && e.target.closest('.player button');
-    if(!b) return;
-    var page = b.closest('.melody');
-    if(b.classList.contains('slow')){
-      b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
-      if(current && current.page === page){ stop(); play(page); }
+    var el = e.target.closest && e.target.closest('.player button, .lyrics text[data-at]');
+    if(!el) return;
+    if(!el.closest('.player')){  // kliknięty wers słów – graj od niego
+      var mel = el.closest('.spread').querySelector('.melody');
+      if(mel) play(mel, +el.getAttribute('data-at'));
+      return;
+    }
+    var page = el.closest('.melody');
+    if(el.classList.contains('opt')){  // 🐢 / 🔇: przełącz i zacznij od nowa, jeśli właśnie gra
+      el.setAttribute('aria-pressed', el.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      if(current && current.page === page) play(page, current.from);
     } else {
-      play(page);
+      toggle(page);
     }
   });
   document.addEventListener('keydown', function(e){
     var pages = document.querySelectorAll('.melody');
     if(e.code === 'Space' && pages.length === 1 && !/^(INPUT|TEXTAREA|BUTTON)$/.test(e.target.tagName)){
-      e.preventDefault(); play(pages[0]);
+      e.preventDefault(); toggle(pages[0]);
     }
   });
 })();

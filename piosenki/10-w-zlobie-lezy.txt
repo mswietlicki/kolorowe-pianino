@@ -1,4 +1,5 @@
 # Melodia z zapisu nutowego w Wikipedii (kod LilyPond, G-dur) – mieści się w naklejkach bez transpozycji.
+# Łuki w zapisie (dwie nuty na jedną sylabę) oznaczone w słowach znakiem „_”, np. „le_ży”.
 # Tekst: Wolne Lektury (Śpiewnik ludu katolickiego, Bytom 1900), domena publiczna; wybrane zwrotki 1, 2, 3 i 8.
 tytuł: W żłobie leży
 podtytuł: kolęda
@@ -8,36 +9,36 @@ ilustracja: 👶 ⭐ 🐂
 kolor: niebieski
 
 [słowa]
-W żłobie leży, któż pobieży
+W żłobie le_ży, któż pobie_ży
 kolędować Małemu,
-Jezusowi Chrystusowi
+Jezuso_wi Chrystuso_wi
 dziś do nas zesłanemu?
-Pastuszkowie, przybywajcie,
-Jemu wdzięcznie przygrywajcie
+Pastuszkowie, przybywaj_cie,
+Jemu wdzięcznie przygrywaj_cie
 jako Panu naszemu.
 
-My zaś sami z piosneczkami
+My zaś sa_mi z piosneczka_mi
 za wami pospieszymy,
-a tak tego Maleńkiego
+a tak te_go Maleńkie_go
 niech wszyscy zobaczymy:
-jak, ubogo narodzony,
-płacze w stajni położony,
+jak, ubogo narodzo_ny,
+płacze w stajni położo_ny,
 więc Go dziś ucieszymy.
 
-Najprzód tedy niechaj wszędy
+Najprzód te_dy niechaj wszę_dy
 zabrzmi świat w wesołości,
-że posłany nam jest dany
+że posła_ny nam jest da_ny
 Emanuel w niskości.
-Jego tedy przywitajmy,
-z aniołami zaśpiewajmy:
+Jego tedy przywitaj_my,
+z aniołami zaśpiewaj_my:
 Chwała na wysokości!
 
-Trzej królowie, monarchowie
+Trzej królo_wie, monarcho_wie
 wschodni kraj opuszczają,
-serc ofiary z trzema dary
+serc ofia_ry z trzema da_ry
 Tobie, Panu, oddają.
-Darami się kontentujesz,
-bardziej serca ich szacujesz,
+Darami się kontentu_jesz,
+bardziej serca ich szacu_jesz,
 za co niech niebo mają.
 
 [melodia]

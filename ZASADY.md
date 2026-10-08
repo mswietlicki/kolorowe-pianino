@@ -220,7 +220,20 @@ G E E | F D D | C8 E8 G2 |
 G E E | F D D | C8 E8 C2 |
 ```
 
-**Sekcja `[słowa]`**: pusta linia oddziela zwrotki.
+**Sekcja `[słowa]`**: pusta linia oddziela zwrotki. Generator sam dzieli słowa na sylaby
+i przypisuje je kolejnym nutom, żeby przy odtwarzaniu ▶ zapalała się śpiewana sylaba (punkt 7):
+
+- **Jedna sylaba = jedna nuta.** Wyrazy bez samogłoski („w”, „z”) śpiewa się z następną sylabą.
+- **`_` po sylabie** = sylaba trwa jeszcze jedną nutę (łuk w nutach, np. „W żłobie le_ży, któż
+  pobie_ży”). `__` = dwie nuty więcej. Znaku `_` nie widać na stronie.
+- **Zwrotki po kolei** dostają kolejne przejścia melodii. Jedno przejście może objąć kilka
+  zwrotek (zwrotka i refren). Gdy zwrotka ma tyle sylab, ile melodia nut **bez** powtórek ↻,
+  rząd z ↻ śpiewa się dwa razy z tymi samymi słowami („We młynie, we młynie…”). Gdy wszystkie
+  słowa są dwa razy krótsze od melodii, śpiewa się je dwa razy („A ja rosnę”).
+- **Skrócony refren** („Chrystus się rodzi…” na końcu zwrotki) odsyła do pełnego tekstu
+  wcześniej. Przy odtwarzaniu podświetla się pełny refren.
+- `--sprawdz` wypisuje podział w części „słowa do nut” (np. `1.2: Ład-na to pio-sen-ka`) i ostrzega,
+  gdy liczba sylab nie zgadza się z liczbą nut. Wtedy dopisz `_` albo popraw melodię.
 
 **Sekcja `[melodia]`**: **jedna linia = jeden rząd klocków.** Nuty oddzielasz spacjami:
 
@@ -295,10 +308,18 @@ python generator/kolorowe_pianino.py --pdf
 Dodatkowo tworzy PDF-y w `strony/pdf/`.
 
 **Odtwarzanie:** na stronie z melodią jest zielony przycisk **▶** (albo spacja na stronie
-pojedynczej piosenki). Gra melodię w tempie z pola `tempo:`, a grany klocek podskakuje, więc
-dziecko widzi, gdzie jest. Rząd z ↻ gra dwa razy. Przycisk 🐢 zwalnia odtwarzanie do ok. 60%.
-Przyciski nie drukują się. Do podglądu stron w przeglądarce wystarczy otworzyć plik HTML, bez
-serwera.
+pojedynczej piosenki). Gra całą piosenkę (melodię tyle razy, ile jest zwrotek) w tempie z pola
+`tempo:`. Grany klocek podskakuje, a w słowach na lewej stronie zapala się śpiewana sylaba, na
+tle w kolorze tego klocka. Pozostałe zwrotki bledną. Rząd z ↻ gra dwa razy. Kliknięcie wersu słów
+gra od tego wersu.
+
+- **🐢** zwalnia odtwarzanie do ok. 60%.
+- **🔇 Graj sam**: bez dźwięku. Po ▶ przycisk odlicza w tempie piosenki 4, 3, 2, 1 (w metrum 3/4:
+  3, 2, 1), a pierwszy klocek podskakuje w takt. Potem klocki i sylaby zapalają się
+  w tempie piosenki, a dziecko gra samo na swoim pianinie. Działa razem z 🐢.
+
+Przyciski i podświetlenia nie drukują się. Do podglądu stron w przeglądarce wystarczy otworzyć
+plik HTML, bez serwera.
 
 **Druk:** każda strona trafia na osobną kartkę **A4 w poziomie**, więc klocki są duże i łatwe
 do czytania. Z przeglądarki: przycisk „Drukuj”, orientacja pozioma, marginesy „brak”,
@@ -314,5 +335,6 @@ włączona grafika tła. Dla całej książeczki otwórz `ksiazeczka.html` albo 
 - [ ] Wszystkie zwrotki na lewej stronie, refren skrócony po pierwszym razie
 - [ ] Legenda dla każdego użytego symbolu (czarny klawisz, ↻)
 - [ ] Melodia wypełnia szerokość strony (bez ostrzeżenia `--sprawdz`)
+- [ ] Słowa pasują do nut (`--sprawdz`, część „słowa do nut”, bez ostrzeżeń; łuki oznaczone `_`)
 - [ ] Melodia odsłuchana przyciskiem ▶ i zgodna ze śpiewem
 - [ ] `--sprawdz` bez uwag; strona obejrzana w przeglądarce przed drukiem

@@ -1,0 +1,26 @@
+# Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/7.jpeg).
+# Muzyka: Krystyna Kwiatkowska. Utwór współczesny – strona wyłącznie do użytku domowego.
+# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+tytuł: Zuzia, lalka nieduża
+podtytuł: muzyka: Krystyna Kwiatkowska
+zapis: numery
+tempo: 112
+ilustracja: 🪆 🧵 🌷
+kolor: fioletowy
+
+[słowa]
+Zuzia, lalka nieduża
+i na dodatek cała ze szmatek.
+
+W kratkę stara spódniczka,
+łzy na policzkach, a w główce marzeń sto.
+Lecz kocham ją najbardziej
+ze wszystkich moich lal,
+choć nie ma sukni złotej,
+zabiorę ją na bal.
+
+[melodia]
+8:8 4:8 6:8 6:8 7 8 4 6 | 6 7 8 4 8 4 | 8 | 7 | 7:2 |
+8:8 4:8 6:8 6:8 7 8 4 6 | 6:8 7:8 8:8 4 4 | 8 8 7 7 | 4:8 4:2 |
+6 6 4 7 8 4 4 7 4 7 4 8 | 4:2 |
+6 6 11 11 7 8 8 7 7 8 9 | 7:2 |

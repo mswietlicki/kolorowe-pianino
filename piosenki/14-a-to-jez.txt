@@ -1,0 +1,26 @@
+# Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/4.jpeg).
+# Muzyka: Adam Skorupka. Utwór współczesny – strona wyłącznie do użytku domowego.
+# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+tytuł: A to jeż
+podtytuł: muzyka: Adam Skorupka
+zapis: numery
+tempo: 108
+ilustracja: 🦔 🍁 🌰
+kolor: czerwony
+
+[słowa]
+Taki las, taki las wielki,
+że aż strach! Z rudych drzew
+ściany ma, z rudych liści
+dach! W lesie szmer, w lesie szum,
+coś tam stuka wciąż, może
+to dziki smok, może wielki wąż?
+
+Skacze coś jak piłka
+całe w burych szpilkach.
+
+[melodia]
+5 6 7 6 6 5 6 7 8 7 6 6 | 7:2 |
+8 7 7 6 8 6 7 6 5 5 6 | 7:2 |
+7:8 6:8 6:8 5:8 6:8 7:8 8:8 7:8 6:8 6:8 7:8 | 8 7 7 6 7 8 9 9 | 9:2 |
+5:8 8:8 9 5:8 6:8 9 | 10:8 10:8 10 10 10 | 9:2 |

@@ -1,0 +1,28 @@
+# Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/6.jpeg).
+# Muzyka: Barbara Kolago. Utwór współczesny – strona wyłącznie do użytku domowego.
+# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+tytuł: Kwiatki bratki
+podtytuł: muzyka: Barbara Kolago
+zapis: numery
+tempo: 108
+ilustracja: 🌸 🧺 🐝
+kolor: różowy
+
+[słowa]
+Jestem sobie ogrodniczka,
+mam nasionek pół koszyczka.
+
+Jedne gładkie, drugie w łatki,
+a z tych nasion będą kwiatki.
+
+Kwiatki bratki i stokrotki
+dla Malwinki, dla Dorotki.
+
+Kolorowe i pachnące,
+malowane słońcem.
+
+[melodia]
+7:8 8:8 9 7 6 7 8 6 | 6 7 8 6 4 6 7 | 9:2 |
+7:8 8:8 9 7 6 7 5 7 9 7 9 7 7 | 8 | 7:2 |
+9:8 7:8 9 7 9 7 8 4 | 8 6 8 6 8 9 7 | 4:2 |
+9 7 9 7 9 7 8 7 9 7 4 7 | 8 | 7:2 |

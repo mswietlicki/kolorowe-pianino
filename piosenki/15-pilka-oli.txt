@@ -1,0 +1,29 @@
+# Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/5.jpeg).
+# Muzyka: Barbara Kolago. Utwór współczesny – strona wyłącznie do użytku domowego.
+# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+tytuł: Piłka Oli
+podtytuł: muzyka: Barbara Kolago
+zapis: numery
+tempo: 120
+ilustracja: ⚽ 🤸 🌸
+kolor: niebieski
+
+[słowa]
+Duża piłka w kropki złote
+ciągle skakać ma ochotę!
+
+Raz jest w górze, raz na dole,
+do zabawy prosi Olę.
+
+Ola, Ola, Ola la,
+Ola, Ola, piłkę ma!
+
+Ola, Ola, Ola la,
+klaszczę w ręce raz i dwa!
+
+> Przy „Ola, Ola, Ola la” klaszczemy w dłonie.
+
+[melodia]
+7:8 4:8 7 9 8 8 8 8 | 8 9 7 8 7 7 7 | 7:2 |
+7:8 4:8 7 9 8 8 8 8 | 8 9 7 8 7 7 9 | 11:2 |
+11:8 9:8 8:8 7:8 8:8 8:8 8:8 8:8 9:8 7:8 8:8 7:8 7:8 7:8 | 11:8 9:8 8:8 7:8 8:8 8:8 8:8 8:8 9:8 8:8 9:8 7:8 8:8 7:2 |

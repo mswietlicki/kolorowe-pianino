@@ -317,7 +317,7 @@ takie numery wprost:
 
 ## 7. Generowanie i druk
 
-Wymagany jest tylko Python 3.9+. PDF-y robi zainstalowany Edge albo Chrome.
+Wymagany jest tylko Python 3.9+. PDF robi zainstalowany Edge albo Chrome.
 
 ```bash
 python generator/kolorowe_pianino.py
@@ -346,7 +346,8 @@ klawisze i więcej oraz bardzo krótkie nuty w szybkim tempie (funkcja `difficul
 python generator/kolorowe_pianino.py --pdf
 ```
 
-Dodatkowo tworzy PDF-y w `strony/pdf/`.
+Dodatkowo tworzy PDF całej książeczki: `strony/pdf/ksiazeczka.pdf`. Pojedyncze piosenki nie mają
+własnych PDF-ów. Przycisk „Cała książeczka (do druku)” w spisie piosenek otwiera od razu ten PDF.
 
 **Odtwarzanie:** nad stroną z melodią jest duży zielony przycisk **▶** (albo spacja na stronie
 pojedynczej piosenki). Przyciski są duże, do obsługi palcem przez małe dziecko. Gra całą
@@ -360,12 +361,13 @@ zwrotki bledną. Rząd z ↻ gra dwa razy. Kliknięcie wersu słów gra od tego 
   w takt. Potem klocki i sylaby zapalają się
   w tempie piosenki, a dziecko gra samo na swoim pianinie. Działa razem z 🐢.
 
-Przyciski i podświetlenia nie drukują się. Strony nie mają przycisku „Drukuj”, bo do druku są
-PDF-y. Do podglądu stron w przeglądarce wystarczy otworzyć plik HTML, bez serwera.
+Przyciski i podświetlenia nie drukują się. Strony nie mają przycisku „Drukuj”, bo do druku jest
+PDF książeczki. Do podglądu stron w przeglądarce wystarczy otworzyć plik HTML, bez serwera.
 
 **Druk:** każda strona trafia na osobną kartkę **A4 w poziomie**, więc klocki są duże i łatwe
-do czytania. Drukuj PDF-y ze `strony/pdf/`, a całą książeczkę z `pdf/ksiazeczka.pdf`. Z przeglądarki
-(Ctrl+P na `ksiazeczka.html`) ustaw orientację poziomą, marginesy „brak” i włączoną grafikę tła.
+do czytania. Drukuj `strony/pdf/ksiazeczka.pdf` (pojedynczą piosenkę: wybrane strony tego PDF-a).
+Z przeglądarki (Ctrl+P na `ksiazeczka.html` albo stronie piosenki) ustaw orientację poziomą,
+marginesy „brak” i włączoną grafikę tła.
 
 ## 8. Lista kontrolna nowej strony
 

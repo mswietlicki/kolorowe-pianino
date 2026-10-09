@@ -8,7 +8,11 @@
 #
 # Długość dopisujesz po dwukropku (bez dwukropka = ćwierćnuta):
 #   9:8 ósemka · 9 ćwierćnuta · 9:4. ćwierćnuta z kropką · 9:2 półnuta · 9:2. · 9:1 cała nuta
-# Czarny klawisz: 7# (np. czarny owal z numerem 7 to najpewniej F#) – sprawdź uchem przyciskiem ▶.
+# Czarny klawisz: 7# (krzyżyk) albo 10b (bemol). CZARNY OWAL ma własną numerację czarnych klawiszy:
+#   czarny owal:  1   2   3  | 4      5   6      7     | 8   9
+#   klawisz:      G#, A#, C# | D#/Eb  F#  G#/Ab  A#/B  | c#  d#
+#   w pliku:      1#  2#  4# | 5#/6b  7#  8#/9b  9#/10b| 11# 12#
+# Czarne „7” na linii H to B (10b), a nie biały 7 (F); czarne „5” w pierwszym polu to F# (7#).
 #
 # Jak „wymyślić” rytm, gdy książeczka go nie podaje (kreski | pokazują takty):
 #   - policz nuty w takcie: 4 nuty w takcie na 4 → ćwierćnuty, 8 → ósemki, 2 → półnuty, 1 → cała,

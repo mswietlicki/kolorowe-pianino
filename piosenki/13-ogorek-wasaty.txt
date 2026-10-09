@@ -1,9 +1,15 @@
 # Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/3.jpeg).
 # Muzyka: Jarosław Kukulski. Utwór współczesny – strona wyłącznie do użytku domowego.
 # Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+# „cza-pkę” to w książeczce czarne owale „7” na linii H: 7. czarny klawisz = B (czarny między A i H),
+# zapis 10b. Wcześniej przepisane jako F F (biały 7). B B potwierdza zapis nutowy z musescore.com
+# (Ogórek Wąsaty, oprac. Adam Pietruszka, F-dur).
+# Numery jak w książeczce (F-dur), całość przeniesiona o +2 do G-dur: zamiast dwóch B zostaje
+# jeden czarny klawisz, c# w „jest”.
 tytuł: Ogórek wąsaty
 podtytuł: muzyka: Jarosław Kukulski
 zapis: numery
+transpozycja: +2
 tempo: 152
 ilustracja: 🥒 ☔ 🌱
 kolor: zielony
@@ -18,4 +24,4 @@ zielony, zielony jest cały!
 
 [melodia]
 11:8 11:8 9 | 9:8 9:8 7 | 7:8 7:8 9 | 4 7 7 7 8 9 9 8 | 8:2 |
-7:8 7:8 9 | 8:8 9:8 11 | 9 8 8 8 8 9 10 | 11 11:2 |
+10b:8 10b:8 9 | 8:8 9:8 11 | 9 8 8 8 8 9 10 | 11 11:2 |

@@ -2,6 +2,8 @@
 # Muzyka: Barbara Kolago. Utwór współczesny – strona wyłącznie do użytku domowego.
 # Rytm z kresek taktowych w książeczce (2/4): „kwia-tki”, „sto-kro-tki”, „Do-ro-tki”, „pa-chną-ce”,
 # „sło-ńcem” – każda z dwóch ostatnich sylab zajmuje cały takt; „Kwia-tki bra-tki” to ósemki.
+# Czarne owale „7” („w ła-tki”, „a z tych”, „i sto-”, „i pa-chną-ce”) leżą na linii H: 7. czarny
+# klawisz = B (czarny między A i H), zapis 10b, jak w F-dur. Wcześniej przepisane jako F (biały 7).
 tytuł: Kwiatki bratki
 podtytuł: muzyka: Barbara Kolago
 zapis: numery
@@ -24,6 +26,6 @@ malowane słońcem.
 
 [melodia]
 7:8 8:8 9 7 6 7 8 6 | 6 7 8 6 4 6 7 | 9:2 |
-7:8 8:8 9 7 6 7 5 7 9 7 9 7 4 7 | 8:2 | 7:2 |
-9:8 7:8 9:8 7:8 | 9 7 | 8:2 | 4:2 | 8:8 6:8 8:8 6:8 | 8 9 | 7:2 | 4:2 |
-9:8 7:8 9:8 7:8 | 9 7 | 8:2 | 7:2 | 9 7 | 4 7 | 8:2 | 7:2 |
+7:8 8:8 9 7 6 7 5 10b 9 10b 9 7 4 7 | 8:2 | 7:2 |
+9:8 7:8 9:8 7:8 | 9 10b | 8:2 | 4:2 | 8:8 6:8 8:8 6:8 | 8 9 | 7:2 | 4:2 |
+9:8 7:8 9:8 7:8 | 9 10b | 8:2 | 10b:2 | 9 7 | 4 7 | 8:2 | 7:2 |

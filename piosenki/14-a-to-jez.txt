@@ -2,6 +2,9 @@
 # Muzyka: Adam Skorupka. Utwór współczesny – strona wyłącznie do użytku domowego.
 # Rytm z odstępów i kresek taktowych w książeczce (4/4, przedtakt „Ta-ki”). Wcześniej „strach!”
 # był krótki, a przedtakt „Z ru-dych” długi – teraz jak w nutach; „wąż?”, „piłka”, „szpilkach” długie.
+# „Ska-” i „jak” to w książeczce czarne owale „5” w pierwszym polu (F): 5. czarny klawisz = F#,
+# zapis 7#. Wcześniej przepisane jako D (biały 5). Owal „szmer” leży na linii E, ale ma numer 7 (F);
+# zostaje F, bo „W le-sie szmer” powtarza melodię „Ta-ki las” (D E F) z pierwszego rzędu.
 tytuł: A to jeż
 podtytuł: muzyka: Adam Skorupka
 zapis: numery
@@ -24,4 +27,4 @@ całe w burych szpilkach.
 [melodia]
 5:8 6:8 | 7 6:8 6:8 5 6:8 7:8 | 8 7 6 6:8 7:8 | 8 7:8 7:8 6 8:8 6:8 | 7 6 5 5:8 6:8 |
 7 6:8 6:8 5 6:8 7:8 | 8 7 6 6:8 7:8 | 8 7:8 7:8 6 7:8 8:8 | 9 9 9:2 |
-5:4. 8:8 9:4. 5:8 | 6 9:2. | 10:4. 10:8 10:4. 10:8 | 10 9:2. |
+7#:4. 8:8 9:4. 7#:8 | 6 9:2. | 10:4. 10:8 10:4. 10:8 | 10 9:2. |

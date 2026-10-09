@@ -205,12 +205,12 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/09-dzisiaj-w-betlejem.txt` | Dzisiaj w Betlejem | D–e, 0 | zapis LilyPond w Wikipedii |
 | `piosenki/10-w-zlobie-lezy.txt` | W żłobie leży | D–e, 0 | zapis LilyPond w Wikipedii; tekst z Wolnych Lektur |
 | `piosenki/11-a-ja-rosne.txt` | A ja rosnę | C–d, 0 | książeczka numerkowa (`import/1.jpeg`), muz. A. Skorupka |
-| `piosenki/12-popatrzcie-na-jamniczka.txt` | Popatrzcie na jamniczka | C–H, 0 | książeczka numerkowa (`import/2.jpeg`), muz. B. Kolago |
-| `piosenki/13-ogorek-wasaty.txt` | Ogórek wąsaty | C–H, 0 | książeczka numerkowa (`import/3.jpeg`), muz. J. Kukulski |
-| `piosenki/14-a-to-jez.txt` | A to jeż | C–e, 0 | książeczka numerkowa (`import/4.jpeg`), muz. A. Skorupka |
-| `piosenki/15-pilka-oli.txt` | Piłka Oli | C–e, 0 | książeczka numerkowa (`import/5.jpeg`), muz. B. Kolago |
-| `piosenki/16-kwiatki-bratki.txt` | Kwiatki bratki | C–e, 0 | książeczka numerkowa (`import/6.jpeg`), muz. B. Kolago |
-| `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–A, 1 (F#), przeniesione z D-dur | zapis nutowy msus.kylos.pl (numerki w `import/7.jpeg` są błędne), muz. K. Kwiatkowska |
+| `piosenki/12-popatrzcie-na-jamniczka.txt` | Popatrzcie na jamniczka | C–A, 0 | książeczka numerkowa (`import/2.jpeg`), muz. B. Kolago |
+| `piosenki/13-ogorek-wasaty.txt` | Ogórek wąsaty | D–d, 1 (C#), przeniesione o +2 | książeczka numerkowa (`import/3.jpeg`), muz. J. Kukulski; B w „czapkę” potwierdza zapis nutowy musescore.com |
+| `piosenki/14-a-to-jez.txt` | A to jeż | D–H, 2 (F#) | książeczka numerkowa (`import/4.jpeg`), muz. A. Skorupka |
+| `piosenki/15-pilka-oli.txt` | Piłka Oli | C–c, 0 | książeczka numerkowa (`import/5.jpeg`), muz. B. Kolago |
+| `piosenki/16-kwiatki-bratki.txt` | Kwiatki bratki | C–B, 5 (B) | książeczka numerkowa (`import/6.jpeg`), muz. B. Kolago |
+| `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–A, 1 (F#), przeniesione z D-dur | zapis nutowy msus.kylos.pl; zgadza się z książeczką (`import/7.jpeg`) czytaną z czarnymi klawiszami, muz. K. Kwiatkowska |
 | `piosenki/18-kolko-graniaste.txt` | Kółko graniaste | D–A, 0 | nuty literowe i zapis nutowy prostenuty.pl |
 | `piosenki/19-jedzie-pociag-z-daleka.txt` | Jedzie pociąg z daleka | D–d, 4 (F#) – w C-dur się nie mieści | zapis nutowy prostenuty.pl (G-dur) |
 | `piosenki/20-kukuleczka-kuka.txt` | Kukułeczka kuka | D–d, 2 (F#), przeniesione o +7 | nuty literowe i zapis nutowy prostenuty.pl |
@@ -301,10 +301,20 @@ takie numery wprost:
 
 - Długość dopisuje się po dwukropku, bez dwukropka jest ćwierćnuta: `9:8` (ósemka), `9`, `9:4.`,
   `9:2`, `9:2.`, `9:1`.
-- Czarny klawisz to `7#`. Czarny owal w takiej książeczce to najpewniej krzyżyk, ale sprawdź uchem.
-- **Numerki bywają błędne.** Porównaj je z położeniem owali na pięciolinii: w „Zuzi” (`import/7.jpeg`)
-  położenie zgadza się z zapisem nutowym, a wydrukowane numerki nie. Gdy coś brzmi dziwnie, poszukaj
-  zwykłego zapisu nutowego tej piosenki.
+- Czarny klawisz to `7#` (krzyżyk) albo `10b` (bemol).
+- **Czarny owal to czarny klawisz z osobną numeracją**, liczoną od lewej jak białe klawisze:
+
+  | Czarny owal | 1 | 2 | 3 | **4** | **5** | **6** | **7** | 8 | 9 |
+  |---|---|---|---|---|---|---|---|---|---|
+  | Klawisz | G#, | A#, | C# | D# (Eb) | F# | G# (Ab) | A# (B) | c# | d# |
+  | W pliku | `1#` | `2#` | `4#` | `5#` / `6b` | `7#` | `8#` / `9b` | `9#` / `10b` | `11#` | `12#` |
+
+  Owal stoi na pięciolinii tam, gdzie nuta z krzyżykiem albo bemolem: czarne „7” na linii H to B,
+  czarne „5” w pierwszym polu to F#. Nie czytaj go jak białego klawisza o tym numerze (czarne „7”
+  to nie F). W książeczce z `import/` wystąpiły czarne 4–7, pozostałe numery wynikają z kolejności.
+- **Porównuj numerki z położeniem owali na pięciolinii.** W książeczce z `import/` kolorowe owale
+  prawie zawsze leżą tam, gdzie wskazuje numer (wyjątek: „szmer” w „A to jeż”). Gdy coś brzmi dziwnie,
+  poszukaj zwykłego zapisu nutowego tej piosenki.
 - Numery 1–3 leżą poniżej naklejek, więc trzeba je przenieść polem `transpozycja:`.
 - **Rytm trzeba dopisać samodzielnie.** Policz nuty w takcie (4 nuty w takcie na 4 to
   ćwierćnuty, 8 to ósemki, 2 to półnuty). Nuty narysowane ciasno, parami, to zwykle ósemki,

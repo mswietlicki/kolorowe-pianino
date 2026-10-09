@@ -1,7 +1,8 @@
 # Melodia i rytm: zapis nutowy „Zuzia – lalka nieduża” z msus.kylos.pl (D-dur, alla breve, półnuta = 85),
-# tu przeniesiony do C-dur. Zgadza się z nim położenie owali na pięciolinii w książeczce z numerkami
-# (import/7.jpeg), ale nie wydrukowane w nich numerki (np. „Zu-zia, la-lka nie-” to E C F F G,
-# a w owalach jest 8 4 6 6 7) – dlatego wcześniejsza wersja według numerków brzmiała dziwnie.
+# tu przeniesiony do C-dur. Książeczka z numerkami (import/7.jpeg) zgadza się z nim nuta w nutę, gdy czarne
+# owale czytać jako czarne klawisze (ZASADY.md §6.1): czarne 4 = Eb, 6 = Ab, 7 = B, a czerwone 9 w „na bal”
+# to białe A, czyli Es-dur. Wcześniejsza wersja czytała czarne owale jak białe klawisze 4, 6, 7 (C, E, F)
+# i dlatego brzmiała dziwnie (np. „Zu-zia, la-lka nie-” to E C F F G, a nie G C E E F).
 # Rytm: „Zu-zia”, „du-ża”, „da-tek” długie, przed „lalka” i „i na” pauza. Wartości są o połowę krótsze
 # niż w zapisie (półnuta → ćwierćnuta, ćwierćnuta → ósemka, tempo 85), żeby melodia zmieściła się
 # w trzech rzędach; brzmi tak samo. Pominięte dwa takty samego akompaniamentu (po „szmatek”

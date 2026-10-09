@@ -1,18 +1,15 @@
-# Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/7.jpeg).
-# Muzyka: Krystyna Kwiatkowska. Utwór współczesny – strona wyłącznie do użytku domowego.
-# Czarne owale to czarne klawisze (ZASADY.md §6.1): czarne 4 = Eb (6b), 6 = Ab (9b), 7 = B (10b),
-# a czerwone 9 w „ją na bal” to białe A. Książeczka jest więc w Es-dur i zgadza się nuta w nutę
-# z zapisem nutowym z msus.kylos.pl („Zuzia - lalka nieduża.pdf”, D-dur, ¢, półnuta = 85).
-# Wcześniej czarne owale przepisane jako białe klawisze 4, 6, 7 (C, E, F).
-# Rytm z tego zapisu, z wartościami o połowę krótszymi (półnuta → ćwierćnuta), stąd tempo 85;
-# takt pauzy po „szmatek” i pauzy po „sto”, „bal” jak w nutach.
-# Całość przeniesiona o −3 do C-dur: zostaje jeden czarny klawisz, F# w „ją na bal”.
-# Rzędy 3 i 4 książeczki („Lecz kocham…”, „nie ma sukni…”) połączone w jeden rząd.
+# Melodia i rytm: zapis nutowy „Zuzia – lalka nieduża” z msus.kylos.pl (D-dur, alla breve, półnuta = 85),
+# tu przeniesiony do C-dur. Książeczka z numerkami (import/7.jpeg) zgadza się z nim nuta w nutę, gdy czarne
+# owale czytać jako czarne klawisze (ZASADY.md §6.1): czarne 4 = Eb, 6 = Ab, 7 = B, a czerwone 9 w „na bal”
+# to białe A, czyli Es-dur. Wcześniejsza wersja czytała czarne owale jak białe klawisze 4, 6, 7 (C, E, F)
+# i dlatego brzmiała dziwnie (np. „Zu-zia, la-lka nie-” to E C F F G, a nie G C E E F).
+# Rytm: „Zu-zia”, „du-ża”, „da-tek” długie, przed „lalka” i „i na” pauza. Wartości są o połowę krótsze
+# niż w zapisie (półnuta → ćwierćnuta, ćwierćnuta → ósemka, tempo 85), żeby melodia zmieściła się
+# w trzech rzędach; brzmi tak samo. Pominięte dwa takty samego akompaniamentu (po „szmatek”
+# i przed „Lecz”). F# w „na bal” jak w zapisie (gis w D-dur).
+# Słowa: Dorota Gellner, muzyka: Krystyna Kwiatkowska. Utwór współczesny – strona wyłącznie do użytku domowego.
 tytuł: Zuzia, lalka nieduża
 podtytuł: muzyka: Krystyna Kwiatkowska
-zapis: numery
-metrum: 2/4
-transpozycja: -3
 tempo: 85
 ilustracja: 🪆 🧵 🌷
 kolor: fioletowy
@@ -29,6 +26,6 @@ choć nie ma sukni złotej,
 zabiorę ją na bal.
 
 [melodia]
-8 6b | -8 9b:8 9b:8 10b:8 | 8 6b | -8 9b:8 9b:8 10b:8 | 8 6b | 8 6b:8 8:8 | 7:8 7:8 - | -2 |
-8 6b | -8 9b:8 9b:8 10b:8 | 8 6b | -8 9b:8 9b:8 10b:8 | 8 6b:8 6b:8 | 8:8 8:8 7:8 7:8 | 6b - | -4. 6b:8 |
-9b:8 9b:8 6b:8 7:8 | 8 6b:8 6b:8 | 7:8 6b:8 7:8 6b:8 | 8 -8 6b:8 | 9b:8 9b:8 11:8 11:8 | 10b 8:8 8:8 | 7:8 7:8 8:8 9:8 | 10b - |
+E C | -8 F8 F8 G8 | E C | -8 F8 F8 G8 | E C | E C8 E8 | D8 D8 - |
+E C | -8 F8 F8 G8 | E C | -8 F8 F8 G8 | E C8 C8 | E8 E8 D8 D8 | C -8 |
+C8 | F8 F8 C8 D8 | E C8 C8 | D8 C8 D8 C8 | E -8 C8 | F8 F8 A8 A8 | G E8 E8 | D8 D8 E8 F#8 | G |

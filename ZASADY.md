@@ -210,7 +210,7 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/14-a-to-jez.txt` | A to jeż | D–H, 2 (F#) | książeczka numerkowa (`import/4.jpeg`), muz. A. Skorupka |
 | `piosenki/15-pilka-oli.txt` | Piłka Oli | C–c, 0 | książeczka numerkowa (`import/5.jpeg`), muz. B. Kolago |
 | `piosenki/16-kwiatki-bratki.txt` | Kwiatki bratki | C–B, 5 (B) | książeczka numerkowa (`import/6.jpeg`), muz. B. Kolago |
-| `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–A, 1 (F#), przeniesione o −3 | książeczka numerkowa (`import/7.jpeg`), muz. K. Kwiatkowska; rytm: zapis nutowy msus.kylos.pl |
+| `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–A, 1 (F#), przeniesione z D-dur | zapis nutowy msus.kylos.pl; zgadza się z książeczką (`import/7.jpeg`) czytaną z czarnymi klawiszami, muz. K. Kwiatkowska |
 | `piosenki/18-kolko-graniaste.txt` | Kółko graniaste | D–A, 0 | nuty literowe i zapis nutowy prostenuty.pl |
 | `piosenki/19-jedzie-pociag-z-daleka.txt` | Jedzie pociąg z daleka | D–d, 4 (F#) – w C-dur się nie mieści | zapis nutowy prostenuty.pl (G-dur) |
 | `piosenki/20-kukuleczka-kuka.txt` | Kukułeczka kuka | D–d, 2 (F#), przeniesione o +7 | nuty literowe i zapis nutowy prostenuty.pl |
@@ -219,7 +219,7 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/23-aaa-kotki-dwa.txt` | Aaa, kotki dwa | E–e, 1 (G#) | nuty literowe i zapis nutowy prostenuty.pl |
 | `piosenki/24-z-popielnika-na-wojtusia.txt` | Z popielnika na Wojtusia | C–e, 1 (G#) | nuty literowe prostenuty.pl, rytm: Mama Lisa; słowa: M. Konopnicka |
 | `piosenki/25-byl-sobie-krol.txt` | Był sobie król | D–e, 1 (G#) | nuty literowe i zapis nutowy prostenuty.pl |
-| `piosenki/26-idzie-niebo.txt` | Idzie niebo | C–H, 1 (F#) | zapis nutowy prostenuty.pl; słowa: E. Szelburg-Zarembina |
+| `piosenki/26-idzie-niebo.txt` | Idzie niebo | D–e, 3 (F#, c#), przeniesione o +7 | zapis nutowy prostenuty.pl, śpiewnik S. Szwedy; słowa: E. Szelburg-Zarembina |
 | `piosenki/27-nasza-zima-zla.txt` | Nasza zima zła | D–c, 0 (przeniesione o −2) | zapis nutowy prostenuty.pl |
 
 ## 6. Format pliku piosenki (dla generatora)
@@ -312,6 +312,9 @@ takie numery wprost:
   Owal stoi na pięciolinii tam, gdzie nuta z krzyżykiem albo bemolem: czarne „7” na linii H to B,
   czarne „5” w pierwszym polu to F#. Nie czytaj go jak białego klawisza o tym numerze (czarne „7”
   to nie F). W książeczce z `import/` wystąpiły czarne 4–7, pozostałe numery wynikają z kolejności.
+- **Porównuj numerki z położeniem owali na pięciolinii.** W książeczce z `import/` kolorowe owale
+  prawie zawsze leżą tam, gdzie wskazuje numer (wyjątek: „szmer” w „A to jeż”). Gdy coś brzmi dziwnie,
+  poszukaj zwykłego zapisu nutowego tej piosenki.
 - Numery 1–3 leżą poniżej naklejek, więc trzeba je przenieść polem `transpozycja:`.
 - **Rytm trzeba dopisać samodzielnie.** Policz nuty w takcie (4 nuty w takcie na 4 to
   ćwierćnuty, 8 to ósemki, 2 to półnuty). Nuty narysowane ciasno, parami, to zwykle ósemki,

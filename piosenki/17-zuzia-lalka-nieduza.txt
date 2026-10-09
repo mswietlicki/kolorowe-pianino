@@ -1,11 +1,19 @@
 # Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/7.jpeg).
 # Muzyka: Krystyna Kwiatkowska. Utwór współczesny – strona wyłącznie do użytku domowego.
-# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶. Z kresek taktowych:
-# długie są końce wersów „sto”, „lal”, a przedtakty „Lecz”, „choć” krótkie (wcześniej odwrotnie).
+# Czarne owale to czarne klawisze (ZASADY.md §6.1): czarne 4 = Eb (6b), 6 = Ab (9b), 7 = B (10b),
+# a czerwone 9 w „ją na bal” to białe A. Książeczka jest więc w Es-dur i zgadza się nuta w nutę
+# z zapisem nutowym z msus.kylos.pl („Zuzia - lalka nieduża.pdf”, D-dur, ¢, półnuta = 85).
+# Wcześniej czarne owale przepisane jako białe klawisze 4, 6, 7 (C, E, F).
+# Rytm z tego zapisu, z wartościami o połowę krótszymi (półnuta → ćwierćnuta), stąd tempo 85;
+# takt pauzy po „szmatek” i pauzy po „sto”, „bal” jak w nutach.
+# Całość przeniesiona o −3 do C-dur: zostaje jeden czarny klawisz, F# w „ją na bal”.
+# Rzędy 3 i 4 książeczki („Lecz kocham…”, „nie ma sukni…”) połączone w jeden rząd.
 tytuł: Zuzia, lalka nieduża
 podtytuł: muzyka: Krystyna Kwiatkowska
 zapis: numery
-tempo: 144
+metrum: 2/4
+transpozycja: -3
+tempo: 85
 ilustracja: 🪆 🧵 🌷
 kolor: fioletowy
 
@@ -21,7 +29,6 @@ choć nie ma sukni złotej,
 zabiorę ją na bal.
 
 [melodia]
-8:8 4:8 6:8 6:8 7 8 4 6 | 6 7 8 4 8 4 | 8 | 7 | 7:2 |
-8:8 4:8 6:8 6:8 7 8 4 6 | 6:8 7:8 8:8 4 4 | 8 8 7 7 | 4:2 4:8 |
-6 6 4 7 8 4 4 7 4 7 4 8:2 | 4 |
-6 6 11 11 7 8 8 7 7 8 9 | 7:2 |
+8 6b | -8 9b:8 9b:8 10b:8 | 8 6b | -8 9b:8 9b:8 10b:8 | 8 6b | 8 6b:8 8:8 | 7:8 7:8 - | -2 |
+8 6b | -8 9b:8 9b:8 10b:8 | 8 6b | -8 9b:8 9b:8 10b:8 | 8 6b:8 6b:8 | 8:8 8:8 7:8 7:8 | 6b - | -4. 6b:8 |
+9b:8 9b:8 6b:8 7:8 | 8 6b:8 6b:8 | 7:8 6b:8 7:8 6b:8 | 8 -8 6b:8 | 9b:8 9b:8 11:8 11:8 | 10b 8:8 8:8 | 7:8 7:8 8:8 9:8 | 10b - |

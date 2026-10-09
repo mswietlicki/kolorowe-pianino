@@ -210,7 +210,7 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/14-a-to-jez.txt` | A to jeż | D–H, 2 (F#) | książeczka numerkowa (`import/4.jpeg`), muz. A. Skorupka |
 | `piosenki/15-pilka-oli.txt` | Piłka Oli | C–c, 0 | książeczka numerkowa (`import/5.jpeg`), muz. B. Kolago |
 | `piosenki/16-kwiatki-bratki.txt` | Kwiatki bratki | C–B, 5 (B) | książeczka numerkowa (`import/6.jpeg`), muz. B. Kolago |
-| `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–e, 0 | książeczka numerkowa (`import/7.jpeg`), muz. K. Kwiatkowska |
+| `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–A, 1 (F#), przeniesione o −3 | książeczka numerkowa (`import/7.jpeg`), muz. K. Kwiatkowska; rytm: zapis nutowy msus.kylos.pl |
 | `piosenki/18-kolko-graniaste.txt` | Kółko graniaste | D–A, 0 | nuty literowe i zapis nutowy prostenuty.pl |
 | `piosenki/19-jedzie-pociag-z-daleka.txt` | Jedzie pociąg z daleka | D–d, 4 (F#) – w C-dur się nie mieści | zapis nutowy prostenuty.pl (G-dur) |
 | `piosenki/20-kukuleczka-kuka.txt` | Kukułeczka kuka | D–d, 2 (F#), przeniesione o +7 | nuty literowe i zapis nutowy prostenuty.pl |

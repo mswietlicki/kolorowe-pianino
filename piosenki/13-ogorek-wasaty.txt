@@ -1,16 +1,18 @@
 # Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/3.jpeg).
-# Muzyka: Jarosław Kukulski. Utwór współczesny – strona wyłącznie do użytku domowego.
-# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
-# „cza-pkę” to w książeczce czarne owale „7” na linii H: 7. czarny klawisz = B (czarny między A i H),
-# zapis 10b. Wcześniej przepisane jako F F (biały 7). B B potwierdza zapis nutowy z musescore.com
-# (Ogórek Wąsaty, oprac. Adam Pietruszka, F-dur).
-# Numery jak w książeczce (F-dur), całość przeniesiona o +2 do G-dur: zamiast dwóch B zostaje
-# jeden czarny klawisz, c# w „jest”.
+# Muzyka: Jarosław Kukulski, słowa: Dorota Gellner. Utwór współczesny – strona wyłącznie do użytku domowego.
+# Rytm i tempo z zapisu nutowego musescore.com (Ogórek Wąsaty, oprac. Adam Pietruszka, F-dur, 4/4,
+# ♩=122): przedtakt „O-” i akcent na „GÓ-rek”, po „-rek,” i „-turek” pauza (oddech) przed „zie-”, „i”.
+# Wysokości dźwięków w książeczce i w tych nutach są takie same, z jednym wyjątkiem: w „san-DA-ły”
+# musescore ma G, a książeczka A (9). Zostaje A, bo tak samo podaje zapis literowy na brainly.pl.
+# „cza-pkę” to w książeczce czarne owale „7” na linii H, czyli B (10b).
+# Jak w książeczce refren jest dwa razy: pierwszy raz kończy się na c (ca-ły, „O-” znowu od początku),
+# drugi raz na F. Całość przeniesiona o +2 do G-dur: zamiast B zostaje jeden czarny klawisz (c# w „jest”).
 tytuł: Ogórek wąsaty
 podtytuł: muzyka: Jarosław Kukulski
 zapis: numery
+metrum: 4/4
 transpozycja: +2
-tempo: 152
+tempo: 122
 ilustracja: 🥒 ☔ 🌱
 kolor: zielony
 
@@ -20,8 +22,10 @@ zielony ma garniturek
 i czapkę, i sandały,
 zielony, zielony jest cały!
 
-> Zaśpiewaj całość dwa razy.
+> Śpiewamy dwa razy.
 
 [melodia]
-11:8 11:8 9 | 9:8 9:8 7 | 7:8 7:8 9 | 4 7 7 7 8 9 9 8 | 8:2 |
-10b:8 10b:8 9 | 8:8 9:8 11 | 9 8 8 8 8 9 10 | 11 11:2 |
+11:8 | 11 9:8 9:8 9 7:8 7:8 | 7 9 -4. 4:8 | 7 7 7 8:8 9:8 | 9 8 -4. 8:8 |
+10b 10b 9 8 | 9:2 11:4. 9:8 | 8 8:8 8:8 8 9:8 10:8 | 11 11 -4. 11:8 |
+11 9:8 9:8 9 7:8 7:8 | 7 9 -4. 4:8 | 7 7 7 8:8 9:8 | 9 8 -4. 8:8 |
+10b 10b 9 8 | 9:2 11:4. 9:8 | 8 8:8 8:8 8 9:8 8:8 | 7 7 -2 |

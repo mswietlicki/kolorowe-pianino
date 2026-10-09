@@ -206,7 +206,7 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/10-w-zlobie-lezy.txt` | W żłobie leży | D–e, 0 | zapis LilyPond w Wikipedii; tekst z Wolnych Lektur |
 | `piosenki/11-a-ja-rosne.txt` | A ja rosnę | C–d, 0 | książeczka numerkowa (`import/1.jpeg`), muz. A. Skorupka |
 | `piosenki/12-popatrzcie-na-jamniczka.txt` | Popatrzcie na jamniczka | C–A, 0 | książeczka numerkowa (`import/2.jpeg`), muz. B. Kolago |
-| `piosenki/13-ogorek-wasaty.txt` | Ogórek wąsaty | D–d, 1 (C#), przeniesione o +2 | książeczka numerkowa (`import/3.jpeg`), muz. J. Kukulski; B w „czapkę” potwierdza zapis nutowy musescore.com |
+| `piosenki/13-ogorek-wasaty.txt` | Ogórek wąsaty | D–d, 1 (C#), przeniesione o +2 | książeczka numerkowa (`import/3.jpeg`), muz. J. Kukulski; rytm (4/4, przedtakt „O-”), tempo i B w „czapkę” z zapisu nutowego musescore.com; refren dwa razy, drugi kończy się na F |
 | `piosenki/14-a-to-jez.txt` | A to jeż | D–H, 2 (F#) | książeczka numerkowa (`import/4.jpeg`), muz. A. Skorupka |
 | `piosenki/15-pilka-oli.txt` | Piłka Oli | C–c, 0 | książeczka numerkowa (`import/5.jpeg`), muz. B. Kolago |
 | `piosenki/16-kwiatki-bratki.txt` | Kwiatki bratki | C–B, 5 (B) | książeczka numerkowa (`import/6.jpeg`), muz. B. Kolago |

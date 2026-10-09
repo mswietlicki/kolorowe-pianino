@@ -1,11 +1,15 @@
 # Melodia i rytm: zapis nutowy prostenuty.pl (nuty dla średniozaawansowanych „Idzie niebo ciemną nocą”,
 # C-dur, 4/4) i nuty literowe prostenuty.pl. Wersy zaczynają dwie ósemki, kończą długie nuty,
-# po „zobaczyły” pauza. Ostatni wers według zapisu nutowego (D D E G E F# G).
-# W zapisie „gwiazd”, „-czyły” to G, a „Jak”, „to” to H, (poniżej C) – tu są o oktawę wyżej.
-# Słowa: Ewa Szelburg-Zarembina. Utwór współczesny – strona do użytku domowego.
+# po „zobaczyły” ćwierćnuta pauzy. Ostatni wers według zapisu nutowego (D D E G E F# G).
+# W zapisie „gwiazd” i „-czyły” to G, a „Jak” i „to” to H, – poniżej środkowego C. Śpiewnik Sylwka
+# Szwedy (sylwekszweda.pl, nuty literowe w C-dur) też ma tu niskie h przed c („Jak wyj-” = h c d g).
+# Wcześniej te dźwięki były o oktawę wyżej, co dawało skoki o septymę – dlatego cała melodia jest
+# przeniesiona o kwintę w górę (do G-dur): mieści się w D–e kosztem trzech czarnych klawiszy (F#, c#).
+# Słowa: Ewa Szelburg-Zarembina, muzyka: Tadeusz Mayzner. Utwór współczesny – strona do użytku domowego.
 tytuł: Idzie niebo
 podtytuł: słowa: Ewa Szelburg-Zarembina
 tempo: 120
+transpozycja: +7
 ilustracja: 🌌 ⭐ 🐦
 kolor: niebieski
 
@@ -20,7 +24,7 @@ Kaprysiły, grymasiły,
 żeby im po jednej dać.
 
 [melodia]
-C8 D8 | E E F F8 E8 | D G2 G8 F8 | E C D D | G2.
+C8 D8 | E E F F8 E8 | D G2 G8 F8 | E C D D | G,2.
 C8 D8 | E E F F8 E8 | D G2 G8 F8 | E C D D | C2.
-H8 C8 | D G E E8 C8 | D G -2 H8 C8 | D G A A | G2.
+H,8 C8 | D G E E8 C8 | D G, - H,8 C8 | D G A A | G2.
 G8 G8 | G E2 G8 G8 | G D2 D8 D8 | E G E F# | G2 |

@@ -1,11 +1,15 @@
-# Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/7.jpeg).
-# Muzyka: Krystyna Kwiatkowska. Utwór współczesny – strona wyłącznie do użytku domowego.
-# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶. Z kresek taktowych:
-# długie są końce wersów „sto”, „lal”, a przedtakty „Lecz”, „choć” krótkie (wcześniej odwrotnie).
+# Melodia i rytm: zapis nutowy „Zuzia – lalka nieduża” z msus.kylos.pl (D-dur, alla breve, półnuta = 85),
+# tu przeniesiony do C-dur. Zgadza się z nim położenie owali na pięciolinii w książeczce z numerkami
+# (import/7.jpeg), ale nie wydrukowane w nich numerki (np. „Zu-zia, la-lka nie-” to E C F F G,
+# a w owalach jest 8 4 6 6 7) – dlatego wcześniejsza wersja według numerków brzmiała dziwnie.
+# Rytm: „Zu-zia”, „du-ża”, „da-tek” długie, przed „lalka” i „i na” pauza. Wartości są o połowę krótsze
+# niż w zapisie (półnuta → ćwierćnuta, ćwierćnuta → ósemka, tempo 85), żeby melodia zmieściła się
+# w trzech rzędach; brzmi tak samo. Pominięte dwa takty samego akompaniamentu (po „szmatek”
+# i przed „Lecz”). F# w „na bal” jak w zapisie (gis w D-dur).
+# Słowa: Dorota Gellner, muzyka: Krystyna Kwiatkowska. Utwór współczesny – strona wyłącznie do użytku domowego.
 tytuł: Zuzia, lalka nieduża
 podtytuł: muzyka: Krystyna Kwiatkowska
-zapis: numery
-tempo: 144
+tempo: 85
 ilustracja: 🪆 🧵 🌷
 kolor: fioletowy
 
@@ -21,7 +25,6 @@ choć nie ma sukni złotej,
 zabiorę ją na bal.
 
 [melodia]
-8:8 4:8 6:8 6:8 7 8 4 6 | 6 7 8 4 8 4 | 8 | 7 | 7:2 |
-8:8 4:8 6:8 6:8 7 8 4 6 | 6:8 7:8 8:8 4 4 | 8 8 7 7 | 4:2 4:8 |
-6 6 4 7 8 4 4 7 4 7 4 8:2 | 4 |
-6 6 11 11 7 8 8 7 7 8 9 | 7:2 |
+E C | -8 F8 F8 G8 | E C | -8 F8 F8 G8 | E C | E C8 E8 | D8 D8 - |
+E C | -8 F8 F8 G8 | E C | -8 F8 F8 G8 | E C8 C8 | E8 E8 D8 D8 | C -8 |
+C8 | F8 F8 C8 D8 | E C8 C8 | D8 C8 D8 C8 | E -8 C8 | F8 F8 A8 A8 | G E8 E8 | D8 D8 E8 F#8 | G |

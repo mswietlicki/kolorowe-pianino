@@ -28,7 +28,9 @@ const BROWSER = [
 ].find(p => p && existsSync(p));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-function inject({ fake, delay = 0, latency = 0, nodeMs = 0 }) {
+// jitter > 0 udaje telefon z Androidem: zegar audio rośnie skokami co bufor (20 ms), a znacznik wyjścia
+// (getOutputTimestamp) przy każdym buforze myli się o losowe ±jitter s – odczyt potrafi się cofnąć.
+function inject({ fake, delay = 0, latency = 0, nodeMs = 0, jitter = 0 }) {
   return `(() => {
     window.__tones = []; window.__fresh = true;
     const busy = () => { const t = performance.now() + ${nodeMs}; while (performance.now() < t) {} };
@@ -39,10 +41,16 @@ function inject({ fake, delay = 0, latency = 0, nodeMs = 0 }) {
       function N(){} N.prototype.connect = function(){}; N.prototype.disconnect = function(){};
       function Ctx(){ this._born = performance.now(); this.state = 'running'; this.destination = new N();
         this.outputLatency = ${latency}; window.__ctx = this; }
+      const BUF = ${jitter} ? 0.02 : 0, noise = k => { const v = Math.sin(k * 12.9898 + 78.233) * 43758.5453; return 2 * (v - Math.floor(v)) - 1; };
+      Ctx.prototype._run = function(){ return Math.max(0, (performance.now() - this._born) / 1000 - ${delay}); };
+      Ctx.prototype._heard = function(){ return this._run() - ${latency}; };  // co naprawdę słychać
       Object.defineProperty(Ctx.prototype, 'currentTime', { get(){
-        return Math.max(0, (performance.now() - this._born) / 1000 - ${delay}); } });
+        const t = this._run(); return BUF ? Math.floor(t / BUF) * BUF : t; } });
       Ctx.prototype.getOutputTimestamp = function(){
-        return { contextTime: Math.max(0, this.currentTime - ${latency}), performanceTime: performance.now() }; };
+        if (!BUF) return { contextTime: Math.max(0, this.currentTime - ${latency}), performanceTime: performance.now() };
+        const k = Math.floor(this._run() / BUF);  // ostatni bufor: kiedy przyszedł i co wtedy grało (z błędem)
+        return { contextTime: Math.max(0, k * BUF - ${latency} + ${jitter} * noise(k)),
+                 performanceTime: this._born + (${delay} + k * BUF) * 1000 }; };
       Ctx.prototype.resume = function(){ return Promise.resolve(); };
       Ctx.prototype.createGain = function(){ busy(); const n = new N(); n.gain = new P(1); return n; };
       Ctx.prototype.createDynamicsCompressor = function(){ return new N(); };
@@ -59,6 +67,7 @@ function inject({ fake, delay = 0, latency = 0, nodeMs = 0 }) {
     }
     window.__heard = () => {  // czas zegara audio, który słychać w tej chwili
       const c = window.__ctx; if (!c) return NaN;
+      if (c._heard) return c._heard();
       const ts = c.getOutputTimestamp ? c.getOutputTimestamp() : null;
       if (ts && ts.contextTime > 0) return ts.contextTime + (performance.now() - ts.performanceTime) / 1000;
       return c.currentTime - (c.outputLatency || 0);
@@ -92,16 +101,19 @@ const MEASURE = (clicks, listen, mute) => `(async () => {
   // Bez dźwięku nie ma czasów nut z zegara audio – liczymy je z tempa, od pierwszego podświetlenia.
   const starts = ${mute} ? notes.map(n => n[0] - notes[0][0] + (marks.length ? marks[0][0] : 0))
                          : window.__tones.slice(from).filter((_, i) => i % 3 === 0);
-  const offs = []; let k = 0, sylBad = 0;
+  const offs = []; let k = 0, sylBad = 0, back = 0;
   for (const [heard, n, syl] of marks) {
-    while (k < notes.length && notes[k][1] !== n) k++;
-    if (k >= notes.length || k >= starts.length) break;
+    let j = k;
+    while (j < notes.length && notes[j][1] !== n) j++;
+    if (j >= notes.length) { back++; continue; }  // klocek, który już grał, zapalił się znowu (mrugnięcie)
+    k = j;
+    if (k >= starts.length) break;
     offs.push(Math.round((heard - starts[k]) * 1000));
     if (syl !== notes[k][2]) sylBad++;
     k++;
   }
   const count = data.count || 4, beat = q < 0.375 && count % 2 === 0 ? 2 * q : q;  // szybkie piosenki: co półnutę
-  return { offs, sylBad, tones: window.__tones.length - from,
+  return { offs, sylBad, back, tones: window.__tones.length - from,
            countIn: marks.length ? Math.round((marks[0][0] - clicked) * 1000) : null,
            countMin: Math.round(count * beat * 1000) };
 })()`;
@@ -155,15 +167,17 @@ const cases = [
   ['dźwięk startuje 400 ms po kliknięciu', { fake: true, delay: 0.4, latency: 0.05 }],
   ['słuchawki Bluetooth (opóźnienie 250 ms)', { fake: true, delay: 0.3, latency: 0.25 }],
   ['szybkie klikanie ▶ ■ ▶ co 30 ms', { fake: true, nodeMs: 1 }, [0, 30, 30]],
+  ['telefon: skaczący zegar audio (±15 ms)', { fake: true, latency: 0.08, jitter: 0.015 }, [0], 6000],
   ['prawdziwy AudioContext przeglądarki', { fake: false }],
   ['graj sam 🔇: bez dźwięku, odliczanie, tempo', { fake: true }, [0], 6000, true],
 ];
 let failed = 0;
 for (const [name, opts, clicks, listen, mute] of cases) {
-  const { offs, sylBad, tones, countIn, countMin } = await scenario(opts, clicks, listen, mute);
+  const { offs, sylBad, back, tones, countIn, countMin } = await scenario(opts, clicks, listen, mute);
   const worst = offs.length ? Math.max(...offs.map(Math.abs)) : null;
   const median = offs.length ? [...offs].map(Math.abs).sort((a, b) => a - b)[offs.length >> 1] : null;
   const problems = [];
+  if (back) problems.push(`klocki mrugają: ${back} ponownych podświetleń`);
   if (sylBad) problems.push(`zła sylaba przy ${sylBad} nutach`);
   if (mute && tones) problems.push(`słychać ${tones} dźwięków`);
   if (mute && !(countIn >= countMin && countIn <= countMin + 400)) problems.push(`odliczanie ${countIn} ms zamiast ~${countMin} ms`);

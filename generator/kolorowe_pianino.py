@@ -1246,6 +1246,8 @@ PLAY_JS = """
   var AHEAD = 1.5;         // nuty planujemy na bieżąco, najwyżej tyle sekund do przodu
   var CLOCK_WAIT = 1500;   // najdłużej czekamy na start zegara audio (ms), potem gramy bez dźwięku
   var BEAT_MIN = 0.375;    // krótszych ćwierćnut (tempo > 160) nie odliczamy – liczymy co półnutę
+  var SMOOTH = 0.3;        // wygładzanie zegara audio (s) – na telefonach jego odczyt skacze o kilkadziesiąt ms
+  var SNAP = 0.1;          // większy skok to prawdziwa zmiana opóźnienia (np. słuchawki) – przyjmujemy od razu
   var ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>';
   var ICON_STOP = '<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
   function audio(){
@@ -1398,7 +1400,16 @@ PLAY_JS = """
     s.bus = ctx.createGain();
     s.bus.connect(master);
     s.t0 = ctx.currentTime + LEAD;
-    s.clock = function(){ return heardTime() - s.t0; };
+    // Zegar strony + przesunięcie do zegara audio, które zmieniamy powoli. Na telefonach (Android) odczyt
+    // zegara audio skacze w obie strony, a surowy cofał się przez granicę nut – klocki mrugały.
+    var off = null, at = 0;
+    s.clock = function(){
+      var wall = performance.now() / 1000, raw = heardTime() - wall;
+      if(off === null || Math.abs(raw - off) > SNAP) off = raw;
+      else off += (raw - off) * Math.min(1, (wall - at) / SMOOTH);
+      at = wall;
+      return wall + off - s.t0;
+    };
     schedule(s);
     s.timer = setInterval(function(){ schedule(s); }, 50);
     animate(s);
@@ -1420,7 +1431,7 @@ PLAY_JS = """
     animate(s);
   }
   function animate(s){
-    var blocks = {}, lit = -1, block = null, shown = 0, first = null, events = s.events, L = s.lyrics, i;
+    var blocks = {}, lit = -1, block = null, shown = 0, first = null, last = -Infinity, events = s.events, L = s.lyrics, i;
     s.page.querySelectorAll('.blk').forEach(function(b){ blocks[b.getAttribute('data-n')] = b; });
     for(i = 0; i < events.length && !first; i++) first = blocks[events[i][2]];
     for(i = 0; L && i < events.length; i++){  // od razu widać, którą zwrotkę się śpiewa
@@ -1428,7 +1439,7 @@ PLAY_JS = """
     }
     (function frame(){
       if(current !== s) return;
-      var now = s.clock(), idx = -1;
+      var now = last = Math.max(last, s.clock()), idx = -1;  // czas nie cofa się: poprzedni klocek nie wraca
       if(s.count && now < 0){  // odliczanie: liczba na przycisku, pierwszy klocek podskakuje w takt
         var left = Math.ceil(-now / s.beat);
         if(left <= s.count && left !== shown){ shown = left; setButton(s.page, true, left); hop(first); }

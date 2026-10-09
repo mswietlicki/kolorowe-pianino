@@ -21,8 +21,8 @@ których te zasady się opierają.
    trafić na swoją nutę. Sylabę śpiewaną na kilku nutach oznacz w słowach `_` (ZASADY.md §6).
    Ustaw `tempo:` jak przy śpiewie i zostaw oddech na końcu wersów: długą nutę albo pauzę `-`
    (ZASADY.md §4, punkty 6–7). Bez tego następny wers wchodzi od razu.
-5. Uruchom `python generator/kolorowe_pianino.py --pdf`. Przebuduje to HTML i PDF wszystkich
-   piosenek oraz książeczki.
+5. Uruchom `python generator/kolorowe_pianino.py --pdf`. Przebuduje to HTML wszystkich
+   piosenek i PDF książeczki (`strony/pdf/ksiazeczka.pdf`; pojedyncze piosenki nie mają PDF-ów).
 6. Obejrzyj wynik przed oddaniem, na zrzucie ekranu z Edge w trybie headless:
    `msedge --headless=new --hide-scrollbars --window-size=1752,700 --screenshot=<plik.png> file:///C:/Code/kolorowe-pianino/strony/NN-krotka-nazwa.html`
    (w PowerShell przez `Start-Process ... -Wait`).

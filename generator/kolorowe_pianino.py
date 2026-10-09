@@ -13,7 +13,7 @@ Użycie:
   python generator/kolorowe_pianino.py                     # wszystkie piosenki
   python generator/kolorowe_pianino.py piosenki/05-sto-lat.txt
   python generator/kolorowe_pianino.py --sprawdz piosenki/05-sto-lat.txt
-  python generator/kolorowe_pianino.py --pdf               # dodatkowo PDF-y do druku (Edge/Chrome)
+  python generator/kolorowe_pianino.py --pdf               # dodatkowo PDF książeczki do druku (Edge/Chrome)
 
 Wymaga tylko Pythona 3.9+ (bez dodatkowych bibliotek).
 """
@@ -1509,7 +1509,7 @@ def html_doc(title: str, body: str) -> str:
 
 
 def toolbar(*links: tuple[str, str, str], top: bool = False) -> str:
-    """Pasek dużych przycisków (ikona, napis, adres). Do druku służą PDF-y (--pdf).
+    """Pasek dużych przycisków (ikona, napis, adres). Do druku służy PDF książeczki (--pdf).
     top=True: pasek nad rozkładówką jednej piosenki – po prawej, nad melodią, stoi w nim odtwarzacz."""
     a = "".join(f'<a href="{esc(h)}"><span class="ico" aria-hidden="true">{i}</span>{esc(t)}</a>'
                 for i, t, h in links)
@@ -1639,7 +1639,7 @@ def index_html(all_songs: list[Song]) -> str:
         '<p class="lead">Piosenki do grania z kolorowymi naklejkami, od najłatwiejszej do najtrudniejszej. '
         'Każda piosenka to rozkładówka: słowa po lewej, kolorowe klocki po prawej.</p></header>'
         '<nav class="bar"><a href="jak-grac.html"><span class="ico" aria-hidden="true">❓</span>Jak grać?</a>'
-        '<a href="ksiazeczka.html"><span class="ico" aria-hidden="true">📖</span>Cała książeczka (do druku)</a>'
+        '<a href="pdf/ksiazeczka.pdf"><span class="ico" aria-hidden="true">📖</span>Cała książeczka (do druku)</a>'
         f'</nav><main class="levels">{levels}</main>'
     )
 
@@ -1790,7 +1790,8 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Generator stron „Kolorowe pianino”.")
     ap.add_argument("pliki", nargs="*", help="pliki piosenek (domyślnie wszystkie z katalogu piosenki/)")
     ap.add_argument("--sprawdz", action="store_true", help="tylko sprawdź i opisz piosenki, nie generuj stron")
-    ap.add_argument("--pdf", action="store_true", help="utwórz też PDF-y do druku w strony/pdf/ (wymaga Edge/Chrome)")
+    ap.add_argument("--pdf", action="store_true",
+                    help="utwórz też strony/pdf/ksiazeczka.pdf do druku (wymaga Edge/Chrome)")
     args = ap.parse_args(argv)
 
     all_paths = sorted(SONGS_DIR.glob("*.txt"))
@@ -1830,13 +1831,11 @@ def main(argv=None) -> int:
             print("BŁĄD: nie znaleziono Edge/Chrome – ustaw KOLOROWE_PIANINO_BROWSER albo drukuj z przeglądarki",
                   file=sys.stderr)
             return 1
-        targets = written + ([OUT_DIR / "ksiazeczka.html"] if not args.pliki else [])
-        for html_path in targets:
-            pdf = OUT_DIR / "pdf" / f"{html_path.stem}.pdf"
-            if to_pdf(browser, html_path, pdf):
-                print(f"PDF {pdf.relative_to(ROOT)}")
-            else:
-                errors += 1
+        pdf = OUT_DIR / "pdf" / "ksiazeczka.pdf"  # tylko cała książeczka – spis linkuje prosto do niej
+        if to_pdf(browser, OUT_DIR / "ksiazeczka.html", pdf):
+            print(f"PDF {pdf.relative_to(ROOT)}")
+        else:
+            errors += 1
     return 1 if errors else 0
 
 

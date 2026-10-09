@@ -532,7 +532,7 @@ def validate(song: Song) -> None:
         song.warnings.append(f"{len(song.rows)} rzędów melodii – w książeczce są 3–4, rozważ łączenie fraz")
     for i, row in enumerate(song.rows, 1):
         total = sum(n.dur for n in row.notes)
-        if total > 16:
+        if total > 18:  # ok. 16 ćwierćnut i miejsce na pauzy
             song.warnings.append(f"rząd {i} ma {fmt_q(total)} ćwierćnut – klocki zostaną zmniejszone")
 
     m = re.match(r"^(\d+)\s*/\s*(\d+)$", song.meter)
@@ -541,19 +541,20 @@ def validate(song: Song) -> None:
     if not m:
         return
     bar_len = int(m[1]) * 4 / int(m[2])
-    segs, cur = [], 0.0
+    segs, cur, sound = [], 0.0, False
     for row in song.rows:
         for it in row.items:
             if it == "|":
-                segs.append(cur)
-                cur = 0.0
+                segs.append((cur, sound))
+                cur, sound = 0.0, False
             else:
                 cur += it.dur
+                sound = sound or it.semi is not None
         if row.repeat:  # znak powtórki zamyka takt
-            segs.append(cur)
-            cur = 0.0
-    segs.append(cur)
-    segs = [s for s in segs if s > 1e-9]
+            segs.append((cur, sound))
+            cur, sound = 0.0, False
+    segs.append((cur, sound))
+    segs = [s for s, snd in segs if snd]  # takt z samą pauzą („| - |”) to oddech poza metrum
     if len(segs) < 2:
         return
     for i, s in enumerate(segs):
@@ -709,6 +710,18 @@ def mini_keyboard(x: float, y: float, highlight_semi: int | None = None, kw: flo
 # Prawa strona – melodia
 # --------------------------------------------------------------------------
 
+def bar_sound(row: Row) -> list[bool]:
+    """Dla każdej nuty rzędu: czy w jej takcie coś brzmi (takt z samą pauzą rysuje się jako przerwa)."""
+    out, bar = [], []
+    for it in row.items + ["|"]:
+        if it == "|":
+            out += [any(n.semi is not None for n in bar)] * len(bar)
+            bar = []
+        else:
+            bar.append(it)
+    return out
+
+
 def render_melody_page(song: Song, uid: str) -> str:
     parts = [music_icon(78, 50, 50, uid + "-m")]
     parts.append(text_el(PAGE_W / 2, 103, song.title.upper(), 30, fill=TITLE_RIGHT, weight=700,
@@ -719,7 +732,7 @@ def render_melody_page(song: Song, uid: str) -> str:
         notes = row.notes
         steps = [song.key_of(n)[1] for n in notes if n.semi is not None]
         rows.append(dict(
-            notes=notes, repeat=row.repeat,
+            notes=notes, repeat=row.repeat, merge=bar_sound(row),
             total=sum(n.dur for n in notes),
             smin=min(steps), smax=max(steps),
             sharp=any(song.key_of(n)[2] for n in notes if n.semi is not None),
@@ -746,13 +759,20 @@ def render_melody_page(song: Song, uid: str) -> str:
         top = y + (SHARP_OVER * bh if r["sharp"] else 0)
         x = x0 + CORD_EXT * k
         blocks, pts = [], []
-        for nt in r["notes"]:
-            w = (nt.dur * UNIT - GAP) * k
+        for i, nt in enumerate(r["notes"]):
             if nt.semi is not None:
+                # Pauza w takcie z nutami poszerza klocek przed nią (książeczka nie ma pauz), a przy ▶ jest
+                # ciszą. Takt z samą pauzą zostaje przerwą na sznurku – widać, że trzeba poczekać.
+                held = nt.dur
+                for nx, in_bar in zip(r["notes"][i + 1:], r["merge"][i + 1:]):
+                    if nx.semi is not None or not in_bar:
+                        break
+                    held += nx.dur
+                w = (held * UNIT - GAP) * k
                 key, step, sharp = song.key_of(nt)
                 by = top + (r["smax"] - step) * STEP * k
                 blocks.append(f'<g class="blk" data-n="{block_no}">'
-                              f'{block_svg(x, by, w, bh, key, sharp, nt.dur, k)}</g>')
+                              f'{block_svg(x, by, w, bh, key, sharp, held, k)}</g>')
                 block_no += 1
                 pts.append((x + w / 2, by + bh / 2))
             x += nt.dur * UNIT * k
@@ -776,7 +796,8 @@ def render_melody_page(song: Song, uid: str) -> str:
 
 
 def count_in(song: Song) -> int:
-    """Ile ćwierćnut odliczyć przed graniem samemu: jeden takt (co najmniej 3 uderzenia)."""
+    """Ile uderzeń odliczyć przed graniem samemu: jeden takt ćwierćnut (co najmniej 3 uderzenia).
+    W szybkiej piosence odtwarzacz odlicza je co półnutę (BEAT_MIN w PLAY_JS)."""
     m = re.match(r"^(\d+)\s*/\s*(\d+)$", song.meter)
     beats = int(m[1]) * 4 / int(m[2]) if m else 4
     if beats != int(beats) or not 2 <= beats <= 6:
@@ -1105,35 +1126,40 @@ def svg_page(pid: str, inner: str) -> str:
 CSS = """
 *{box-sizing:border-box}
 body{margin:0;background:#ECE6DC;font-family:Montserrat,'Segoe UI',Arial,sans-serif;color:#2B2929}
-.bar{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;padding:14px 16px}
-.bar a,.bar button{font:600 15px Montserrat,'Segoe UI',Arial,sans-serif;color:#2B2929;background:#fff;
-  border:1px solid #D8D0C4;border-radius:999px;padding:8px 16px;text-decoration:none;cursor:pointer}
-.bar a:hover,.bar button:hover{background:#F7F4EF}
+a,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.ico{font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif;font-weight:400;
+  font-style:normal;line-height:1}
+.bar{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;padding:16px}
+.bar a{display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 24px 0 18px;
+  font:700 18px Montserrat,'Segoe UI',Arial,sans-serif;color:#2B2929;background:#fff;border:2px solid #D8D0C4;
+  border-radius:999px;text-decoration:none;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);
+  transition:transform .08s ease-out}
+.bar .ico{font-size:26px}
+.bar a:hover{background:#F7F4EF}
+.bar a:active{transform:scale(.95)}
+.bar a:focus-visible{outline:3px solid #2A6BC1;outline-offset:2px}
+.bar.top{justify-content:flex-start;max-width:1720px;min-height:120px;margin:0 auto}
 .spread{display:flex;justify-content:center;margin:0 auto 28px;max-width:1720px;padding:0 16px}
+.spread.song{padding-top:120px}
+.bar.top+.spread.song{padding-top:0}
 .page{flex:1 1 0;max-width:860px;min-width:0;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.12)}
 .page+.page{border-left:1px solid #EEE9E2}
 .page svg{display:block;width:100%;height:auto}
 .spread.single .page{flex:0 1 860px}
-h1{font-size:28px;text-align:center;margin:28px 16px 4px}
-.lead{text-align:center;margin:0 16px 22px;color:#6B6460}
-.list{max-width:860px;margin:0 auto 40px;padding:0 16px;display:grid;gap:12px}
-.list a{display:flex;align-items:center;gap:14px;background:#fff;border-radius:14px;padding:14px 18px;
-  text-decoration:none;color:#2B2929;box-shadow:0 1px 6px rgba(0,0,0,.08);font-weight:600}
-.list .dots{display:flex;gap:4px}.list .dots i{width:12px;height:18px;border-radius:2px;display:block}
-.list small{font-weight:400;color:#6B6460;margin-left:auto}
 .page{position:relative;container-type:inline-size}
-.player{position:absolute;top:2.4%;right:2.4%;display:flex;align-items:center;gap:1cqw;z-index:2}
+.player{position:absolute;right:0;bottom:calc(100% + 16px);display:flex;align-items:center;gap:14px;z-index:2}
 .player button{display:grid;place-items:center;padding:0;border-radius:50%;cursor:pointer;
-  font:20px 'Segoe UI Emoji','Apple Color Emoji',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.18)}
-.player .play{width:clamp(30px,6.2cqw,56px);height:clamp(30px,6.2cqw,56px);border:0;background:#5DAE35;color:#fff}
+  font:32px/1 'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif;
+  box-shadow:0 3px 10px rgba(0,0,0,.18);transition:transform .08s ease-out}
+.player button:active{transform:scale(.92)}
+.player .play{width:88px;height:88px;border:0;background:#5DAE35;color:#fff}
 .player .play:hover{background:#4E9A2C}
 .player .play.on{background:#E3262B}
-.player .play svg{width:45%;height:45%;fill:currentColor}
-.player .play .count{font:800 clamp(15px,3.2cqw,29px)/1 Montserrat,'Segoe UI',Arial,sans-serif}
-.player .opt{width:clamp(24px,4.6cqw,42px);height:clamp(24px,4.6cqw,42px);font-size:clamp(12px,2.3cqw,21px);
-  background:#fff;border:2px solid #E5DED3;color:#2B2929}
-.player .opt[aria-pressed="true"]{background:#FFF4D6;border-color:#F5D23A;opacity:1}
-.player button:focus-visible{outline:3px solid #2A6BC1;outline-offset:2px}
+.player .play svg{width:46%;height:46%;fill:currentColor}
+.player .play .count{font:800 40px/1 Montserrat,'Segoe UI',Arial,sans-serif}
+.player .opt{width:68px;height:68px;background:#fff;border:3px solid #E5DED3;color:#2B2929}
+.player .opt[aria-pressed="true"]{background:#FFF4D6;border-color:#F5D23A}
+.player button:focus-visible{outline:3px solid #2A6BC1;outline-offset:3px}
 .blk{transition:transform .05s ease-out,filter .05s ease-out;transform-box:fill-box;transform-origin:center}
 .blk.on{transform:translateY(-10%) scale(1.14);filter:drop-shadow(0 5px 5px rgba(0,0,0,.35))}
 .syl-hl{opacity:0;pointer-events:none}
@@ -1141,14 +1167,47 @@ h1{font-size:28px;text-align:center;margin:28px 16px 4px}
 .lyrics text.lyr{transition:opacity .3s}
 .lyrics svg.sing text.lyr:not(.cur){opacity:.35}
 .lyrics text[data-at]{cursor:pointer}
+.hero{text-align:center;padding:28px 16px 4px}
+.hero h1{margin:0 0 10px;font-size:clamp(36px,7vw,60px);font-weight:800;letter-spacing:1px;line-height:1.1}
+.hero .lead{max-width:640px;margin:0 auto;color:#6B6460;font-size:17px;line-height:1.45}
+.levels{max-width:1240px;margin:0 auto 56px;padding:0 16px}
+.level h2{display:flex;align-items:center;gap:12px;margin:30px 4px 14px;font-size:clamp(21px,3.2vw,27px)}
+.level h2 .ico{font-size:.95em;letter-spacing:-2px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(140px,30vw,210px),1fr));gap:16px}
+.tile{position:relative;display:flex;flex-direction:column;background:#fff;border-radius:24px;overflow:hidden;
+  text-decoration:none;color:#2B2929;box-shadow:0 2px 10px rgba(0,0,0,.1);border-bottom:8px solid var(--c);
+  transition:transform .12s ease-out,box-shadow .12s ease-out}
+.tile:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.14)}
+.tile:active{transform:scale(.96)}
+.tile:focus-visible{outline:4px solid #2A6BC1;outline-offset:3px}
+.tile .pic{position:relative;display:grid;place-items:center;aspect-ratio:3/2;
+  background:radial-gradient(circle at 46% 46%,#fff 0 20%,var(--t) 60%,var(--t2) 100%)}
+.tile .pic b{font-size:clamp(52px,9vw,76px)}
+.tile .pic i{position:absolute;right:12%;top:10%;font-size:clamp(22px,3.6vw,30px)}
+.tile .lvl{position:absolute;left:10px;top:10px;font-size:15px;letter-spacing:-3px}
+.tile .name{flex:1;display:flex;align-items:center;justify-content:center;padding:12px 12px 8px;
+  text-align:center;font-weight:700;font-size:clamp(15px,2.1vw,18px);line-height:1.25}
+.tile .mel{display:block;padding:0 14px 14px}
+.tile .mel svg{display:block;width:100%;height:clamp(34px,4.8vw,50px)}
 @media (max-width:900px){.spread{flex-direction:column;align-items:center}.page{width:100%}
-  .page+.page{border-left:0;margin-top:12px}}
+  .page+.page{border-left:0;margin-top:12px}
+  .spread.song{padding-top:0}.spread.song .melody{margin-top:120px}
+  .player{right:50%;transform:translateX(50%)}
+  .bar.top{justify-content:center;min-height:0}}
+@media (max-width:520px){
+  .bar a{min-height:52px;padding:0 18px 0 14px;font-size:16px}
+  .bar .ico{font-size:22px}
+  .hero .lead{font-size:15px}
+  .player .play{width:76px;height:76px}
+  .player .opt{width:60px;height:60px;font-size:28px}
+  .spread.song .melody{margin-top:108px}
+  .tiles{gap:12px}.tile{border-radius:20px}}
 @media print{
   @page{size:A4 landscape;margin:0}
   body{background:#fff}
-  .bar,h1,.lead,.list,.player,.syl-hl{display:none}
+  .bar,.hero,.levels,.player,.syl-hl{display:none}
   .lyrics svg text.lyr{opacity:1!important}
-  .spread{display:block;max-width:none;margin:0;padding:0}
+  .spread{display:block;max-width:none;margin:0;padding:0!important}
   .page{max-width:none;width:297mm;height:210mm;box-shadow:none;border:0!important;margin:0!important;
     overflow:hidden;break-after:page;page-break-after:always}
   .spread:last-of-type .page:last-child{break-after:auto;page-break-after:auto}
@@ -1186,6 +1245,7 @@ PLAY_JS = """
   var LEAD = 0.2;          // zapas przed pierwszą nutą (s) – klatki animacji zdążą się ustabilizować
   var AHEAD = 1.5;         // nuty planujemy na bieżąco, najwyżej tyle sekund do przodu
   var CLOCK_WAIT = 1500;   // najdłużej czekamy na start zegara audio (ms), potem gramy bez dźwięku
+  var BEAT_MIN = 0.375;    // krótszych ćwierćnut (tempo > 160) nie odliczamy – liczymy co półnutę
   var ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>';
   var ICON_STOP = '<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
   function audio(){
@@ -1315,12 +1375,13 @@ PLAY_JS = """
       events.push([rel, rel + len, ev[2], ev[0], ev[3]]);
       rel += len;
     });
-    var s = {page: page, from: from, events: events, end: rel, q: q, count: 0, bus: null, raf: 0, timer: 0,
+    var s = {page: page, from: from, events: events, end: rel, q: q, count: 0, beat: q, bus: null, raf: 0, timer: 0,
              next: 0, clock: null, lyrics: lyricsOf(page)};
     current = s;
     setButton(page, true);  // przycisk reaguje od razu, granie rusza razem z dźwiękiem
     if(pressed(page, '.mute')){  // dziecko gra samo: odliczanie, potem sama animacja w tempie, bez dźwięku
       s.count = data.count || 4;
+      if(q < BEAT_MIN && s.count % 2 === 0) s.beat = 2 * q;  // szybka piosenka: liczymy co półnutę
       startSilent(s);
       return;
     }
@@ -1352,9 +1413,9 @@ PLAY_JS = """
     }
     if(s.next >= s.events.length) clearInterval(s.timer);
   }
-  // Bez dźwięku (granie samemu albo brak urządzenia audio): animacja na zegarze strony, po odliczeniu s.count ćwierćnut.
+  // Bez dźwięku (granie samemu albo brak urządzenia audio): animacja na zegarze strony, po odliczeniu s.count uderzeń.
   function startSilent(s){
-    var w0 = performance.now() / 1000 + LEAD + s.count * s.q;
+    var w0 = performance.now() / 1000 + LEAD + s.count * s.beat;
     s.clock = function(){ return performance.now() / 1000 - w0; };
     animate(s);
   }
@@ -1369,7 +1430,7 @@ PLAY_JS = """
       if(current !== s) return;
       var now = s.clock(), idx = -1;
       if(s.count && now < 0){  // odliczanie: liczba na przycisku, pierwszy klocek podskakuje w takt
-        var left = Math.ceil(-now / s.q);
+        var left = Math.ceil(-now / s.beat);
         if(left <= s.count && left !== shown){ shown = left; setButton(s.page, true, left); hop(first); }
       } else if(shown){
         shown = 0; setButton(s.page, true);
@@ -1436,9 +1497,12 @@ def html_doc(title: str, body: str) -> str:
 """
 
 
-def toolbar(*links: tuple[str, str]) -> str:
-    a = "".join(f'<a href="{esc(h)}">{esc(t)}</a>' for t, h in links)
-    return f'<div class="bar">{a}<button onclick="window.print()">Drukuj</button></div>'
+def toolbar(*links: tuple[str, str, str], top: bool = False) -> str:
+    """Pasek dużych przycisków (ikona, napis, adres). Do druku służą PDF-y (--pdf).
+    top=True: pasek nad rozkładówką jednej piosenki – po prawej, nad melodią, stoi w nim odtwarzacz."""
+    a = "".join(f'<a href="{esc(h)}"><span class="ico" aria-hidden="true">{i}</span>{esc(t)}</a>'
+                for i, t, h in links)
+    return f'<div class="bar{" top" if top else ""}">{a}</div>'
 
 
 def spread_html(song: Song, page_no: int | None) -> str:
@@ -1454,15 +1518,119 @@ def spread_html(song: Song, page_no: int | None) -> str:
               'aria-label="Graj sam, bez dźwięku">🔇</button>'
               '<button class="play" type="button" title="Zagraj" aria-label="Zagraj melodię">▶</button>'
               '</div>')
-    return (f'<div class="spread"><div class="page lyrics">{left}</div>'
+    return (f'<div class="spread song"><div class="page lyrics">{left}</div>'
             f'<div class="page melody" data-play="{esc(data)}">{player}{right}</div></div>')
 
 
-def color_dots(song: Song, n: int = 8) -> str:
-    dots = []
-    for note in song.all_notes()[:n]:
-        dots.append(f'<i style="background:{COLORS[song.key_of(note)[0].upper()]}"></i>')
-    return f'<span class="dots">{"".join(dots)}</span>'
+# --------------------------------------------------------------------------
+# Spis piosenek: od najłatwiejszej do najtrudniejszej
+# --------------------------------------------------------------------------
+
+# Poziomy w spisie: (ocena trudności poniżej, gwiazdki, nagłówek). Ocenę liczy difficulty().
+LEVELS = [(12.0, "⭐", "Na dobry początek"), (14.2, "⭐⭐", "Trochę trudniejsze"),
+          (math.inf, "⭐⭐⭐", "Dla wprawnych")]
+
+
+def played_notes(song: Song) -> list[Note]:
+    """Dźwięki melodii w kolejności grania (rząd z ↻ dwa razy), bez pauz."""
+    return [n for r in song.rows for n in r.notes * (2 if r.repeat else 1) if n.semi is not None]
+
+
+def difficulty(song: Song) -> float:
+    """Ocena trudności melodii dla dziecka, które gra z naklejek – im więcej, tym trudniej.
+    Liczą się: liczba dźwięków (dziesięć to 1 punkt), liczba różnych klawiszy, czarne klawisze
+    (najmocniej), skoki o 3 białe klawisze i więcej oraz bardzo krótkie nuty w szybkim tempie."""
+    notes = played_notes(song)
+    semis = [n.semi + song.transpose for n in notes]
+    black = [s for s in semis if KEYS[s][2]]
+    steps = [KEYS[s][1] for s in semis]
+    jumps = sum(1 for a, b in zip(steps, steps[1:]) if abs(a - b) >= 3)
+    fastest = min(n.dur for n in notes) * 60 / song.tempo  # najkrótsza nuta w sekundach
+    return (len(semis) / 10 + 0.8 * len(set(semis)) + 3.5 * len(set(black)) + 0.3 * len(black)
+            + 0.25 * jumps + 4 * max(0.0, 0.45 - fastest))
+
+
+def level_of(song: Song) -> int:
+    score = difficulty(song)
+    return next(i for i, (limit, _, _) in enumerate(LEVELS) if score < limit)
+
+
+def melody_preview(song: Song, quarters: float = 8) -> str:
+    """Początek melodii (ok. dwóch taktów, do pierwszej przerwy) jako małe klocki na sznurku – do kafelka."""
+    row = song.rows[0]
+    items, total = [], 0.0  # [nuta, długość klocka]
+    for nt, sound in zip(row.notes, bar_sound(row)):
+        if total >= quarters or (items and not sound):  # takt z samą pauzą = przerwa na sznurku
+            break
+        total += nt.dur
+        if nt.semi is not None:
+            items.append([nt, nt.dur])
+        elif items:
+            items[-1][1] += nt.dur  # pauza w takcie z nutami poszerza klocek przed nią (jak na stronie)
+    keys = [song.key_of(nt) for nt, _ in items]
+    smin, smax = min(k[1] for k in keys), max(k[1] for k in keys)
+    top = SHARP_OVER * BLOCK_H if any(k[2] for k in keys) else 0
+    step_h = 0.7 * STEP  # spłaszczone w pionie, żeby kafelki miały podobne miniatury
+    x = CORD_W / 2 + CORD_EXT
+    blocks, pts = [], []
+    for nt, held in items:
+        key, step, sharp = song.key_of(nt)
+        w, y = held * UNIT - GAP, top + (smax - step) * step_h
+        blocks.append(block_svg(x, y, w, BLOCK_H, key, sharp, held))
+        pts.append((x + w / 2, y + BLOCK_H / 2))
+        x += held * UNIT
+    width = x - GAP + CORD_EXT + CORD_W / 2
+    cord = [(CORD_W / 2, pts[0][1])] + pts + [(width - CORD_W / 2, pts[-1][1])]
+    return (f'<svg viewBox="0 0 {f1(width)} {f1(top + (smax - smin) * step_h + BLOCK_H)}" aria-hidden="true">'
+            f'<polyline points="{" ".join(f"{f1(px)},{f1(py)}" for px, py in cord)}" fill="none" '
+            f'stroke="{CORD}" stroke-width="{f1(CORD_W)}" stroke-linecap="round" stroke-linejoin="round"/>'
+            f'{"".join(blocks)}</svg>')
+
+
+def song_tile(song: Song) -> str:
+    """Kafelek piosenki: duża ilustracja w kolorze piosenki, tytuł i początek melodii w klockach."""
+    c = COLORS[theme_key_of(song)]
+    spec = song.illustration.strip()
+    is_image = re.search(r"\.(png|jpe?g|gif|svg|webp)$", spec, re.I)
+    emojis = spec.split() if spec and not is_image else ["🎵"]
+    stars = LEVELS[level_of(song)][1]
+    pic = (f'<span class="lvl ico">{stars}</span><b class="ico">{esc(emojis[0])}</b>'
+           + (f'<i class="ico">{esc(emojis[1])}</i>' if len(emojis) > 1 else ""))
+    return (f'<a class="tile" href="{esc(song.slug)}.html" style="--c:{c};--t:{mix(c, "#FFFFFF", .8)};'
+            f'--t2:{mix(c, "#FFFFFF", .6)}"><span class="pic" aria-hidden="true">{pic}</span>'
+            f'<span class="name">{esc(song.title)}</span><span class="mel">{melody_preview(song)}</span></a>')
+
+
+def rainbow(text: str) -> str:
+    """Napis w kolorach naklejek (bez żółtej – słabo ją widać na jasnym tle)."""
+    cycle = ["C", "G", "D", "F", "E", "A"]
+    out, i = [], 0
+    for ch in text:
+        if ch == " ":
+            out.append(" ")
+            continue
+        out.append(f'<span style="color:{COLORS[cycle[i % len(cycle)]]}">{esc(ch)}</span>')
+        i += 1
+    return "".join(out)
+
+
+def index_html(all_songs: list[Song]) -> str:
+    """Spis piosenek: kafelki w trzech poziomach, w każdym od najłatwiejszej."""
+    groups: dict[int, list[Song]] = {}
+    for s in sorted(all_songs, key=difficulty):  # przy równej ocenie zostaje kolejność plików
+        groups.setdefault(level_of(s), []).append(s)
+    levels = "".join(
+        f'<section class="level"><h2><span class="ico" aria-hidden="true">{LEVELS[i][1]}</span>'
+        f'{esc(LEVELS[i][2])}</h2><div class="tiles">{"".join(song_tile(s) for s in groups[i])}</div></section>'
+        for i in sorted(groups))
+    return (
+        f'<header class="hero"><h1 aria-label="Kolorowe pianino">{rainbow("Kolorowe pianino")}</h1>'
+        '<p class="lead">Piosenki do grania z kolorowymi naklejkami, od najłatwiejszej do najtrudniejszej. '
+        'Każda piosenka to rozkładówka: słowa po lewej, kolorowe klocki po prawej.</p></header>'
+        '<nav class="bar"><a href="jak-grac.html"><span class="ico" aria-hidden="true">❓</span>Jak grać?</a>'
+        '<a href="ksiazeczka.html"><span class="ico" aria-hidden="true">📖</span>Cała książeczka (do druku)</a>'
+        f'</nav><main class="levels">{levels}</main>'
+    )
 
 
 def build(songs: list[Song], all_songs: list[Song]) -> list[Path]:
@@ -1470,7 +1638,7 @@ def build(songs: list[Song], all_songs: list[Song]) -> list[Path]:
     numbers = {s.slug: 2 + 2 * i for i, s in enumerate(all_songs)}
     written = []
     for song in songs:
-        body = toolbar(("← Spis piosenek", "index.html"), ("Jak grać?", "jak-grac.html")) + \
+        body = toolbar(("🏠", "Piosenki", "index.html"), ("❓", "Jak grać?", "jak-grac.html"), top=True) + \
             spread_html(song, numbers.get(song.slug))
         out = OUT_DIR / f"{song.slug}.html"
         out.write_text(html_doc(f"{song.title} – Kolorowe pianino", body), encoding="utf-8")
@@ -1478,25 +1646,15 @@ def build(songs: list[Song], all_songs: list[Song]) -> list[Path]:
 
     howto = f'<div class="spread single"><div class="page">{render_howto_page()}</div></div>'
     (OUT_DIR / "jak-grac.html").write_text(
-        html_doc("Jak grać? – Kolorowe pianino", toolbar(("← Spis piosenek", "index.html")) + howto),
+        html_doc("Jak grać? – Kolorowe pianino", toolbar(("🏠", "Piosenki", "index.html")) + howto),
         encoding="utf-8")
 
     book = howto + "".join(spread_html(s, numbers[s.slug]) for s in all_songs)
     (OUT_DIR / "ksiazeczka.html").write_text(
-        html_doc("Kolorowe pianino – książeczka", toolbar(("← Spis piosenek", "index.html")) + book),
+        html_doc("Kolorowe pianino – książeczka", toolbar(("🏠", "Piosenki", "index.html")) + book),
         encoding="utf-8")
 
-    items = "".join(
-        f'<a href="{esc(s.slug)}.html">{color_dots(s)}<span>{esc(s.title)}</span>'
-        f'<small>{esc(s.subtitle)}</small></a>' for s in all_songs)
-    index = (
-        '<h1>Kolorowe pianino</h1>'
-        '<p class="lead">Piosenki do grania z kolorowymi naklejkami. Każda piosenka to rozkładówka: '
-        'słowa po lewej, kolorowe klocki po prawej.</p>'
-        f'<div class="bar"><a href="jak-grac.html">Jak grać?</a><a href="ksiazeczka.html">'
-        f'Cała książeczka (do druku)</a></div><div class="list">{items}</div>'
-    )
-    (OUT_DIR / "index.html").write_text(html_doc("Kolorowe pianino", index), encoding="utf-8")
+    (OUT_DIR / "index.html").write_text(html_doc("Kolorowe pianino", index_html(all_songs)), encoding="utf-8")
     return written
 
 
@@ -1567,11 +1725,18 @@ def describe(song: Song) -> str:
         return key + ("#" if sharp else "")
     lines.append(f"  zakres: {name(min(semis))}–{name(max(semis))}, "
                  f"czarne klawisze: {sum(1 for s in semis if KEYS[s][2])}, transpozycja: {song.transpose:+d}")
+    q = 60 / song.tempo
+    secs = sum(n.dur for r in song.rows for n in r.notes * (2 if r.repeat else 1)) * q
+    q_s = f"{q:.2f}".replace(".", ",")
+    lines.append(f"  tempo: {song.tempo} ćw./min (ćwierćnuta {q_s} s), melodia raz: {secs:.0f} s")
+    _, stars, group = LEVELS[level_of(song)]
+    lines.append(f"  trudność: {difficulty(song):.1f}".replace(".", ",") + f" – w spisie {stars} „{group}”")
     for i, row in enumerate(song.rows, 1):
         words = []
-        for n in row.notes:
+        for n, sound in zip(row.notes, bar_sound(row)):
             if n.semi is None:
-                words.append(f"(pauza {fmt_q(n.dur)})")
+                how = " – poszerza klocek" if sound and words else "" if sound else " – przerwa na sznurku"
+                words.append(f"(pauza {fmt_q(n.dur)}{how})")
                 continue
             key, _, sharp = song.key_of(n)
             w = COLOR_WORDS[key.upper()] + (" w kropki" if key.islower() else "") + \

@@ -1,8 +1,11 @@
-# Melodia z zapisu literowego (prostenuty.pl).
+# Melodia z zapisu literowego (prostenuty.pl), z oktawami jak w źródle („C2” = c, „E2” = e, „D2” = d).
+# Rytm i oktawy sprawdzone z zapisem nutowym prostenuty.pl (nuty dla średniozaawansowanych
+# „Aaa, kotki dwa”, d-moll, 4/4): ćwierćnuty, „a,” i końce wersów to półnuty, na końcu ćwierćnuta i pauza.
 # Kołysanka ludowa.
 tytuł: Aaa, kotki dwa
 podtytuł: kołysanka ludowa
-tempo: 100
+metrum: 4/4
+tempo: 108
 ilustracja: 🐱 🐱 🌙
 kolor: fioletowy
 
@@ -15,5 +18,5 @@ tylko Ciebie bawiły.
 > Zaśpiewaj całość dwa razy.
 
 [melodia]
-E A F E A F2 | E A C A H G# E2 |
-G C A A G C A2 | G C E C D H G2 |
+E A F2 | E A F2 | E A c A | H G# E2 |
+G c A A | G c A2 | G c e c | d H G - |

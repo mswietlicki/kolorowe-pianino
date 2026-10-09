@@ -1,8 +1,11 @@
 # Melodia z zapisu literowego (nuty literowe: prostenuty.pl, iwordpressonia.pl).
+# Rytm: zapis nutowy prostenuty.pl (nuty dla średniozaawansowanych „Kółko graniaste”, 4/4) i nagranie
+# do niego: „Kół” i „nia” to ćwierćnuty, wersy 3–4 w ósemkach, bez pauz. Tu ósemka zapisu = zwykły klocek.
+# Koniec „a my wszyscy bęc!” (ósemki i półnuta) też z tego zapisu.
 # Piosenka ludowa – zabawa w kółku.
 tytuł: Kółko graniaste
 podtytuł: piosenka ludowa
-tempo: 120
+tempo: 216
 ilustracja: ⭕ 🧒 🤝
 kolor: pomarańczowy
 
@@ -10,10 +13,12 @@ kolor: pomarańczowy
 Kółko graniaste,
 czworokanciaste,
 kółko nam się połamało,
-cztery grosze kosztowało.
+cztery grosze kosztowało,
+a my wszyscy bęc!
 
-> Dzieci trzymają się za ręce i idą w kółko, a na końcu kucają.
+> Dzieci trzymają się za ręce i idą w kółko, a przy „bęc!” kucają.
 
 [melodia]
-G E A G E2 | G E A G E2 |
+G2 E A G2 E2 | G2 E A G2 E2 |
 F F E D G G G G | F F E D G G G G |
+G F E D C1 |

@@ -159,20 +159,36 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
    z F-dur przeniesione do C. Generator podpowiada transpozycje (`--sprawdz`).
 4. **Czarne klawisze tylko wtedy, gdy bez nich melodia brzmi źle** (c# w „Anioł pasterzom”,
    gis w „Sto lat”). Każdy użyty czarny klawisz dostaje legendę na lewej stronie.
-5. **Upraszczaj rytm**: bez szesnastek i triol. Pauzę zamień na dłuższą poprzednią nutę
-   (książeczka nie ma pauz). Generator umie narysować pauzę jako odcinek samego sznurka,
-   ale tego elementu nie ma w oryginale, więc używaj go oszczędnie.
-6. **Rząd = fraza / wers.** Najwyżej ok. 16 ćwierćnut w rzędzie, 2–5 rzędów (najlepiej 3–4).
-   Rzędy łam tam, gdzie kończy się wers tekstu. Generator powiększa klocki, aż najdłuższy rząd
+5. **Upraszczaj rytm**: bez szesnastek i triol. Pauzy zostaw (punkt 7): na stronie dołączają
+   do poprzedniego klocka, jak w książeczce, która nie ma pauz.
+6. **Tempo jak przy śpiewie.** Pole `tempo:` liczy ćwierćnuty na minutę. Gdy rytm jest
+   przepisany z nut, weź tempo z nagrania albo z nut: większość piosenek dla dzieci to ok.
+   100–130 („Stary niedźwiedź” 108, „Sto lat” 132), kołysanki wolniej („Z popielnika na
+   Wojtusia” 104). Nuty z prostenuty.pl mają prawie zawsze ♩=120, co wygląda na ustawienie
+   domyślne; nagrania wydawcy lepiej pokazują tempo śpiewu. Gdy krótkie sylaby, które w nutach
+   są ósemkami, zapisano zwykłymi klockami (nuty literowe, książeczka z numerkami), tempo trzeba
+   podwoić: ok. 170–230 („Kółko graniaste” 216, „Poszła Karolinka” 232). `--sprawdz` podaje,
+   ile trwa ćwierćnuta i całe jedno przejście melodii. Dziecku do grania samemu służy przycisk 🐢.
+7. **Oddech między wersami.** Śpiewak bierze oddech na końcu wersu: ostatnia sylaba jest długa
+   albo po niej jest pauza. Zapisz to tak, jak w nutach, czyli dłuższą nutą albo pauzą `-`, `-2`.
+   Bez tego następny wers wchodzi od razu i piosenka brzmi jak na jednym wydechu. Przy ▶ pauza
+   jest ciszą. Na stronie pauza w takcie z nutami poszerza klocek przed nią, bo książeczka nie
+   ma pauz. Takt z samą pauzą (`| -2 |`) jest widoczną przerwą na sznurku, czyli „poczekaj”
+   (takty klaskania w „Piłce Oli”). W pliku z `metrum:` taki takt nie jest sprawdzany, więc
+   służy też za oddech poza metrum, np. `| - |` po „nam” w „Sto lat”.
+   W książeczce z numerkami sprawdź kreski taktowe: sylaba sama w takcie albo luka przed
+   następną nutą to długa nuta lub pauza, a narysowane dłonie to takt klaskania, czyli pauza.
+8. **Rząd = fraza / wers.** Najwyżej ok. 16 ćwierćnut w rzędzie (z pauzami do 18), 2–5 rzędów
+   (najlepiej 3–4). Rzędy łam tam, gdzie kończy się wers tekstu. Generator powiększa klocki, aż najdłuższy rząd
    wypełni szerokość strony, i centruje całą melodię. Wiele krótkich rzędów (np. 4 × 8 ćwierćnut)
    nie wypełni jednak strony, bo wcześniej skończy się wysokość. Wtedy połącz je w dłuższe
    (2 × 16), tak jak w „Sto lat” i „Panie Janie”. `--sprawdz` ostrzega, gdy melodia zajmuje
    mniej niż 70% szerokości.
-7. **Powtórka ↻** dla rzędu granego drugi raz od razu. Takie samo powtórzenie w innym
+9. **Powtórka ↻** dla rzędu granego drugi raz od razu. Takie samo powtórzenie w innym
    miejscu rysuj ponownie.
-8. **Słowa**: wszystkie zwrotki, poprawna interpunkcja i polskie znaki. Wskazówki do zabawy
+10. **Słowa**: wszystkie zwrotki, poprawna interpunkcja i polskie znaki. Wskazówki do zabawy
    (np. „śpiewamy kanonem”, odliczanie godzin w „Starym niedźwiedziu”) dodaj kursywą pod tekstem.
-9. **Ilustracja**: pogodna, związana z treścią (kotek, niedźwiedź, gwiazdka, tort).
+11. **Ilustracja**: pogodna, związana z treścią (kotek, niedźwiedź, gwiazdka, tort).
 
 ## 5. Piosenki przygotowane w tym katalogu
 
@@ -195,16 +211,16 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/15-pilka-oli.txt` | Piłka Oli | C–e, 0 | książeczka numerkowa (`import/5.jpeg`), muz. B. Kolago |
 | `piosenki/16-kwiatki-bratki.txt` | Kwiatki bratki | C–e, 0 | książeczka numerkowa (`import/6.jpeg`), muz. B. Kolago |
 | `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–e, 0 | książeczka numerkowa (`import/7.jpeg`), muz. K. Kwiatkowska |
-| `piosenki/18-kolko-graniaste.txt` | Kółko graniaste | D–A, 0 | nuty literowe (prostenuty.pl, iwordpressonia.pl) |
-| `piosenki/19-jedzie-pociag-z-daleka.txt` | Jedzie pociąg z daleka | C–H, 0 | nuty literowe prostenuty.pl |
-| `piosenki/20-kukuleczka-kuka.txt` | Kukuleczka kuka | C–H, 0 | nuty literowe prostenuty.pl |
-| `piosenki/21-miala-baba-koguta.txt` | Miała baba koguta | C–H, 0 | nuty literowe prostenuty.pl |
-| `piosenki/22-poszla-karolinka.txt` | Poszła Karolinka do Gogolina | C–H, 0 | nuty literowe prostenuty.pl |
-| `piosenki/23-aaa-kotki-dwa.txt` | Aaa, kotki dwa | C–H, 1 (G#) | nuty literowe prostenuty.pl |
-| `piosenki/24-z-popielnika-na-wojtusia.txt` | Z popielnika na Wojtusia | C–H, 1 (G#) | nuty literowe prostenuty.pl; słowa: M. Konopnicka |
-| `piosenki/25-byl-sobie-krol.txt` | Był sobie król | C–H, 1 (G#) | nuty literowe prostenuty.pl |
-| `piosenki/26-idzie-niebo.txt` | Idzie niebo | C–H, 0 | nuty literowe prostenuty.pl; słowa: E. Szelburg-Zarembina |
-| `piosenki/27-nasza-zima-zla.txt` | Nasza zima zła | C–H, 0 | nuty literowe prostenuty.pl |
+| `piosenki/18-kolko-graniaste.txt` | Kółko graniaste | D–A, 0 | nuty literowe i zapis nutowy prostenuty.pl |
+| `piosenki/19-jedzie-pociag-z-daleka.txt` | Jedzie pociąg z daleka | D–d, 4 (F#) – w C-dur się nie mieści | zapis nutowy prostenuty.pl (G-dur) |
+| `piosenki/20-kukuleczka-kuka.txt` | Kukułeczka kuka | D–d, 2 (F#), przeniesione o +7 | nuty literowe i zapis nutowy prostenuty.pl |
+| `piosenki/21-miala-baba-koguta.txt` | Miała baba koguta | C–d, 3 (B), przeniesione o +5 | nuty literowe i nagranie prostenuty.pl |
+| `piosenki/22-poszla-karolinka.txt` | Poszła Karolinka do Gogolina | C–B, 1 (B), przeniesione o +5 | nuty literowe prostenuty.pl, rytm: J. Roger (1863) |
+| `piosenki/23-aaa-kotki-dwa.txt` | Aaa, kotki dwa | E–e, 1 (G#) | nuty literowe i zapis nutowy prostenuty.pl |
+| `piosenki/24-z-popielnika-na-wojtusia.txt` | Z popielnika na Wojtusia | C–e, 1 (G#) | nuty literowe prostenuty.pl, rytm: Mama Lisa; słowa: M. Konopnicka |
+| `piosenki/25-byl-sobie-krol.txt` | Był sobie król | D–e, 1 (G#) | nuty literowe i zapis nutowy prostenuty.pl |
+| `piosenki/26-idzie-niebo.txt` | Idzie niebo | C–H, 1 (F#) | zapis nutowy prostenuty.pl; słowa: E. Szelburg-Zarembina |
+| `piosenki/27-nasza-zima-zla.txt` | Nasza zima zła | D–c, 0 (przeniesione o −2) | zapis nutowy prostenuty.pl |
 
 ## 6. Format pliku piosenki (dla generatora)
 
@@ -219,7 +235,7 @@ metrum: 3/4                       # opcjonalnie: generator sprawdzi długości t
 ilustracja: 🐱 🌼                  # 1–3 emoji (pierwsze duże) albo ścieżka do obrazka .png/.jpg/.svg
 kolor: pomarańczowy               # opcjonalnie: kolor akwarelowej plamy pod ilustracją
 transpozycja: 0                   # opcjonalnie: przesunięcie melodii w półtonach (+2, -5…)
-tempo: 120                        # opcjonalnie: ćwierćnut na minutę przy odtwarzaniu ▶ (domyślnie 100)
+tempo: 152                        # opcjonalnie: ćwierćnut na minutę przy odtwarzaniu ▶ (domyślnie 100; jak dobrać: punkt 4)
 zapis: litery                     # opcjonalnie: „litery” (domyślnie) albo „numery” – patrz punkt 6.1
 
 [słowa]
@@ -264,7 +280,7 @@ i przypisuje je kolejnym nutom, żeby przy odtwarzaniu ▶ zapalała się śpiew
 | `4.` | ćwierćnuta z kropką (`G4.`) |
 | `2`, `2.` | półnuta, półnuta z kropką |
 | `1` | cała nuta |
-| `-` `-8` `-2`… | pauza (odcinek samego sznurka; lepiej wydłużyć poprzednią nutę) |
+| `-` `-8` `-2`… | pauza, przy ▶ cisza: poszerza poprzedni klocek, a sama w takcie (`\| -2 \|`) jest przerwą na sznurku (punkt 4) |
 | `\|` | kreska taktowa: nie jest rysowana, służy do kontroli metrum |
 | `↻` albo `:\|` na końcu linii | znak powtórki rzędu |
 | `G,` `A,` `H,` / `f` `g` `a` / `c'` | dźwięki poza naklejkami. Dozwolone tylko razem z `transpozycja:`, która przesunie je w zakres C–e |
@@ -309,14 +325,19 @@ Buduje wszystkie piosenki do katalogu `strony/`:
 - `strony/NN-nazwa.html`: rozkładówka jednej piosenki,
 - `strony/ksiazeczka.html`: strona „Jak grać?” i wszystkie piosenki po kolei,
 - `strony/jak-grac.html`: legenda dla dziecka i rodzica (naklejki, kropki, szerokość, belka, ↻),
-- `strony/index.html`: spis piosenek.
+- `strony/index.html`: spis piosenek w dużych kafelkach do obsługi palcem, od najłatwiejszej do
+  najtrudniejszej, w trzech poziomach (⭐ „Na dobry początek”, ⭐⭐ „Trochę trudniejsze”,
+  ⭐⭐⭐ „Dla wprawnych”). Kolejność książeczki i numery stron zostają według nazw plików.
 
 ```bash
 python generator/kolorowe_pianino.py --sprawdz piosenki/05-sto-lat.txt
 ```
 
 Tylko sprawdza piosenkę: zakres, czarne klawisze, takty, możliwe transpozycje i opis melodii
-słowami.
+słowami. Podaje też ocenę trudności i poziom w spisie piosenek. Ocena rośnie z liczbą dźwięków
+i różnych klawiszy, a najmocniej z czarnymi klawiszami. Dokładają się do niej skoki o 3 białe
+klawisze i więcej oraz bardzo krótkie nuty w szybkim tempie (funkcja `difficulty()` i progi
+`LEVELS` w generatorze).
 
 ```bash
 python generator/kolorowe_pianino.py --pdf
@@ -324,28 +345,29 @@ python generator/kolorowe_pianino.py --pdf
 
 Dodatkowo tworzy PDF-y w `strony/pdf/`.
 
-**Odtwarzanie:** na stronie z melodią jest zielony przycisk **▶** (albo spacja na stronie
-pojedynczej piosenki). Gra całą piosenkę (melodię tyle razy, ile jest zwrotek) w tempie z pola
-`tempo:`. Grany klocek podskakuje, a w słowach na lewej stronie zapala się śpiewana sylaba, na
-tle w kolorze tego klocka. Pozostałe zwrotki bledną. Rząd z ↻ gra dwa razy. Kliknięcie wersu słów
-gra od tego wersu.
+**Odtwarzanie:** nad stroną z melodią jest duży zielony przycisk **▶** (albo spacja na stronie
+pojedynczej piosenki). Przyciski są duże, do obsługi palcem przez małe dziecko. Gra całą
+piosenkę (melodię tyle razy, ile jest zwrotek) w tempie z pola `tempo:`. Grany klocek podskakuje,
+a w słowach na lewej stronie zapala się śpiewana sylaba, na tle w kolorze tego klocka. Pozostałe
+zwrotki bledną. Rząd z ↻ gra dwa razy. Kliknięcie wersu słów gra od tego wersu.
 
 - **🐢** zwalnia odtwarzanie do ok. 60%.
 - **🔇 Graj sam**: bez dźwięku. Po ▶ przycisk odlicza w tempie piosenki 4, 3, 2, 1 (w metrum 3/4:
-  3, 2, 1), a pierwszy klocek podskakuje w takt. Potem klocki i sylaby zapalają się
+  3, 2, 1; w szybkich piosenkach, z tempem powyżej 160, co półnutę), a pierwszy klocek podskakuje
+  w takt. Potem klocki i sylaby zapalają się
   w tempie piosenki, a dziecko gra samo na swoim pianinie. Działa razem z 🐢.
 
-Przyciski i podświetlenia nie drukują się. Do podglądu stron w przeglądarce wystarczy otworzyć
-plik HTML, bez serwera.
+Przyciski i podświetlenia nie drukują się. Strony nie mają przycisku „Drukuj”, bo do druku są
+PDF-y. Do podglądu stron w przeglądarce wystarczy otworzyć plik HTML, bez serwera.
 
 **Druk:** każda strona trafia na osobną kartkę **A4 w poziomie**, więc klocki są duże i łatwe
-do czytania. Z przeglądarki: przycisk „Drukuj”, orientacja pozioma, marginesy „brak”,
-włączona grafika tła. Dla całej książeczki otwórz `ksiazeczka.html` albo `pdf/ksiazeczka.pdf`.
+do czytania. Drukuj PDF-y ze `strony/pdf/`, a całą książeczkę z `pdf/ksiazeczka.pdf`. Z przeglądarki
+(Ctrl+P na `ksiazeczka.html`) ustaw orientację poziomą, marginesy „brak” i włączoną grafikę tła.
 
 ## 8. Lista kontrolna nowej strony
 
 - [ ] Piosenka znana dzieciom, tekst tradycyjny albo z domeny publicznej
-- [ ] Melodia sprawdzona z zapisem nutowym, rytm uproszczony (bez szesnastek, triol, pauz)
+- [ ] Melodia sprawdzona z zapisem nutowym, rytm uproszczony (bez szesnastek i triol)
 - [ ] Wszystkie dźwięki w zakresie C–e, jak najmniej czarnych klawiszy
 - [ ] Rzędy = frazy, 2–5 rzędów, najwyżej ok. 16 ćwierćnut w rzędzie
 - [ ] Bezpośrednie powtórzenie rzędu zapisane znakiem ↻
@@ -353,5 +375,5 @@ włączona grafika tła. Dla całej książeczki otwórz `ksiazeczka.html` albo 
 - [ ] Legenda dla każdego użytego symbolu (czarny klawisz, ↻)
 - [ ] Melodia wypełnia szerokość strony (bez ostrzeżenia `--sprawdz`)
 - [ ] Słowa pasują do nut (`--sprawdz`, część „słowa do nut”, bez ostrzeżeń; łuki oznaczone `_`)
-- [ ] Melodia odsłuchana przyciskiem ▶ i zgodna ze śpiewem
+- [ ] Melodia odsłuchana przyciskiem ▶ i zgodna ze śpiewem: tempo jak przy śpiewie, oddech na końcu wersów
 - [ ] `--sprawdz` bez uwag; strona obejrzana w przeglądarce przed drukiem

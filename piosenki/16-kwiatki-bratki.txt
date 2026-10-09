@@ -1,10 +1,11 @@
 # Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/6.jpeg).
 # Muzyka: Barbara Kolago. Utwór współczesny – strona wyłącznie do użytku domowego.
-# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+# Rytm z kresek taktowych w książeczce (2/4): „kwia-tki”, „sto-kro-tki”, „Do-ro-tki”, „pa-chną-ce”,
+# „sło-ńcem” – każda z dwóch ostatnich sylab zajmuje cały takt; „Kwia-tki bra-tki” to ósemki.
 tytuł: Kwiatki bratki
 podtytuł: muzyka: Barbara Kolago
 zapis: numery
-tempo: 108
+tempo: 116
 ilustracja: 🌸 🧺 🐝
 kolor: różowy
 
@@ -23,6 +24,6 @@ malowane słońcem.
 
 [melodia]
 7:8 8:8 9 7 6 7 8 6 | 6 7 8 6 4 6 7 | 9:2 |
-7:8 8:8 9 7 6 7 5 7 9 7 9 7 4 7 | 8 | 7:2 |
-9:8 7:8 9 7 9 7 8 4 | 8 6 8 6 8 9 7 | 4:2 |
-9 7 9 7 9 7 8 7 9 7 4 7 | 8 | 7:2 |
+7:8 8:8 9 7 6 7 5 7 9 7 9 7 4 7 | 8:2 | 7:2 |
+9:8 7:8 9:8 7:8 | 9 7 | 8:2 | 4:2 | 8:8 6:8 8:8 6:8 | 8 9 | 7:2 | 4:2 |
+9:8 7:8 9:8 7:8 | 9 7 | 8:2 | 7:2 | 9 7 | 4 7 | 8:2 | 7:2 |

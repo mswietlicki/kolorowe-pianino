@@ -2,7 +2,7 @@
 tytuł: Wlazł kotek na płotek
 podtytuł: piosenka ludowa
 metrum: 3/4
-tempo: 120
+tempo: 152
 ilustracja: 🐱 🌼
 kolor: pomarańczowy
 

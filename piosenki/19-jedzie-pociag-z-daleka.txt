@@ -1,8 +1,12 @@
-# Melodia z zapisu literowego (prostenuty.pl).
+# Melodia i rytm: zapis nutowy prostenuty.pl (nuty dla średniozaawansowanych „Jedzie pociąg z daleka”,
+# G-dur, 4/4): ćwierćnuty, każdy wers kończy półnuta, bez pauz. Nuty literowe prostenuty.pl są w C-dur
+# na dwie oktawy (G–g), więc nie mieszczą się w C–e; w G-dur melodia pasuje (D–d) z F# w „z daleka”,
+# „nie czeka” i „Warszawy”.
 # Piosenka dla dzieci.
 tytuł: Jedzie pociąg z daleka
 podtytuł: piosenka dla dzieci
-tempo: 120
+metrum: 4/4
+tempo: 152
 ilustracja: 🚂 🛤️ 🎟️
 kolor: niebieski
 
@@ -15,6 +19,6 @@ konduktorze łaskawy,
 zabierz nas do Warszawy.
 
 [melodia]
-G C E D C H C2 | G C E D C H C2 |
-G C E G F E D2 | G H D F E D C2 |
-G C E G F E D2 | G H D F E D C2 |
+D G H A | G F# G2 | D G H A | G F# G2 |
+D G H d | c H A2 | D F# A c | H A G2 |
+D G H d | c H A2 | D F# A c | H A G2 |

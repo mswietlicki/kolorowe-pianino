@@ -4,7 +4,7 @@
 tytuł: Mam chusteczkę haftowaną
 podtytuł: zabawa ludowa
 metrum: 2/4
-tempo: 100
+tempo: 108
 ilustracja: 🎀 💃 🌸
 kolor: różowy
 

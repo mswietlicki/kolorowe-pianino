@@ -1,8 +1,12 @@
-# Melodia z zapisu literowego (prostenuty.pl).
+# Melodia z zapisu literowego (prostenuty.pl). Rytm końców wersów z zapisów nutowych (3/4):
+# Mama Lisa (https://www.mamalisa.com/?t=es&p=2185, obrazek i MIDI) i prostenuty.pl (nuty dla
+# średniozaawansowanych): „Wojtusia” krótko i oddech, „mru-ga” i „dłu-ga” po całym takcie,
+# „bajeczkę” krótko i od razu „bajka”. Nuty zapisu: A, i H, (poniżej C), więc „-sia”, „mruga”
+# zostają o oktawę wyżej, a „bajka będzie długa” cała o oktawę wyżej (e d c H A A).
 # Słowa: Maria Konopnicka (1842–1910).
 tytuł: Z popielnika na Wojtusia
 podtytuł: słowa: Maria Konopnicka
-tempo: 100
+tempo: 104
 ilustracja: 🔥 ⭐ 🌙
 kolor: pomarańczowy
 
@@ -18,5 +22,5 @@ król wyprawił im wesele
 i skończona bajka.
 
 [melodia]
-E E F E A E C A2 | E E F E H H2 |
-D D E D H A G# F2 | E D C H A A2 |
+E E F E A E C A - | E E F E H2 H2 |
+D D E D H A G# F | e d c H A2 A2 |

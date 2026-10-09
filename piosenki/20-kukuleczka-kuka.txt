@@ -1,14 +1,21 @@
-# Melodia z zapisu literowego (prostenuty.pl).
+# Melodia z zapisu literowego (prostenuty.pl), z oktawami jak w źródle („G-2” = G,, „C2” = c).
+# Rytm: zapis nutowy prostenuty.pl (nuty dla średniozaawansowanych „Kukułeczka kuka”, 3/4) i nagranie
+# nut literowych: „Po tym”, „z ranka”, „gniazdka” to szybkie przednutki (w zapisie ósemka z kropką
+# i szesnastka, tu dwie ósemki), wersy kończą półnuty, „Ku-ku!” = ćwierćnuta i półnuta.
+# Melodia ma rozpiętość G,–c (więcej niż C–e), więc „Kuku!” jest o oktawę niżej niż w źródle,
+# a całość przeniesiona o kwintę w górę (G-dur, F# w „Po tym” i „z ranka”).
 # Piosenka ludowa.
-tytuł: Kukuleczka kuka
+tytuł: Kukułeczka kuka
 podtytuł: piosenka ludowa
-tempo: 120
+metrum: 3/4
+transpozycja: +7
+tempo: 126
 ilustracja: 🐦 🌳 🍃
 kolor: zielony
 
 [słowa]
 Po tym ciemnym boru
-kukuleczka kuka,
+kukułeczka kuka,
 z ranka do wieczora
 gniazdka sobie szuka.
 Kuku! Kuku!
@@ -16,6 +23,6 @@ Gniazdka sobie szuka.
 Kuku! Kuku!
 
 [melodia]
-G H D D G E2 | F E D G E C2 |
-G H D D G E2 | F E D G E C2 |
-C G C G | F E D G E C2 | C G C G |
+G,8 H,8 D D | G E2 | F8 E8 D G | E C2 |
+G,8 H,8 D D | G E2 | F8 E8 D G | E C2 |
+C G,2 | C G,2 | F8 E8 D G | E C2 | C G,2 | C G,2 |

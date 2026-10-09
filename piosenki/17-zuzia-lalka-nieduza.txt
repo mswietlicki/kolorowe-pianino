@@ -1,10 +1,11 @@
 # Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/7.jpeg).
 # Muzyka: Krystyna Kwiatkowska. Utwór współczesny – strona wyłącznie do użytku domowego.
-# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶. Z kresek taktowych:
+# długie są końce wersów „sto”, „lal”, a przedtakty „Lecz”, „choć” krótkie (wcześniej odwrotnie).
 tytuł: Zuzia, lalka nieduża
 podtytuł: muzyka: Krystyna Kwiatkowska
 zapis: numery
-tempo: 112
+tempo: 144
 ilustracja: 🪆 🧵 🌷
 kolor: fioletowy
 
@@ -21,6 +22,6 @@ zabiorę ją na bal.
 
 [melodia]
 8:8 4:8 6:8 6:8 7 8 4 6 | 6 7 8 4 8 4 | 8 | 7 | 7:2 |
-8:8 4:8 6:8 6:8 7 8 4 6 | 6:8 7:8 8:8 4 4 | 8 8 7 7 | 4:8 4:2 |
-6 6 4 7 8 4 4 7 4 7 4 8 | 4:2 |
+8:8 4:8 6:8 6:8 7 8 4 6 | 6:8 7:8 8:8 4 4 | 8 8 7 7 | 4:2 4:8 |
+6 6 4 7 8 4 4 7 4 7 4 8:2 | 4 |
 6 6 11 11 7 8 8 7 7 8 9 | 7:2 |

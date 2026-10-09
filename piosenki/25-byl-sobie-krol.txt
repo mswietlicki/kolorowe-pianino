@@ -1,8 +1,12 @@
-# Melodia z zapisu literowego (prostenuty.pl).
+# Melodia z zapisu literowego (prostenuty.pl). Rytm: zapis nutowy prostenuty.pl (nuty dla
+# średniozaawansowanych „Był sobie król”, d-moll, 3/4) i nagranie do niego: „król”, „paź”, „-na”,
+# „róż”, „burz”, „pew-na” trwają cały takt, „peł-” na dwóch nutach. Tu skrócone do półnut, żeby wers
+# zmieścił się w rzędzie. Melodia ma rozpiętość E,–A (więcej niż C–e), więc „Był sobie król/paź”,
+# „nie znali burz” i ostatni wers są o oktawę wyżej niż w zapisie, a w „róż” tylko ostatnia nuta.
 # Piosenka ludowa.
 tytuł: Był sobie król
 podtytuł: piosenka ludowa
-tempo: 120
+tempo: 104
 ilustracja: 👑 🏰 🌹
 kolor: fioletowy
 
@@ -12,8 +16,8 @@ był sobie paź,
 i była też królewna.
 Żyli wśród róż,
 nie znali burz,
-rzecz najzupełniej pewna_.
+rzecz najzupeł_niej pewna.
 
 [melodia]
-E A H C | E A H C | E E E A E F D |
-F F D H | E E C A | E G# H D C H C E |
+E A H c2 | E A H c2 | E E E A E F D2 |
+F F D H2 | e e c A2 | E G# H d8 c8 H c e2 |

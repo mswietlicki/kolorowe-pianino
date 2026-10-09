@@ -1,10 +1,12 @@
 # Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/4.jpeg).
 # Muzyka: Adam Skorupka. Utwór współczesny – strona wyłącznie do użytku domowego.
-# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+# Rytm z odstępów i kresek taktowych w książeczce (4/4, przedtakt „Ta-ki”). Wcześniej „strach!”
+# był krótki, a przedtakt „Z ru-dych” długi – teraz jak w nutach; „wąż?”, „piłka”, „szpilkach” długie.
 tytuł: A to jeż
 podtytuł: muzyka: Adam Skorupka
 zapis: numery
-tempo: 108
+metrum: 4/4
+tempo: 116
 ilustracja: 🦔 🍁 🌰
 kolor: czerwony
 
@@ -20,7 +22,6 @@ Skacze coś jak piłka
 całe w burych szpilkach.
 
 [melodia]
-5 6 7 6 6 5 6 7 8 7 6 6 | 7:2 |
-8 7 7 6 8 6 7 6 5 5 6 |
-7:8 6:8 6:8 5:8 6:8 7:8 8:8 7:8 6:8 6:8 7:8 | 8 7 7 6 7 8 9 9 | 9:2 |
-5:8 8:8 9 5:8 6:8 9 | 10:8 10:8 10 10 10 | 9:2 |
+5:8 6:8 | 7 6:8 6:8 5 6:8 7:8 | 8 7 6 6:8 7:8 | 8 7:8 7:8 6 8:8 6:8 | 7 6 5 5:8 6:8 |
+7 6:8 6:8 5 6:8 7:8 | 8 7 6 6:8 7:8 | 8 7:8 7:8 6 7:8 8:8 | 9 9 9:2 |
+5:4. 8:8 9:4. 5:8 | 6 9:2. | 10:4. 10:8 10:4. 10:8 | 10 9:2. |

@@ -1,8 +1,14 @@
-# Melodia z zapisu literowego (prostenuty.pl).
+# Melodia z zapisu literowego (prostenuty.pl), z oktawami jak w źródle („H-2” = H, itd.).
+# Rytm odczytany z nagrania tych nut literowych (prostenuty.pl, „82 Miala baba koguta.mp3”, 2/4):
+# zwrotka w ósemkach (tu zwykłe klocki), „ko-gu-ta” = dwie ósemki i ćwierćnuta, po „hej!” oddech.
+# Refren: „O, mój miły” równe nuty, „ko-gu-cie” na zmianę długa-krótka-długa i trzy krótkie. W nagraniu
+# refren idzie dwa razy wolniej niż tu – w tym tempie nie zmieściłby się w jednym rzędzie.
+# Melodia (G,–A) przeniesiona o kwartę w górę (F-dur, B w refrenie).
 # Piosenka ludowa.
 tytuł: Miała baba koguta
 podtytuł: piosenka ludowa
-tempo: 120
+transpozycja: +5
+tempo: 200
 ilustracja: 🐓 👢 👵
 kolor: czerwony
 
@@ -15,6 +21,6 @@ O, mój miły kogucie, kogucie,
 kogucie, kogucie, kogucie, kogucie.
 
 [melodia]
-C C H A A G C2 | C H D D C E2 |
-C C H A A G C2 | C H D C2 |
-G8 H8 D F A8 G8 E8 E8 E8 E2 | G8 F8 D8 D8 D8 D8 F8 E8 C8 C8 H8 A2 |
+C C H, A, A, G, C2 | C H, D2 D C E2 |
+C C H, A, A, G, C2 | C H, D2 C2 -2 |
+G, H, D F | A G8 E E8 E8 E8 | G F8 D D8 D8 D8 | F E8 C C8 H,8 A,2 |

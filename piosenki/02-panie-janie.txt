@@ -2,7 +2,7 @@
 tytuł: Panie Janie
 podtytuł: melodia francuska
 metrum: 4/4
-tempo: 112
+tempo: 126
 ilustracja: 🔔 😴 🎵
 kolor: żółty
 

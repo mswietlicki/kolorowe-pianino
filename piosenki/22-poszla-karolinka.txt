@@ -1,8 +1,13 @@
-# Melodia z zapisu literowego (prostenuty.pl).
+# Melodia z zapisu literowego (prostenuty.pl), z oktawami jak w źródle („G-2” = G,, „H-2” = H,).
+# Rytm: nagranie tych nut literowych (prostenuty.pl, „86 Poszla Karolinka do Gogolina.mp3”, 2/4)
+# i zapis J. Rogera („Pieśni ludu polskiego w Górnym Szląsku”, 1863, nr 129, Wikiźródła): cztery ósemki
+# i dwie ćwierćnuty, „do Gogolina” kończy ćwierćnuta i pauza. Tu ósemka zapisu = zwykły klocek.
+# Melodia (G,–F) przeniesiona o kwartę w górę (F-dur, B w „za nią”).
 # Piosenka ludowa.
 tytuł: Poszła Karolinka do Gogolina
 podtytuł: piosenka ludowa
-tempo: 120
+transpozycja: +5
+tempo: 232
 ilustracja: 👩 🏘️ 🍷
 kolor: fioletowy
 
@@ -14,7 +19,7 @@ jak za piękną Panią,
 z flaszeczką wina.
 
 [melodia]
-C C G E C G2 | C C H A G2 |
-C C G E C G2 | C C H A G2 |
-C D E E E F2 | D D D D D E2 |
-C C D D C2 |
+C C G, E C2 G,2 | C C H, A, G,2 -2 |
+C C G, E C2 G,2 | C C H, A, G,2 -2 |
+C D E E E2 F2 | D D D D D2 E2 |
+C C D D C1 |

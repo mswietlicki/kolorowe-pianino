@@ -100,9 +100,10 @@ const MEASURE = (clicks, listen, mute) => `(async () => {
     if (syl !== notes[k][2]) sylBad++;
     k++;
   }
+  const count = data.count || 4, beat = q < 0.375 && count % 2 === 0 ? 2 * q : q;  // szybkie piosenki: co półnutę
   return { offs, sylBad, tones: window.__tones.length - from,
            countIn: marks.length ? Math.round((marks[0][0] - clicked) * 1000) : null,
-           countMin: Math.round((data.count || 4) * q * 1000) };
+           countMin: Math.round(count * beat * 1000) };
 })()`;
 
 async function scenario(opts, clicks = [0], listen = 4000, mute = false) {

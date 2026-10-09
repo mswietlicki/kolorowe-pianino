@@ -4,7 +4,7 @@
 tytuł: Gdzieżeś ty bywał, czarny baranie?
 podtytuł: zabawa ludowa
 metrum: 2/4
-tempo: 100
+tempo: 108
 transpozycja: -2
 ilustracja: 🐏 🌾 🍯
 kolor: fioletowy

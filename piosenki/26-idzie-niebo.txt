@@ -1,23 +1,26 @@
-# Melodia z zapisu literowego (prostenuty.pl).
+# Melodia i rytm: zapis nutowy prostenuty.pl (nuty dla średniozaawansowanych „Idzie niebo ciemną nocą”,
+# C-dur, 4/4) i nuty literowe prostenuty.pl. Wersy zaczynają dwie ósemki, kończą długie nuty,
+# po „zobaczyły” pauza. Ostatni wers według zapisu nutowego (D D E G E F# G).
+# W zapisie „gwiazd”, „-czyły” to G, a „Jak”, „to” to H, (poniżej C) – tu są o oktawę wyżej.
 # Słowa: Ewa Szelburg-Zarembina. Utwór współczesny – strona do użytku domowego.
 tytuł: Idzie niebo
 podtytuł: słowa: Ewa Szelburg-Zarembina
-tempo: 108
+tempo: 120
 ilustracja: 🌌 ⭐ 🐦
 kolor: niebieski
 
 [słowa]
-Idzie niebo ciemną nocą_,
+Idzie niebo ciemną_ nocą,
 ma w fartuszku pełno gwiazd.
-Gwiazdki błyszczą i migocą_,
+Gwiazdki błyszczą i mi_gocą,
 aż wyjrzały ptaszki z gniazd.
-Jak wyjrzały, zobaczyły_,
-to nie chciały dłużej spać_.
+Jak wyjrzały, zoba_czyły,
+to nie chciały dłużej spać.
 Kaprysiły, grymasiły,
 żeby im po jednej dać.
 
 [melodia]
-C D E E F F E D G | G F E C D D G |
-C D E E F F E D G | G F E C D D C |
-H C D G E E C D G | H C D G D A8 A8 G |
-G G G E G G G D | G F E C D D G |
+C8 D8 | E E F F8 E8 | D G2 G8 F8 | E C D D | G2.
+C8 D8 | E E F F8 E8 | D G2 G8 F8 | E C D D | C2.
+H8 C8 | D G E E8 C8 | D G -2 H8 C8 | D G A A | G2.
+G8 G8 | G E2 G8 G8 | G D2 D8 D8 | E G E F# | G2 |

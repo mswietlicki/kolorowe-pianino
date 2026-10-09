@@ -1,10 +1,11 @@
 # Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/5.jpeg).
 # Muzyka: Barbara Kolago. Utwór współczesny – strona wyłącznie do użytku domowego.
-# Rytm dobrany do słów (książeczka nie podaje długości nut) – sprawdź przyciskiem ▶.
+# Rytm z kresek taktowych w książeczce (2/4): po wersach są całe takty pauzy, w których
+# dzieci klaszczą (w książeczce narysowane dłonie) – w zapisie pauzy „-2”.
 tytuł: Piłka Oli
 podtytuł: muzyka: Barbara Kolago
 zapis: numery
-tempo: 120
+tempo: 112
 ilustracja: ⚽ 🤸 🌸
 kolor: niebieski
 
@@ -21,9 +22,11 @@ Ola, Ola, piłkę ma!
 Ola, Ola, Ola la,
 klaszczę w ręce raz i dwa!
 
-> Przy „Ola, Ola, Ola la” klaszczemy w dłonie.
+> W pauzach po wersach klaszczemy w dłonie:
+> 4 razy, a po „Ola, Ola, Ola la” i na końcu rzędu 3 razy.
 
 [melodia]
-7:8 4:8 7 9 8 8 8 8 | 8 9 7 8 7 7 7 | 7:2 |
-7:8 4:8 7 9 8 8 8 8 | 8 9 7 8 7 7 9 | 11:2 |
-11:8 9:8 8:8 7:8 8:8 8:8 8:8 8:8 9:8 7:8 8:8 7:8 7:8 7:8 | 11:8 9:8 8:8 7:8 8:8 8:8 8:8 8:8 9:8 8:8 9:8 7:8 8:8 7:2 |
+7:8 4:8 | 7 9 | 8:8 8:8 8:8 8:8 | -2 | 8 9 | 7 8 | 7:8 7:8 7:8 7:8 | -2 |
+7:8 4:8 | 7 9 | 8:8 8:8 8:8 8:8 | -2 | 8 9 | 7 8 | 7 7 | 9 11 |
+11:8 | 9:8 8:8 7 | 8:8 8:8 8 | -2 | 8 9 | 7 8 | 7:8 7:8 7 | -2 |
+11:8 | 9:8 8:8 7 | 8:8 8:8 8 | -2 | 8:8 9:8 8:8 9:8 | 7 8 | 7:2 | -2 |

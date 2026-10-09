@@ -5,7 +5,7 @@
 tytuł: Krakowiaczek jeden
 podtytuł: piosenka ludowa
 metrum: 2/4
-tempo: 104
+tempo: 116
 ilustracja: 🐎 🌸 🪶
 kolor: czerwony
 

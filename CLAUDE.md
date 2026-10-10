@@ -17,7 +17,8 @@ których te zasady się opierają.
    W komentarzu `#` podaj źródło melodii.
 4. Uruchom `python generator/kolorowe_pianino.py --sprawdz piosenki/NN-krotka-nazwa.txt`.
    Wynik musi być bez uwag, w zakresie C–e i z jak najmniejszą liczbą czarnych klawiszy
-   (skorzystaj z podpowiedzi transpozycji). Sprawdź też część „słowa do nut”: każda sylaba ma
+   (skorzystaj z podpowiedzi transpozycji). Gdy melodia nie mieści się w C–e, użyj dodatkowych
+   naklejek A, H, (w paski) i f g a h (w kropki) zamiast przenosić frazy o oktawę (ZASADY.md §1, §4). Sprawdź też część „słowa do nut”: każda sylaba ma
    trafić na swoją nutę. Sylabę śpiewaną na kilku nutach oznacz w słowach `_` (ZASADY.md §6).
    Ustaw `tempo:` jak przy śpiewie i zostaw oddech na końcu wersów: długą nutę albo pauzę `-`
    (ZASADY.md §4, punkty 6–7). Bez tego następny wers wchodzi od razu.

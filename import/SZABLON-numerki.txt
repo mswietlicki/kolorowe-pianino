@@ -4,7 +4,8 @@
 #
 # Numer = biały klawisz:   1  2  3 | 4  5  6  7  8  9  10 | 11 12 13
 #                          G, A, H,| C  D  E  F  G  A  H  | c  d  e
-# (4 = środkowe C z kreską pod pięciolinią = czerwona naklejka; 1–3 nie mają naklejek)
+# (4 = środkowe C z kreską pod pięciolinią = czerwona naklejka; 1 nie ma naklejki, 2–3 i 14–17
+#  (f g a h) mają dodatkowe naklejki w paski / w kropki – patrz ZASADY.md §1)
 #
 # Długość dopisujesz po dwukropku (bez dwukropka = ćwierćnuta):
 #   9:8 ósemka · 9 ćwierćnuta · 9:4. ćwierćnuta z kropką · 9:2 półnuta · 9:2. · 9:1 cała nuta

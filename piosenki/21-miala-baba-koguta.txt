@@ -1,14 +1,17 @@
 # Melodia z zapisu literowego (prostenuty.pl), z oktawami jak w źródle („H-2” = H, itd.).
-# Rytm odczytany z nagrania tych nut literowych (prostenuty.pl, „82 Miala baba koguta.mp3”, 2/4):
-# zwrotka w ósemkach (tu zwykłe klocki), „ko-gu-ta” = dwie ósemki i ćwierćnuta, po „hej!” oddech.
-# Refren: „O, mój miły” równe nuty, „ko-gu-cie” na zmianę długa-krótka-długa i trzy krótkie. W nagraniu
-# refren idzie dwa razy wolniej niż tu – w tym tempie nie zmieściłby się w jednym rzędzie.
+# Rytm odczytany z nagrania tych nut literowych (prostenuty.pl, „82 Miala baba koguta.mp3”) i z „prostych
+# nut” prostenuty.pl (4/4): zwrotka w ósemkach, „ko-gu-ta” = dwie ósemki i ćwierćnuta, „hej!” półnuta.
+# Refren: „O, mój miły” ćwierćnuty, „ko-gu-cie” na zmianę długa-krótka-długa i trzy krótkie.
+# Nuty literowe kończą się na „kogucie” (A,); nagranie gra dalej „Jakże ci tam w tym bucie”
+# na tę samą melodię i kończy na C – stąd trzeci rząd. Tempo jak w nagraniu, tylko wolniej
+# (ósemka 0,3 s zamiast 0,2 s).
 # Melodia (G,–A) przeniesiona o kwartę w górę (F-dur, B w refrenie).
 # Piosenka ludowa.
 tytuł: Miała baba koguta
 podtytuł: piosenka ludowa
+metrum: 4/4
 transpozycja: +5
-tempo: 200
+tempo: 100
 ilustracja: 🐓 👢 👵
 kolor: czerwony
 
@@ -18,9 +21,11 @@ koguta, koguta,
 wsadziła go do buta,
 do buta, hej!
 O, mój miły kogucie, kogucie,
-kogucie, kogucie, kogucie, kogucie.
+kogucie, kogucie, kogucie, kogucie,
+jakże ci tam w tym bucie, w tym bucie,
+w tym bucie, w tym bucie, hej!
 
 [melodia]
-C C H, A, A, G, C2 | C H, D2 D C E2 |
-C C H, A, A, G, C2 | C H, D2 C2 -2 |
-G, H, D F | A G8 E E8 E8 E8 | G F8 D D8 D8 D8 | F E8 C C8 H,8 A,2 |
+C8 C8 H,8 A,8 A,8 G,8 C | C8 H,8 D D8 C8 E | C8 C8 H,8 A,8 A,8 G,8 C | C8 H,8 D C2 |
+G, H, D F | A G8 E E8 E8 E8 | G F8 D D8 D8 D8 | F E8 C C8 H,8 A,8 |
+G, H, D F | A G8 E E8 E8 E8 | G F8 D D8 D8 D8 | C1 |

@@ -34,13 +34,27 @@ Naklejki przykleja się na **10 kolejnych białych klawiszy, zaczynając od śro
 | **d** | niebieska **w białe kropki** | jak D + kropki |
 | **e** | różowa **w białe kropki** | jak E + kropki |
 
+Do melodii, które nie mieszczą się w C–e, są **dodatkowe naklejki** (nie ma ich w książeczce, trzeba
+je zrobić samemu, np. narysować białym markerem paski albo kropki na kolorowej naklejce):
+
+| Nuta | Naklejka | Gdzie |
+|---|---|---|
+| **A,** | fioletowa **w białe paski** | drugi biały klawisz na lewo od czerwonej |
+| **H,** | żółta **w białe paski** | biały klawisz tuż na lewo od czerwonej |
+| **f** | zielona **w białe kropki** | dalej w prawo od różowej w kropki |
+| **g** | pomarańczowa **w białe kropki** | |
+| **a** | fioletowa **w białe kropki** | |
+| **h** | żółta **w białe kropki** | |
+
 - Nazwy są polskie: **H**, a nie B. Wielkie litery to oktawa od środkowego C, małe (c, d, e) –
-  następna oktawa. Kolory się powtarzają, a **kropki oznaczają „te same kolory, ale wyżej”**.
+  następna oktawa. Kolory się powtarzają, a **kropki oznaczają „te same kolory, ale wyżej”**,
+  **paski – „te same kolory, ale niżej”**.
 - **Środkowe C** to biały klawisz tuż na lewo od grupy dwóch czarnych klawiszy, mniej więcej
   w połowie klawiatury. Na zabawkowych keyboardach leży zwykle bardziej po lewej. Na keyboardzie
   ze zdjęcia (pierwszy klawisz to F) czerwona naklejka jest na 5. białym klawiszu.
-- **Dostępny zakres to tylko C–e**: 10 białych klawiszy i 7 czarnych między nimi
-  (C#, D#, F#, G#, A#, c#, d#). Klawisze bez naklejek nie są używane.
+- **Podstawowy zakres to C–e**: 10 białych klawiszy i 7 czarnych między nimi
+  (C#, D#, F#, G#, A#, c#, d#). Z dodatkowymi naklejkami zakres to **A,–h** (16 białych klawiszy,
+  czarne także A#, f#, g#, a#). Klawisze bez naklejek nie są używane.
 - Czarne klawisze nie mają naklejek. Zapisuje się je kolorem **białego klawisza po lewej**
   z doklejoną czarną belką (punkt 3).
 
@@ -83,7 +97,8 @@ od lewej do prawej, rząd po rzędzie.
 | Cecha klocka | Znaczenie |
 |---|---|
 | **kolor** | który klawisz nacisnąć (kolor naklejki) |
-| **białe kropki** | klawisz z kropkami, czyli wyższa oktawa (c, d, e) |
+| **białe kropki** | klawisz z kropkami, czyli wyższa oktawa (c, d, e, dodatkowe f, g, a, h) |
+| **białe paski** | dodatkowa naklejka w paski na lewo od czerwonej, czyli niższa oktawa (A, H,) |
 | **czarna belka** wystająca nad prawy górny róg | czarny klawisz **na prawo** od białego klawisza w tym kolorze (krzyżyk), np. czerwony w kropki + belka = c# |
 | **szerokość** | jak długo trzymać klawisz |
 | **położenie w pionie** | wyższy dźwięk leży wyżej; sznurek pokazuje, czy melodia idzie w górę, czy w dół |
@@ -156,7 +171,11 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 3. **Zakres C–e.** Melodia nie może mieć większej rozpiętości niż decyma. W razie potrzeby
    przenieś ją do innej tonacji tak, żeby **było jak najmniej czarnych klawiszy**: C-dur,
    G-dur bez dźwięku F#, F-dur bez B, a-moll. Książeczka też transponuje: „Lulajże” jest
-   z F-dur przeniesione do C. Generator podpowiada transpozycje (`--sprawdz`).
+   z F-dur przeniesione do C. Generator podpowiada transpozycje (`--sprawdz`), najpierw te
+   w C–e. **Gdy melodia nie mieści się w C–e, użyj dodatkowych naklejek (A,–h), zamiast
+   przenosić pojedyncze frazy o oktawę** – taka melodia brzmi dziwnie („Z popielnika na
+   Wojtusia”, „Był sobie król”, „Kuku!” w „Kukułeczce”). Legenda na lewej stronie pokazuje,
+   gdzie nakleić dodatkowe naklejki, a `--sprawdz` ostrzega, gdy wystarczyłoby C–e.
 4. **Czarne klawisze tylko wtedy, gdy bez nich melodia brzmi źle** (c# w „Anioł pasterzom”,
    gis w „Sto lat”). Każdy użyty czarny klawisz dostaje legendę na lewej stronie.
 5. **Upraszczaj rytm**: bez szesnastek i triol. Pauzy zostaw (punkt 7): na stronie dołączają
@@ -202,25 +221,25 @@ c# to czerwony w kropki z czarną belką. Legenda na lewej stronie pokazuje, kt�
 | `piosenki/06-mam-chusteczke.txt` | Mam chusteczkę haftowaną | C–A, 0 | nuty literowe z dwóch źródeł; rytm dobrany do sylab |
 | `piosenki/07-czarny-baranie.txt` | Gdzieżeś ty bywał, czarny baranie? | C–c, 0 (przeniesione o −2) | zapis nutowy Mama Lisa (J. Roger) |
 | `piosenki/08-krakowiaczek.txt` | Krakowiaczek jeden | C#–d, 8 (F#, C#) – trudniejsza | zapis nutowy Mama Lisa (Z. Gloger), rytm uproszczony |
-| `piosenki/09-dzisiaj-w-betlejem.txt` | Dzisiaj w Betlejem | D–e, 0 | zapis LilyPond w Wikipedii |
+| `piosenki/09-dzisiaj-w-betlejem.txt` | Dzisiaj w Betlejem | D–e, 0 | zapis LilyPond w Wikipedii; „pasterze”, „bydlęta” od d, jak się śpiewa |
 | `piosenki/10-w-zlobie-lezy.txt` | W żłobie leży | D–e, 0 | zapis LilyPond w Wikipedii; tekst z Wolnych Lektur |
 | `piosenki/11-a-ja-rosne.txt` | A ja rosnę | C–d, 0 | książeczka numerkowa (`import/1.jpeg`), muz. A. Skorupka |
 | `piosenki/12-popatrzcie-na-jamniczka.txt` | Popatrzcie na jamniczka | C–A, 0 | książeczka numerkowa (`import/2.jpeg`), muz. B. Kolago |
 | `piosenki/13-ogorek-wasaty.txt` | Ogórek wąsaty | D–d, 1 (C#), przeniesione o +2 | książeczka numerkowa (`import/3.jpeg`), muz. J. Kukulski; rytm (4/4, przedtakt „O-”), tempo i B w „czapkę” z zapisu nutowego musescore.com; refren dwa razy, drugi kończy się na F |
-| `piosenki/14-a-to-jez.txt` | A to jeż | D–H, 2 (F#) | książeczka numerkowa (`import/4.jpeg`), muz. A. Skorupka |
+| `piosenki/14-a-to-jez.txt` | A to jeż | D–H, 2 (F#) | książeczka numerkowa (`import/4.jpeg`), muz. A. Skorupka; słowa refrenu od rodziców, refren w tempie zwrotki |
 | `piosenki/15-pilka-oli.txt` | Piłka Oli | C–c, 0 | książeczka numerkowa (`import/5.jpeg`), muz. B. Kolago |
 | `piosenki/16-kwiatki-bratki.txt` | Kwiatki bratki | C–B, 5 (B) | książeczka numerkowa (`import/6.jpeg`), muz. B. Kolago |
 | `piosenki/17-zuzia-lalka-nieduza.txt` | Zuzia, lalka nieduża | C–A, 1 (F#), przeniesione z D-dur | zapis nutowy msus.kylos.pl; zgadza się z książeczką (`import/7.jpeg`) czytaną z czarnymi klawiszami, muz. K. Kwiatkowska |
 | `piosenki/18-kolko-graniaste.txt` | Kółko graniaste | D–A, 0 | nuty literowe i zapis nutowy prostenuty.pl |
 | `piosenki/19-jedzie-pociag-z-daleka.txt` | Jedzie pociąg z daleka | D–d, 4 (F#) – w C-dur się nie mieści | zapis nutowy prostenuty.pl (G-dur) |
-| `piosenki/20-kukuleczka-kuka.txt` | Kukułeczka kuka | D–d, 2 (F#), przeniesione o +7 | nuty literowe i zapis nutowy prostenuty.pl |
-| `piosenki/21-miala-baba-koguta.txt` | Miała baba koguta | C–d, 3 (B), przeniesione o +5 | nuty literowe i nagranie prostenuty.pl |
+| `piosenki/20-kukuleczka-kuka.txt` | Kukułeczka kuka | D–g, 1 (F#), przeniesione o +7, dodatkowa naklejka g | nuty literowe, zapis nutowy i nagranie prostenuty.pl |
+| `piosenki/21-miala-baba-koguta.txt` | Miała baba koguta | C–d, 5 (B), przeniesione o +5 | nuty literowe, proste nuty i nagranie prostenuty.pl |
 | `piosenki/22-poszla-karolinka.txt` | Poszła Karolinka do Gogolina | C–B, 1 (B), przeniesione o +5 | nuty literowe prostenuty.pl, rytm: J. Roger (1863) |
 | `piosenki/23-aaa-kotki-dwa.txt` | Aaa, kotki dwa | E–e, 1 (G#) | nuty literowe i zapis nutowy prostenuty.pl |
-| `piosenki/24-z-popielnika-na-wojtusia.txt` | Z popielnika na Wojtusia | C–e, 1 (G#) | nuty literowe prostenuty.pl, rytm: Mama Lisa; słowa: M. Konopnicka |
-| `piosenki/25-byl-sobie-krol.txt` | Był sobie król | D–e, 1 (G#) | nuty literowe i zapis nutowy prostenuty.pl |
+| `piosenki/24-z-popielnika-na-wojtusia.txt` | Z popielnika na Wojtusia | A,–H, 1 (G#), dodatkowe naklejki A, H, | nuty literowe prostenuty.pl, rytm: Mama Lisa; słowa: M. Konopnicka |
+| `piosenki/25-byl-sobie-krol.txt` | Był sobie król | E–a, 1 (G#), dodatkowe naklejki f, a | nuty literowe i zapis nutowy prostenuty.pl |
 | `piosenki/26-idzie-niebo.txt` | Idzie niebo | D–e, 3 (F#, c#), przeniesione o +7 | zapis nutowy prostenuty.pl, śpiewnik S. Szwedy; słowa: E. Szelburg-Zarembina |
-| `piosenki/27-nasza-zima-zla.txt` | Nasza zima zła | D–c, 0 (przeniesione o −2) | zapis nutowy prostenuty.pl |
+| `piosenki/27-nasza-zima-zla.txt` | Nasza zima zła | D–c, 0 (przeniesione o −2) | zapis nutowy i nagranie prostenuty.pl (zakończenie) |
 
 ## 6. Format pliku piosenki (dla generatora)
 
@@ -283,7 +302,8 @@ i przypisuje je kolejnym nutom, żeby przy odtwarzaniu ▶ zapalała się śpiew
 | `-` `-8` `-2`… | pauza, przy ▶ cisza: poszerza poprzedni klocek, a sama w takcie (`\| -2 \|`) jest przerwą na sznurku (punkt 4) |
 | `\|` | kreska taktowa: nie jest rysowana, służy do kontroli metrum |
 | `↻` albo `:\|` na końcu linii | znak powtórki rzędu |
-| `G,` `A,` `H,` / `f` `g` `a` / `c'` | dźwięki poza naklejkami. Dozwolone tylko razem z `transpozycja:`, która przesunie je w zakres C–e |
+| `A,` `H,` / `f` `g` `a` `h` | dodatkowe naklejki: w paski na lewo od czerwonej / w kropki dalej w prawo (punkt 1) |
+| `G,` / `c'` | dźwięki bez naklejek. Dozwolone tylko razem z `transpozycja:`, która przesunie je w zakres A,–h |
 
 Tę samą konwencję długości (`C8`, `G2.`) i nazw (`H`, małe litery = oktawa wyżej) stosuje
 `--sprawdz`, który wypisuje melodię słowami („pomarańczowy [szeroki]…”). Tak łatwo porównać
@@ -315,7 +335,8 @@ takie numery wprost:
 - **Porównuj numerki z położeniem owali na pięciolinii.** W książeczce z `import/` kolorowe owale
   prawie zawsze leżą tam, gdzie wskazuje numer (wyjątek: „szmer” w „A to jeż”). Gdy coś brzmi dziwnie,
   poszukaj zwykłego zapisu nutowego tej piosenki.
-- Numery 1–3 leżą poniżej naklejek, więc trzeba je przenieść polem `transpozycja:`.
+- Numer 1 (G,) leży poniżej naklejek, więc trzeba go przenieść polem `transpozycja:`. Numery 2–3
+  (A, H,) i 14–17 (f g a h) mają dodatkowe naklejki (punkt 1).
 - **Rytm trzeba dopisać samodzielnie.** Policz nuty w takcie (4 nuty w takcie na 4 to
   ćwierćnuty, 8 to ósemki, 2 to półnuty). Nuty narysowane ciasno, parami, to zwykle ósemki,
   a ostatnia nuta wersu jest zwykle długa. Potem odsłuchaj przyciskiem ▶ i poprawiaj, aż
@@ -337,7 +358,7 @@ Buduje wszystkie piosenki do katalogu `strony/`:
 
 - `strony/NN-nazwa.html`: rozkładówka jednej piosenki,
 - `strony/ksiazeczka.html`: strona „Jak grać?” i wszystkie piosenki po kolei,
-- `strony/jak-grac.html`: legenda dla dziecka i rodzica (naklejki, kropki, szerokość, belka, ↻),
+- `strony/jak-grac.html`: legenda dla dziecka i rodzica (naklejki, kropki i paski, szerokość, belka, ↻),
 - `strony/index.html`: spis piosenek w dużych kafelkach do obsługi palcem, od najłatwiejszej do
   najtrudniejszej, w trzech poziomach (⭐ „Na dobry początek”, ⭐⭐ „Trochę trudniejsze”,
   ⭐⭐⭐ „Dla wprawnych”). Kolejność książeczki i numery stron zostają według nazw plików.
@@ -346,10 +367,10 @@ Buduje wszystkie piosenki do katalogu `strony/`:
 python generator/kolorowe_pianino.py --sprawdz piosenki/05-sto-lat.txt
 ```
 
-Tylko sprawdza piosenkę: zakres, czarne klawisze, takty, możliwe transpozycje i opis melodii
-słowami. Podaje też ocenę trudności i poziom w spisie piosenek. Ocena rośnie z liczbą dźwięków
-i różnych klawiszy, a najmocniej z czarnymi klawiszami. Dokładają się do niej skoki o 3 białe
-klawisze i więcej oraz bardzo krótkie nuty w szybkim tempie (funkcja `difficulty()` i progi
+Tylko sprawdza piosenkę: zakres, czarne klawisze, dodatkowe naklejki, takty, możliwe transpozycje
+i opis melodii słowami. Podaje też ocenę trudności i poziom w spisie piosenek. Ocena rośnie z liczbą
+dźwięków i różnych klawiszy, a najmocniej z czarnymi klawiszami. Dokładają się do niej dodatkowe
+naklejki, skoki o 3 białe klawisze i więcej oraz bardzo krótkie nuty w szybkim tempie (funkcja `difficulty()` i progi
 `LEVELS` w generatorze).
 
 ```bash
@@ -383,7 +404,7 @@ marginesy „brak” i włączoną grafikę tła.
 
 - [ ] Piosenka znana dzieciom, tekst tradycyjny albo z domeny publicznej
 - [ ] Melodia sprawdzona z zapisem nutowym, rytm uproszczony (bez szesnastek i triol)
-- [ ] Wszystkie dźwięki w zakresie C–e, jak najmniej czarnych klawiszy
+- [ ] Wszystkie dźwięki w zakresie C–e (albo A,–h z dodatkowymi naklejkami, bez przenoszenia fraz o oktawę), jak najmniej czarnych klawiszy
 - [ ] Rzędy = frazy, 2–5 rzędów, najwyżej ok. 16 ćwierćnut w rzędzie
 - [ ] Bezpośrednie powtórzenie rzędu zapisane znakiem ↻
 - [ ] Wszystkie zwrotki na lewej stronie, refren skrócony po pierwszym razie

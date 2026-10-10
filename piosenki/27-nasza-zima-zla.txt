@@ -1,8 +1,10 @@
 # Melodia i rytm: zapis nutowy prostenuty.pl (nuty dla średniozaawansowanych „Nasza zima zła”, e-moll,
 # 4/4) i nagranie do niego; nuty literowe prostenuty.pl mają te same dźwięki o kwartę wyżej.
 # „ha” to półnuty, „zła” i „gna” całe nuty, „na-sza” ćwierćnuta z kropką i ósemka, „zła-a” na dwóch
-# nutach (w zapisie potem jeszcze raz „nasza zima zła” w dół do e). Przeniesione o sekundę w dół
-# (D–c, bez czarnych klawiszy).
+# nutach. Zapis urywa się na „zła-a” (h d, d związane z następnym taktem); zakończenie z nagrania
+# nut literowych (prostenuty.pl, „64 Nasza zima zla.mp3”): d trzyma się jeszcze cały takt, potem
+# „a” schodzi w dół a. g fis2 | e1 (tu G F E D – pomarańczowy, zielony, różowy, niebieski).
+# Przeniesione o sekundę w dół (D–c, bez czarnych klawiszy).
 # Piosenka dla dzieci.
 tytuł: Nasza zima zła
 podtytuł: piosenka dla dzieci
@@ -17,9 +19,10 @@ Szczypie w nosy, szczypie w uszy,
 mroźnym śniegiem
 w oczy prószy,
 wichrem w polu gna!
-Nasza zima zła_!
+Nasza zima zła_____!
 
 [melodia]
 D D A2 | D D A2 | G4. F8 G A | F1 |
 E E E E | D E F D | E E E E | D E F A |
-G F E D | E1 | F4. E8 F G | A2 c1 |
+G F E D | E1 |
+F4. E8 F G | A2 c1 | G4. F8 E2 | D1 |

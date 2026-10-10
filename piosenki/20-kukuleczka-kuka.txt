@@ -2,8 +2,10 @@
 # Rytm: zapis nutowy prostenuty.pl (nuty dla średniozaawansowanych „Kukułeczka kuka”, 3/4) i nagranie
 # nut literowych: „Po tym”, „z ranka”, „gniazdka” to szybkie przednutki (w zapisie ósemka z kropką
 # i szesnastka, tu dwie ósemki), wersy kończą półnuty, „Ku-ku!” = ćwierćnuta i półnuta.
-# Melodia ma rozpiętość G,–c (więcej niż C–e), więc „Kuku!” jest o oktawę niżej niż w źródle,
-# a całość przeniesiona o kwintę w górę (G-dur, F# w „Po tym” i „z ranka”).
+# Nagranie („67 Kukuleczka kuka.mp3”) kończy się po drugim „Kuku! Kuku!” jeszcze raz „Gniazdka sobie
+# szuka” (F E D G E C), więc refren to dwa razy „Kuku! Kuku! Gniazdka sobie szuka” (rząd z ↻).
+# Melodia ma rozpiętość G,–c, więc całość przeniesiona o kwintę w górę (G-dur, D–g, F# w „Po tym”
+# i „z ranka”); „Kuku!” w oktawie jak w źródle, na pomarańczowej naklejce w kropki.
 # Piosenka ludowa.
 tytuł: Kukułeczka kuka
 podtytuł: piosenka ludowa
@@ -21,8 +23,8 @@ gniazdka sobie szuka.
 Kuku! Kuku!
 Gniazdka sobie szuka.
 Kuku! Kuku!
+Gniazdka sobie szuka.
 
 [melodia]
-G,8 H,8 D D | G E2 | F8 E8 D G | E C2 |
-G,8 H,8 D D | G E2 | F8 E8 D G | E C2 |
-C G,2 | C G,2 | F8 E8 D G | E C2 | C G,2 | C G,2 |
+G,8 H,8 D D | G E2 | F8 E8 D G | E C2 | ↻
+c G2 | c G2 | F8 E8 D G | E C2 | ↻

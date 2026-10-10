@@ -1,5 +1,7 @@
 # Melodia z zapisu nutowego w Wikipedii (kod LilyPond, G-dur) – mieści się w naklejkach bez transpozycji.
 # Pauzy na końcu fraz dołączone do poprzedniej nuty. Refren w oryginale śpiewa się dwa razy.
+# „Pasterze śpiewają, bydlęta klękają” zaczynają się od d (niebieski w kropki), tak jak się to śpiewa –
+# Wikipedia ma w tych dwóch miejscach c.
 tytuł: Dzisiaj w Betlejem
 podtytuł: kolęda
 metrum: 3/4
@@ -33,4 +35,4 @@ Chrystus się rodzi…
 [melodia]
 G G8 D8 G8 A8 | H H8 A8 H8 c8 | d8 e8 d c | H A2 | ↻
 d d8 c8 H8 A8 | G G8 D8 G8 H8 | d d8 c8 H8 A8 | G G8 D8 G8 H8 |
-c8 e8 d8 c8 H8 c8 | c8 e8 d8 c8 H8 c8 | d8 d8 e d | c H A | G2. |
+d8 e8 d8 c8 H8 c8 | d8 e8 d8 c8 H8 c8 | d8 d8 e d | c H A | G2. |

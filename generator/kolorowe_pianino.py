@@ -68,20 +68,44 @@ TEXT_SOFT = "#77706B"
 GREEN = "#7DBA3F"
 GREEN_DARK = "#4E8F2A"
 
-# Klawisze z naklejkami: od środkowego C do e (10 białych klawiszy).
+# Klawisze z naklejkami z książeczki: od środkowego C do e (10 białych klawiszy).
 WHITE = ["C", "D", "E", "F", "G", "A", "H", "c", "d", "e"]
+# Dodatkowe naklejki dla melodii, które nie mieszczą się w C–e: dwie w paski na lewo od czerwonej
+# (A, i H, – te same kolory niżej) i cztery w kropki na prawo od różowej w kropki (f, g, a, h).
+LOWER, UPPER = ["A,", "H,"], ["f", "g", "a", "h"]
+ALL_WHITE = LOWER + WHITE + UPPER
 
 # półton od środkowego C -> (biały klawisz z naklejką, stopień w pionie, czarny klawisz?)
 # Czarny klawisz zapisujemy kolorem białego klawisza po LEWEJ + czarna belka.
 KEYS = {
+    -3: ("A,", -2, False), -2: ("A,", -1.5, True), -1: ("H,", -1, False),
     0: ("C", 0, False), 1: ("C", 0.5, True), 2: ("D", 1, False), 3: ("D", 1.5, True),
     4: ("E", 2, False), 5: ("F", 3, False), 6: ("F", 3.5, True), 7: ("G", 4, False),
     8: ("G", 4.5, True), 9: ("A", 5, False), 10: ("A", 5.5, True), 11: ("H", 6, False),
     12: ("c", 7, False), 13: ("c", 7.5, True), 14: ("d", 8, False), 15: ("d", 8.5, True),
-    16: ("e", 9, False),
+    16: ("e", 9, False), 17: ("f", 10, False), 18: ("f", 10.5, True), 19: ("g", 11, False),
+    20: ("g", 11.5, True), 21: ("a", 12, False), 22: ("a", 12.5, True), 23: ("h", 13, False),
 }
-LOW, HIGH = 0, 16
+LOW, HIGH = -3, 23            # wszystkie naklejki: A,–h
+CORE_LOW, CORE_HIGH = 0, 16   # naklejki z książeczki: C–e
 BASE_SEMI = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "H": 11, "B": 10}
+
+
+def color_of(key: str) -> str:
+    return COLORS[key[0].upper()]
+
+
+def dotted(key: str) -> bool:
+    return key[0].islower()
+
+
+def striped(key: str) -> bool:
+    return key.endswith(",")
+
+
+def key_words(key: str) -> str:
+    """Opis naklejki słowami, np. „zielony w kropki”, „żółty w paski”."""
+    return COLOR_WORDS[key[0].upper()] + (" w kropki" if dotted(key) else " w paski" if striped(key) else "")
 
 # --------------------------------------------------------------------------
 # Geometria strony (viewBox 1000 x 707 ~ A4 / A5 poziomo)
@@ -501,15 +525,29 @@ def fmt_q(x: float) -> str:
 
 
 def transpositions(song: Song):
-    """Przesunięcia (w półtonach), przy których melodia mieści się w naklejkach C–e."""
+    """Przesunięcia (w półtonach), przy których melodia mieści się w naklejkach A,–h:
+    [(czarne klawisze, dodatkowe naklejki, |przesunięcie|, przesunięcie)]. Najpierw te, które
+    zostają w naklejkach z książeczki (C–e), potem z najmniejszą liczbą czarnych klawiszy."""
     semis = [n.semi for n in song.all_notes()]
     out = []
     for t in range(-24, 25):
         moved = [s + t for s in semis]
         if min(moved) >= LOW and max(moved) <= HIGH:
             blacks = sum(1 for s in moved if KEYS[s][2])
-            out.append((blacks, abs(t), t))
-    return sorted(out)
+            extra = len({KEYS[s][0] for s in moved if not CORE_LOW <= s <= CORE_HIGH})
+            out.append((blacks, extra, abs(t), t))
+    return sorted(out, key=lambda o: (o[1] > 0, o[0], o[1], o[2]))
+
+
+def fmt_transposition(opt) -> str:
+    blacks, extra, _, t = opt
+    return f"{t:+d}/{blacks}" + (f" (dodatkowe naklejki: {extra})" if extra else "")
+
+
+def extra_keys(song: Song) -> list[str]:
+    """Dodatkowe naklejki (poza C–e), których potrzebuje melodia, od lewej do prawej."""
+    used = {song.key_of(n)[0] for n in song.all_notes()}
+    return [k for k in ALL_WHITE if k in used and k not in WHITE]
 
 
 def validate(song: Song) -> None:
@@ -518,13 +556,21 @@ def validate(song: Song) -> None:
         opts = transpositions(song)
         hint = ""
         if opts:
-            best = ", ".join(f"{t:+d} (czarnych klawiszy: {b})" for b, _, t in opts[:4])
-            hint = f" Propozycje pola „transpozycja:”: {best}."
+            best = ", ".join(fmt_transposition(o) for o in opts[:4])
+            hint = f" Propozycje pola „transpozycja:” (półtony/czarne klawisze): {best}."
         else:
-            hint = " Melodia ma większą rozpiętość niż C–e – wybierz fragment albo inną piosenkę."
+            hint = " Melodia ma większą rozpiętość niż A,–h – wybierz fragment albo inną piosenkę."
         raise SongError(
             f"{song.path.name}: nuty {' '.join('„' + n.src + '”' for n in bad[:6])} wychodzą poza "
-            f"klawisze z naklejkami (C–e).{hint}")
+            f"klawisze z naklejkami (A,–h).{hint}")
+
+    if extra_keys(song):
+        blacks = sum(1 for n in song.all_notes() if song.key_of(n)[2])
+        core = [o for o in transpositions(song) if not o[1] and o[0] <= blacks]
+        if core:
+            song.warnings.append(
+                f"melodia potrzebuje dodatkowych naklejek ({', '.join(extra_keys(song))}), a z „transpozycja: "
+                f"{core[0][3]:+d}” mieści się w C–e (czarnych klawiszy: {core[0][0]})")
 
     if not song.stanzas:
         song.warnings.append("brak słów w sekcji [słowa]")
@@ -667,16 +713,22 @@ def repeat_icon(cx: float, cy: float, r: float, color: str = CORD) -> str:
 
 
 def block_svg(x, y, w, h, key, sharp, dur, k=1.0) -> str:
-    """Jeden klocek-naklejka: kolor = klawisz, kropki = wyższa oktawa, belka = czarny klawisz."""
-    color = COLORS[key.upper()]
-    out = [f'<rect x="{f1(x)}" y="{f1(y)}" width="{f1(w)}" height="{f1(h)}" rx="{f1(2 * k)}" fill="{color}"/>']
-    if key.islower():
+    """Jeden klocek-naklejka: kolor = klawisz, kropki = wyższa oktawa, paski = niższa,
+    belka = czarny klawisz."""
+    out = [f'<rect x="{f1(x)}" y="{f1(y)}" width="{f1(w)}" height="{f1(h)}" rx="{f1(2 * k)}" fill="{color_of(key)}"/>']
+    if dotted(key):
         cols = max(1, round(dur * 2))
         r = 0.07 * h
         for c in range(cols):
             cx = x + w * (c + 0.5) / cols
             for fy in (0.2, 0.5, 0.8):
                 out.append(f'<circle cx="{f1(cx)}" cy="{f1(y + h * fy)}" r="{f1(r)}" fill="#fff"/>')
+    if striped(key):
+        sh = 0.11 * h
+        inset = min(0.16 * QUARTER_W * k, 0.18 * w)
+        for fy in (0.3, 0.7):
+            out.append(f'<rect x="{f1(x + inset)}" y="{f1(y + h * fy - sh / 2)}" width="{f1(w - 2 * inset)}" '
+                       f'height="{f1(sh)}" rx="{f1(sh / 2)}" fill="#fff"/>')
     if sharp:
         bw = min(0.46 * QUARTER_W * k, w * 0.75)
         bh = 0.58 * h
@@ -688,22 +740,28 @@ def block_svg(x, y, w, h, key, sharp, dur, k=1.0) -> str:
     return "".join(out)
 
 
-def mini_keyboard(x: float, y: float, highlight_semi: int | None = None, kw: float = 15, kh: float = 52) -> tuple[str, float]:
-    """Mała klawiatura C–e z naklejkami (do legendy czarnych klawiszy)."""
+def mini_keyboard(x: float, y: float, highlight_semi: int | None = None, kw: float = 15, kh: float = 52,
+                  lo: int = CORE_LOW, hi: int = CORE_HIGH, marks=()) -> tuple[str, float]:
+    """Mała klawiatura z naklejkami od półtonu lo do hi (do legendy): zaznacza czarny klawisz
+    highlight_semi albo naklejki marks (pełny kolor, kropki/paski)."""
+    whites = [s for s in range(lo, hi + 1) if not KEYS[s][2]]
     out = []
-    for i, name in enumerate(WHITE):
-        kx = x + i * kw
+    for i, semi in enumerate(whites):
+        kx, name = x + i * kw, KEYS[semi][0]
         out.append(f'<rect x="{f1(kx)}" y="{f1(y)}" width="{f1(kw)}" height="{f1(kh)}" '
                    f'fill="#fff" stroke="#c9c4c0" stroke-width="1"/>')
         sx, sy, sw, sh = kx + kw * .18, y + kh * .66, kw * .64, kh * .27
-        out.append(f'<rect x="{f1(sx)}" y="{f1(sy)}" width="{f1(sw)}" height="{f1(sh)}" '
-                   f'fill="{COLORS[name.upper()]}" opacity=".35"/>')
-    black_after = {0: 1, 1: 3, 3: 6, 4: 8, 5: 10, 7: 13, 8: 15}  # indeks białego -> półton czarnego
-    for i, semi in black_after.items():
-        bx = x + (i + 1) * kw - kw * .3
-        fill = BLACK_KEY if semi == highlight_semi else "#d8d4d1"
-        out.append(f'<rect x="{f1(bx)}" y="{f1(y)}" width="{f1(kw * .6)}" height="{f1(kh * .58)}" fill="{fill}"/>')
-    return "".join(out), len(WHITE) * kw
+        if name in marks:
+            out.append(block_svg(sx, sy - kh * .05, sw, sh + kh * .05, name, False, 0.5, sw / QUARTER_W))
+        else:
+            out.append(f'<rect x="{f1(sx)}" y="{f1(sy)}" width="{f1(sw)}" height="{f1(sh)}" '
+                       f'fill="{color_of(name)}" opacity=".35"/>')
+    for i, semi in enumerate(whites[:-1]):
+        if KEYS.get(semi + 1, ("", 0, False))[2]:
+            bx = x + (i + 1) * kw - kw * .3
+            fill = BLACK_KEY if semi + 1 == highlight_semi else "#d8d4d1"
+            out.append(f'<rect x="{f1(bx)}" y="{f1(y)}" width="{f1(kw * .6)}" height="{f1(kh * .58)}" fill="{fill}"/>')
+    return "".join(out), len(whites) * kw
 
 
 # --------------------------------------------------------------------------
@@ -855,7 +913,7 @@ def illustration_svg(song: Song, uid: str, cx: float, cy: float, r: float) -> st
     theme_key = theme_key_of(song)
     main = COLORS[theme_key]
     high_key = max(song.all_notes(), key=lambda n: n.semi)
-    second = COLORS[song.key_of(high_key)[0].upper()]
+    second = color_of(song.key_of(high_key)[0])
     if second == main:
         second = COLORS["D"] if main != COLORS["D"] else COLORS["E"]
     p1, p2, p3 = mix(main, "#FFFFFF", .55), mix(main, "#FFFFFF", .8), mix(second, "#FFFFFF", .7)
@@ -913,19 +971,35 @@ def theme_key_of(song: Song) -> str:
             return key
     if t.upper() in COLORS:
         return t.upper()
-    return song.key_of(song.all_notes()[0])[0].upper()
+    return song.key_of(song.all_notes()[0])[0][0].upper()
 
 
 def legend_svg(song: Song, right: float, cy: float) -> tuple[str, float]:
-    """Legenda symboli użytych w piosence (czarne klawisze, powtórka) – wyrównana do prawej."""
+    """Legenda symboli użytych w piosence (czarne klawisze, dodatkowe naklejki, powtórka) –
+    wyrównana do prawej."""
     items = []
-    sharps = sorted({n.semi + song.transpose for n in song.all_notes() if song.key_of(n)[2]})
+    semis = [n.semi + song.transpose for n in song.all_notes()]
+    lo, hi = min(CORE_LOW, min(semis)), max(CORE_HIGH, max(semis))
+    if KEYS[lo][2]:
+        lo -= 1  # klawiatura zaczyna się od białego klawisza
+    kw = min(15, 170 / sum(1 for s in range(lo, hi + 1) if not KEYS[s][2]))
+    bw, bh = 30, 46
+    extras = extra_keys(song)
+    if extras:
+        part, x = [], 0
+        for key in extras:
+            part.append(block_svg(x, cy - bh / 2 + 7, bw, bh, key, False, 1.0, bw / QUARTER_W))
+            x += bw + 6
+        part.append(text_el(x + 7, cy + 14, "=", 28, fill=TEXT, weight=500))
+        kb, kbw = mini_keyboard(x + 34, cy - 22, kw=kw, lo=lo, hi=hi, marks=extras)
+        part.append(kb)
+        items.append(("".join(part), x + 34 + kbw))
+    sharps = sorted({s for s in semis if KEYS[s][2]})
     for semi in sharps[:2]:
         key = KEYS[semi][0]
-        bw, bh = 30, 46
         part = [block_svg(0, cy - bh / 2 + 7, bw, bh, key, True, 1.0, bw / QUARTER_W)]
         part.append(text_el(bw + 13, cy + 14, "=", 28, fill=TEXT, weight=500))
-        kb, kbw = mini_keyboard(bw + 40, cy - 22)
+        kb, kbw = mini_keyboard(bw + 40, cy - 22, semi, kw=kw, lo=lo, hi=hi)
         part.append(kb)
         items.append(("".join(part), bw + 40 + kbw))
     if any(r.repeat for r in song.rows):
@@ -1029,25 +1103,29 @@ def render_howto_page() -> str:
     p.append(f'<text x="500" y="100" font-size="44" font-weight="800" text-anchor="middle" '
              f'letter-spacing="1.5">{"".join(letters)}</text>')
 
-    # Klawiatura z naklejkami
-    names = ["G,", "A,", "H,"] + WHITE + ["f"]
+    # Klawiatura z naklejkami: z książeczki (C–e) i dodatkowymi po bokach (bledsze podpisy)
+    names = ["G,"] + ALL_WHITE + ["c'"]
     kw, kh = 46, 140
     kx0 = 500 - len(names) * kw / 2
     ky = 124
     for i, nm in enumerate(names):
         x = kx0 + i * kw
         p.append(f'<rect x="{f1(x)}" y="{ky}" width="{kw}" height="{kh}" rx="3" fill="#fff" stroke="#bdb7b2" stroke-width="1.5"/>')
-        if nm in WHITE:
+        if nm in ALL_WHITE:
             sw, sh = 28, 40
             p.append(block_svg(x + (kw - sw) / 2, ky + kh - sh - 12, sw, sh, nm, False, 1.0, sw / QUARTER_W))
-            p.append(text_el(x + kw / 2, ky + kh + 29, nm, 23, fill=COLORS["C"] if nm == "C" else TEXT,
-                             weight=700, anchor="middle"))
+            p.append(text_el(x + kw / 2, ky + kh + 29, nm.rstrip(","), 23,
+                             fill=COLORS["C"] if nm == "C" else TEXT if nm in WHITE else TEXT_SOFT,
+                             weight=700 if nm in WHITE else 500, anchor="middle"))
     for i, nm in enumerate(names[:-1]):
         if nm[0].upper() in "CDFGA":
             x = kx0 + (i + 1) * kw - 14
             p.append(f'<rect x="{f1(x)}" y="{ky}" width="28" height="86" rx="2" fill="{BLACK_KEY}"/>')
-    p.append(text_el(500, ky + kh + 62, "Czerwona naklejka to środkowe C – biały klawisz tuż na lewo "
+    p.append(text_el(500, ky + kh + 58, "Czerwona naklejka to środkowe C – biały klawisz tuż na lewo "
                      "od dwóch czarnych.", 16.5, fill=TEXT_SOFT, anchor="middle", maxw=860))
+    p.append(text_el(500, ky + kh + 80, "Naklejki w paski (na lewo od czerwonej) i ostatnie cztery w kropki "
+                     "są potrzebne tylko w kilku piosenkach.", 14.5, fill=TEXT_SOFT, anchor="middle",
+                     italic=True, maxw=860))
 
     # Karty z legendą: nagłówek u góry, rysunek w środku, opis na dole
     cards = []
@@ -1071,8 +1149,9 @@ def render_howto_page() -> str:
 
     def kropki(x, y):
         return "".join(block_svg(x + 18 + i * 38 + (i // 2) * 12, y + 4, bw, bh, key, False, 1, bk)
-                       for i, key in enumerate(["C", "c", "D", "d", "E", "e"]))
-    card(1, 0, "Kropki = wyżej", ["Klocek w kropki to klawisz", "z kropkami (dalej w prawo)."], kropki)
+                       for i, key in enumerate(["C", "c", "D", "d", "H,", "H"]))
+    card(1, 0, "Kropki wyżej, paski niżej", ["Kropki – klawisz dalej w prawo,", "paski – na lewo od czerwonej."],
+         kropki)
 
     def dlugosc(x, y):
         out, xx = [], x + 18
@@ -1550,7 +1629,8 @@ def played_notes(song: Song) -> list[Note]:
 def difficulty(song: Song) -> float:
     """Ocena trudności melodii dla dziecka, które gra z naklejek – im więcej, tym trudniej.
     Liczą się: liczba dźwięków (dziesięć to 1 punkt), liczba różnych klawiszy, czarne klawisze
-    (najmocniej), skoki o 3 białe klawisze i więcej oraz bardzo krótkie nuty w szybkim tempie."""
+    (najmocniej), dodatkowe naklejki spoza C–e, skoki o 3 białe klawisze i więcej oraz bardzo
+    krótkie nuty w szybkim tempie."""
     notes = played_notes(song)
     semis = [n.semi + song.transpose for n in notes]
     black = [s for s in semis if KEYS[s][2]]
@@ -1558,7 +1638,7 @@ def difficulty(song: Song) -> float:
     jumps = sum(1 for a, b in zip(steps, steps[1:]) if abs(a - b) >= 3)
     fastest = min(n.dur for n in notes) * 60 / song.tempo  # najkrótsza nuta w sekundach
     return (len(semis) / 10 + 0.8 * len(set(semis)) + 3.5 * len(set(black)) + 0.3 * len(black)
-            + 0.25 * jumps + 4 * max(0.0, 0.45 - fastest))
+            + 1.0 * len(extra_keys(song)) + 0.25 * jumps + 4 * max(0.0, 0.45 - fastest))
 
 
 def level_of(song: Song) -> int:
@@ -1736,6 +1816,9 @@ def describe(song: Song) -> str:
         return key + ("#" if sharp else "")
     lines.append(f"  zakres: {name(min(semis))}–{name(max(semis))}, "
                  f"czarne klawisze: {sum(1 for s in semis if KEYS[s][2])}, transpozycja: {song.transpose:+d}")
+    extras = extra_keys(song)
+    if extras:
+        lines.append("  dodatkowe naklejki spoza C–e: " + ", ".join(f"{k} ({key_words(k)})" for k in extras))
     q = 60 / song.tempo
     secs = sum(n.dur for r in song.rows for n in r.notes * (2 if r.repeat else 1)) * q
     q_s = f"{q:.2f}".replace(".", ",")
@@ -1750,8 +1833,7 @@ def describe(song: Song) -> str:
                 words.append(f"(pauza {fmt_q(n.dur)}{how})")
                 continue
             key, _, sharp = song.key_of(n)
-            w = COLOR_WORDS[key.upper()] + (" w kropki" if key.islower() else "") + \
-                (" +czarna belka" if sharp else "")
+            w = key_words(key) + (" +czarna belka" if sharp else "")
             size = {0.5: "wąski", 0.75: "wąski+", 1: "zwykły", 1.5: "szerszy", 2: "szeroki",
                     3: "b. szeroki", 4: "najszerszy"}.get(n.dur, fmt_q(n.dur))
             words.append(f"{w} [{size}]")
@@ -1776,8 +1858,8 @@ def describe(song: Song) -> str:
             lines.append(f"    {pn}.{ri + 1}{again}: {''.join(words) or '(bez słów)'}")
     opts = transpositions(song)
     if opts:
-        lines.append("  możliwe transpozycje względem zapisu (półtony / czarne klawisze): " +
-                     ", ".join(f"{t - 0:+d}/{b}" for b, _, t in opts[:8]))
+        lines.append("  możliwe transpozycje względem zapisu (półtony / czarne klawisze, najpierw w C–e): " +
+                     ", ".join(fmt_transposition(o) for o in opts[:8]))
     for w in song.warnings:
         lines.append(f"  UWAGA: {w}")
     return "\n".join(lines)

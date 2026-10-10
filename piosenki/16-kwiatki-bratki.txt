@@ -4,6 +4,8 @@
 # „sło-ńcem” – każda z dwóch ostatnich sylab zajmuje cały takt; „Kwia-tki bra-tki” to ósemki.
 # Czarne owale „7” („w ła-tki”, „a z tych”, „i sto-”, „i pa-chną-ce”) leżą na linii H: 7. czarny
 # klawisz = B (czarny między A i H), zapis 10b, jak w F-dur. Wcześniej przepisane jako F (biały 7).
+# Po „ogrodniczka” oddech (takt z samą pauzą – przerwa na sznurku), żeby dwa różowe „-czka, mam”
+# nie zlewały się w jeden dźwięk; w książeczce przed „mam” też jest luka.
 tytuł: Kwiatki bratki
 podtytuł: muzyka: Barbara Kolago
 zapis: numery
@@ -25,7 +27,7 @@ Kolorowe i pachnące,
 malowane słońcem.
 
 [melodia]
-7:8 8:8 9 7 6 7 8 6 | 6 7 8 6 4 6 7 | 9:2 |
+7:8 8:8 9 7 6 7 8 6 | - | 6 7 8 6 4 6 7 | 9:2 |
 7:8 8:8 9 7 6 7 5 10b 9 10b 9 7 4 7 | 8:2 | 7:2 |
 9:8 7:8 9:8 7:8 | 9 10b | 8:2 | 4:2 | 8:8 6:8 8:8 6:8 | 8 9 | 7:2 | 4:2 |
 9:8 7:8 9:8 7:8 | 9 10b | 8:2 | 10b:2 | 9 7 | 4 7 | 8:2 | 7:2 |

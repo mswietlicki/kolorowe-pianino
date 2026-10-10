@@ -1,10 +1,14 @@
 # Melodia przepisana z książeczki z numerowanymi klawiszami (zdjęcie import/4.jpeg).
 # Muzyka: Adam Skorupka. Utwór współczesny – strona wyłącznie do użytku domowego.
 # Rytm z odstępów i kresek taktowych w książeczce (4/4, przedtakt „Ta-ki”). Wcześniej „strach!”
-# był krótki, a przedtakt „Z ru-dych” długi – teraz jak w nutach; „wąż?”, „piłka”, „szpilkach” długie.
+# był krótki, a przedtakt „Z ru-dych” długi – teraz jak w nutach; „wąż!” długie.
 # „Ska-” i „jak” to w książeczce czarne owale „5” w pierwszym polu (F): 5. czarny klawisz = F#,
 # zapis 7#. Wcześniej przepisane jako D (biały 5). Owal „szmer” leży na linii E, ale ma numer 7 (F);
 # zostaje F, bo „W le-sie szmer” powtarza melodię „Ta-ki las” (D E F) z pierwszego rzędu.
+# Słowa obu zwrotek od rodziców (książeczka podaje tylko pierwszy wers refrenu). Refren ma cztery
+# wersy na melodię „Skacze coś jak piłka, całe w burych szpilkach”, stąd dwa rzędy z ↻.
+# W książeczce wers refrenu trwa 4 takty (długa-krótka, długa-krótka), dwa razy dłużej niż wers
+# zwrotki, i brzmiał za wolno – tu w tempie zwrotki: ósemki, „-łka” i „-kach” ćwierćnuty z kropką.
 tytuł: A to jeż
 podtytuł: muzyka: Adam Skorupka
 zapis: numery
@@ -14,17 +18,18 @@ ilustracja: 🦔 🍁 🌰
 kolor: czerwony
 
 [słowa]
-Taki las, taki las wielki,
-że aż strach! Z rudych drzew
-ściany ma, z rudych liści
-dach! W lesie szmer, w lesie szum,
-coś tam stuka wciąż, może
-to dziki smok, może wielki wąż?
+Taki las wielki las, wielki, że aż strach!
+Z rudych drzew ściany ma, z rudych liści dach!
+W lesie szmer, w lesie szum, coś tam stuka wciąż,
+może to dziki smok, może wielki wąż!
 
-Skacze coś jak piłka
-całe w burych szpilkach.
+Skacze coś jak piłka, całe w burych szpilkach,
+toczy się jak kulka, całe w liści piórkach.
+Skacze coś jak piłka, całe w burych szpilkach,
+idzie poprzez jesień, wrzosy w kolcach niesie.
 
 [melodia]
-5:8 6:8 | 7 6:8 6:8 5 6:8 7:8 | 8 7 6 6:8 7:8 | 8 7:8 7:8 6 8:8 6:8 | 7 6 5 5:8 6:8 |
-7 6:8 6:8 5 6:8 7:8 | 8 7 6 6:8 7:8 | 8 7:8 7:8 6 7:8 8:8 | 9 9 9:2 |
-7#:4. 8:8 9:4. 7#:8 | 6 9:2. | 10:4. 10:8 10:4. 10:8 | 10 9:2. |
+5:8 6:8 | 7 6:8 6:8 5 6:8 7:8 | 8 7 6 6:8 7:8 | 8 7:8 7:8 6 8:8 6:8 | 7 6 5
+5:8 6:8 | 7 6:8 6:8 5 6:8 7:8 | 8 7 6 6:8 7:8 | 8 7:8 7:8 6 7:8 8:8 | 9 9 9:2 |
+7#:8 8:8 9:8 7#:8 6:8 9:4. | 10:8 10:8 10:8 10:8 10:8 9:4. | ↻
+7#:8 8:8 9:8 7#:8 6:8 9:4. | 10:8 10:8 10:8 10:8 10:8 9:4. | ↻
